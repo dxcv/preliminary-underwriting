@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.algerfan.mapper.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="cn.algerfan.domain.Company" >
+    <id column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    company_id, company, firm, job_number
+  </sql>
+  <insert id="insert" parameterType="cn.algerfan.domain.Company" >
+    insert into tb_company (company_id, company, firm,
+      job_number)
+    values (#{companyId,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{firm,jdbcType=VARCHAR},
+      #{jobNumber,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_company
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </delete>
+  <update id="updateByPrimaryKey" parameterType="cn.algerfan.domain.Company" >
+    update tb_company
+    set company = #{company,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      job_number = #{jobNumber,jdbcType=VARCHAR}
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_company
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </select>
+  <select id="select" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_company where 1=1
+    <if test='keyword != null'>
+      and company = #{keyword}
+    </if>
+  </select>
+  <select id="selectByCompany" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_company
+    where company = #{company}
+  </select>
+
+
+  <insert id="insertSelective" parameterType="cn.algerfan.domain.Company" >
+    insert into tb_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="jobNumber != null" >
+        job_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNumber != null" >
+        #{jobNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.algerfan.domain.Company" >
+    update tb_company
+    <set >
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNumber != null" >
+        job_number = #{jobNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+</mapper>

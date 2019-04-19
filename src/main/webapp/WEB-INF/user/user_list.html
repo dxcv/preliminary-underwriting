@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>userList</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js" ></script>
+    <script type="text/javascript">
+        $(function () {
+            //全选
+            $("#selectAll").click(function () {
+                if (this.checked) {
+                    $("input[name=deleteId]").prop("checked", true);
+                } else {
+                    $("input[name=deleteId]").prop("checked", false);
+                }
+            });
+
+            $("input[name=deleteId]").click(function () {
+                var allChecked = true;
+                $("input[name=deleteId]").each(function(){
+                    if(!$(this).prop("checked")){
+                        allChecked = false;
+                    }
+                });
+                if(allChecked){
+                    $("#selectAll").prop("checked",true);
+                } else {
+                    $("#selectAll").prop("checked",false);
+                }
+            });
+
+            //删除用户
+            $("#delete").click(function () {
+                var ids = [];
+                $("input[name=deleteId]:checked").each(function(index){
+                    ids[index] = $(this).val();
+                });
+                if (ids.length === 0){
+                    alert("没有选中的选项");
+                    return false;
+                }
+                $.ajax({
+                    url : "deleteUser",
+                    data: {"ids": ids},
+                    cache : false,
+                    async : false,
+                    type : "GET",
+                    success:function(data){
+                        if (data === "true"){
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+<a th:href="getUserDetailForm">添加</a>
+<a th:id="delete" href="#" >删除</a>
+<table>
+    <tr>
+        <th><input th:type="checkbox" th:id="selectAll" title="点击全选/取消"/></th>
+        <th>用户名</th>
+        <th>年龄</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="user : ${userList}">
+        <td><input th:type="checkbox" th:value="${user.id}" th:name="deleteId"/></td>
+        <td th:text="${user.name}">abc</td>
+        <td th:text="${user.age}">15</td>
+        <td><a th:href="'getUserDetailForm?id=' + ${user.id}">修改</a></td>
+    </tr>
+</table>
+</body>
+</html>

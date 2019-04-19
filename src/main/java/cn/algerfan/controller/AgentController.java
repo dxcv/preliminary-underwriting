@@ -1,0 +1,38 @@
+package cn.algerfan.controller;
+
+import cn.algerfan.base.BaseController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
+
+/**
+ * <p>
+ *  代理人Controller层
+ * </p>
+ *
+ * @author algerfan
+ * @since 2019/4/15 15
+ */
+@Controller
+@RequestMapping("/agent")
+public class AgentController extends BaseController {
+
+    /**
+     * 注册代理人
+     * @param employeeId 员工号
+     * @param company 公司名
+     * @param encryptedData
+     * @param iv
+     * @param code
+     * @return map用户信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code){
+        return agentService.register(employeeId,company,encryptedData,iv,code);
+    }
+
+}

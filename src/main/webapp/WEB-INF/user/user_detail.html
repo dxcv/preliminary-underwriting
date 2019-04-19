@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/*@thymesVar id="user" */-->
+<div th:if="${user} eq null">
+    <form th:action="addUser" th:method="post">
+        <table>
+            <tr>
+                <th>用户名</th>
+                <td><label>
+                    <input th:type="text" th:name="name" th:value="${user == null? '' : user.name}" th:title="请输入用户名"/>
+                </label>
+                </td>
+            </tr>
+            <tr>
+                <th>密码</th>
+                <td><label>
+                    <input th:type="password" th:name="password" th:value="${user == null? '' : user.password}"
+                               th:title="请输入密码"/>
+                </label></td>
+            </tr>
+            <tr>
+                <th>年龄</th>
+                <td><label>
+                    <input th:type="number" th:name="age" th:value="${user == null? '' : user.age}" th:title="请输入年龄"/>
+                </label>
+                </td>
+            </tr>
+            <tr>
+                <td th:colspan="2"><label>
+                    <input th:type="submit" th:value="提交"/>
+                </label></td>
+            </tr>
+        </table>
+        <label>
+            <input th:type="hidden" th:name="id" th:value="${user == null? null : user.id}"/>
+        </label>
+    </form>
+</div>
+<div th:if="${user} ne null">
+    <form th:action="updateUser" th:method="post">
+        <table>
+            <tr>
+                <th>用户名</th>
+                <td><label>
+                    <input th:type="text" th:name="name" th:value="${user == null? '' : user.name}" th:title="请输入用户名"/>
+                </label>
+                </td>
+            </tr>
+            <tr>
+                <th>密码</th>
+                <td><label>
+                    <input th:type="password" th:name="password" th:value="${user == null? '' : user.password}"
+                               th:title="请输入密码"/>
+                </label></td>
+            </tr>
+            <tr>
+                <th>年龄</th>
+                <td><label>
+                    <input th:type="number" th:name="age" th:value="${user == null? '' : user.age}" th:title="请输入年龄"/>
+                </label>
+                </td>
+            </tr>
+            <tr>
+                <td th:colspan="2"><label>
+                    <input th:type="submit" th:value="提交"/>
+                </label></td>
+            </tr>
+        </table>
+        <label>
+            <input th:type="hidden" th:name="id" th:value="${user == null? null : user.id}"/>
+        </label>
+    </form>
+</div>
+
+</body>
+</html>
