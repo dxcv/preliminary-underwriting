@@ -1,12 +1,17 @@
 package cn.algerfan.mapper;
 
 import cn.algerfan.domain.Agent;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface AgentMapper {
-    int deleteByPrimaryKey(Integer agentId);
 
     void insert(Agent record);
+
+    Agent check(@Param("employeeId") String employeeId, @Param("company") String company);
+
+    int deleteByPrimaryKey(Integer agentId);
 
     int insertSelective(Agent record);
 
@@ -18,5 +23,4 @@ public interface AgentMapper {
 
     Agent selectByOpenid(String password);
 
-    Agent check(@Param("employeeId") String employeeId,@Param("company") String company);
 }

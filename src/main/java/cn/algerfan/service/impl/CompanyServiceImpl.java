@@ -11,7 +11,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -78,6 +80,16 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
         PageHelper.startPage(pageNum, pageSize);
         List<Company> companyList = companyMapper.select(keyword);
         return new PageInfo<>(companyList);
+    }
+
+    @Override
+    public Map<String, Object> selectAllCompany() {
+        Map<String, Object> map = new HashMap<>();
+        List<Company> companyList = companyMapper.selectAllCompany();
+        map.put("status", 1);
+        map.put("msg", "查询成功");
+        map.put("companyList", companyList);
+        return map;
     }
 
 }

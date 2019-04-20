@@ -1,16 +1,20 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
+import cn.algerfan.util.openid.Aes;
+import cn.algerfan.util.openid.HttpRequest;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * <p>
- *  代理人Controller层
+ *  小程序部分 代理人Controller层
  * </p>
  *
  * @author algerfan

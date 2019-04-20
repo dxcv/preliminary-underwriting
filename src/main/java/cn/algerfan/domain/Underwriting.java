@@ -18,9 +18,9 @@ public class Underwriting implements Serializable {
      */
     private String sex;
     /**
-     * 年龄
+     * 出生日期
      */
-    private Integer age;
+    private String birthday;
     /**
      * 手机号
      */
@@ -33,6 +33,31 @@ public class Underwriting implements Serializable {
      * 上传资料
      */
     private String data;
+    /**
+     * 结论
+     */
+    private String conclusion;
+    /**
+     * 提交时间
+     */
+    private String submitTime;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
+
+    public Underwriting(Integer agentId, String name, String sex, String birthday, String phone, String introduce, String data, String conclusion, String submitTime, String updateTime) {
+        this.agentId = agentId;
+        this.name = name;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.phone = phone;
+        this.introduce = introduce;
+        this.data = data;
+        this.conclusion = conclusion;
+        this.submitTime = submitTime;
+        this.updateTime = updateTime;
+    }
 
     public Integer getUnderwritingId() {
         return underwritingId;
@@ -55,7 +80,7 @@ public class Underwriting implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getSex() {
@@ -66,12 +91,12 @@ public class Underwriting implements Serializable {
         this.sex = sex;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhone() {
@@ -79,7 +104,7 @@ public class Underwriting implements Serializable {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public String getIntroduce() {
@@ -87,7 +112,7 @@ public class Underwriting implements Serializable {
     }
 
     public void setIntroduce(String introduce) {
-        this.introduce = introduce == null ? null : introduce.trim();
+        this.introduce = introduce;
     }
 
     public String getData() {
@@ -95,7 +120,31 @@ public class Underwriting implements Serializable {
     }
 
     public void setData(String data) {
-        this.data = data == null ? null : data.trim();
+        this.data = data;
+    }
+
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
+    }
+
+    public String getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(String submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
@@ -105,10 +154,13 @@ public class Underwriting implements Serializable {
                 ", agentId=" + agentId +
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
-                ", age=" + age +
+                ", birthday='" + birthday + '\'' +
                 ", phone='" + phone + '\'' +
                 ", introduce='" + introduce + '\'' +
                 ", data='" + data + '\'' +
+                ", conclusion='" + conclusion + '\'' +
+                ", submitTime='" + submitTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
                 '}';
     }
 }

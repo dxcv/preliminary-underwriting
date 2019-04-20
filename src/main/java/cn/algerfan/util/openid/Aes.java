@@ -21,7 +21,7 @@ import java.security.spec.InvalidParameterSpecException;
  * @author algerfan
  * @since 2019/4/15 11
  */
-class Aes {
+public class Aes {
     static {
         //BouncyCastle是一个开源的加解密解决方案，主页在http://www.bouncycastle.org/
         Security.addProvider(new BouncyCastleProvider());
@@ -36,7 +36,7 @@ class Aes {
      * @return
      * @throws Exception
      */
-    String decrypt(String data, String key, String iv) throws Exception {
+    public static String decrypt(String data, String key, String iv) throws Exception {
 //        initialize();
 
         //被加密的数据

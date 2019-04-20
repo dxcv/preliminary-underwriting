@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @since 2019/4/18 09
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/underwriting")
 public class AdminUnderwritingController extends BaseController {
 
     @RequestMapping(value = "select", method = RequestMethod.GET)
@@ -29,6 +29,7 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
-        return new ModelAndView("");
+        return new ModelAndView("underwriting");
     }
+
 }

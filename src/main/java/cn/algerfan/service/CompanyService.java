@@ -4,6 +4,8 @@ import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Map;
+
 /**
  * <p>
  *
@@ -24,4 +26,5 @@ public interface CompanyService {
 
     PageInfo<Company> select(String keyword, int pageNum, int pageSize);
 
+    Map<String, Object> selectAllCompany();
 }

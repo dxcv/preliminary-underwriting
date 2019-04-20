@@ -5,9 +5,41 @@ import java.io.Serializable;
 public class Agent implements Serializable {
 
     private Integer agentId;
-    private String employeeId;
-    private String company;
+    /**
+     * 代理人昵称
+     */
+    private String nickname;
+    /**
+     * 代理人头像
+     */
+    private String avatar;
+    /**
+     * 代理人openid
+     */
     private String openid;
+    /**
+     * 代理人工号
+     */
+    private String employeeId;
+    /**
+     * 代理人公司
+     */
+    private String company;
+    /**
+     * 代理人公司简称
+     */
+    private String firm;
+
+    public Agent() {}
+
+    public Agent(String nickname, String avatar, String openid, String employeeId, String company, String firm) {
+        this.nickname = nickname;
+        this.avatar = avatar;
+        this.openid = openid;
+        this.employeeId = employeeId;
+        this.company = company;
+        this.firm = firm;
+    }
 
     public Integer getAgentId() {
         return agentId;
@@ -17,20 +49,20 @@ public class Agent implements Serializable {
         this.agentId = agentId;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId == null ? null : employeeId.trim();
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getCompany() {
-        return company;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setCompany(String company) {
-        this.company = company == null ? null : company.trim();
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getOpenid() {
@@ -41,13 +73,40 @@ public class Agent implements Serializable {
         this.openid = openid;
     }
 
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getFirm() {
+        return firm;
+    }
+
+    public void setFirm(String firm) {
+        this.firm = firm;
+    }
+
     @Override
     public String toString() {
         return "Agent{" +
                 "agentId=" + agentId +
+                ", nickname='" + nickname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", openid='" + openid + '\'' +
                 ", employeeId='" + employeeId + '\'' +
                 ", company='" + company + '\'' +
-                ", openid='" + openid + '\'' +
+                ", firm='" + firm + '\'' +
                 '}';
     }
 }

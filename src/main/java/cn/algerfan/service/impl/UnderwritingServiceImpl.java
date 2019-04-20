@@ -42,7 +42,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         Result result = new Result();
         if (underwriting.getName() == null || underwriting.getName().equals("") ||
                 underwriting.getSex() == null || underwriting.getSex().equals("") ||
-                underwriting.getAge() == null || underwriting.getAge() == 0 ||
+                underwriting.getBirthday() == null || underwriting.getBirthday().equals("") ||
                 underwriting.getIntroduce() == null || underwriting.getIntroduce().equals("")) {
             result.setMsg("添加失败，信息不全！");
             result.setCode(-1);
@@ -106,4 +106,5 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         List<Underwriting> underwritingList = underwritingMapper.select(keyword);
         return new PageInfo<>(underwritingList);
     }
+
 }

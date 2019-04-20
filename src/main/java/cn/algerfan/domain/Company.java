@@ -12,7 +12,7 @@ public class Company {
      */
     private String firm;
     /**
-    工号规则
+     工号规则
      */
     private String jobNumber;
 

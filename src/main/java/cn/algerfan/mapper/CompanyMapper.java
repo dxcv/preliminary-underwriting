@@ -17,6 +17,10 @@ public interface CompanyMapper {
 
     Company selectByCompany(String company);
 
+    List<Company> selectAllCompany();
+
+    Company findByEmployeeID(String employeeId);
+
     int insertSelective(Company record);
 
     int updateByPrimaryKeySelective(Company record);

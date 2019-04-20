@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
- *  核保人Controller层
+ *  小程序部分 核保人Controller层
  * </p>
  *
  * @author algerfan
@@ -36,7 +36,7 @@ public class UnderwritingController extends BaseController {
     /**
      * 查询代理人所有核保人
      * @param openid 微信用户openid
-     * @return json数据
+     * @return Result状态码、状态信息
      */
     @ResponseBody
     @RequestMapping(value = "/findUnderwriting",method = RequestMethod.GET)
