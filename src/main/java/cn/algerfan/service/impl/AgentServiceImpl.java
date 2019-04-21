@@ -68,10 +68,8 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             String result = Aes.decrypt(encryptedData, String.valueOf(map1.get("session_key")), iv);
             if (null != result && result.length() > 0) {
                 log.info("解密成功");
-
                 JSONObject userInfoJSON = JSONObject.fromObject(result);
                 Map<String, Object> userInfo = new HashMap<>();
-                userInfo.put("openId", userInfoJSON.get("openId"));
                 userInfo.put("nickName", userInfoJSON.get("nickName"));
                 userInfo.put("gender", userInfoJSON.get("gender"));
                 userInfo.put("city", userInfoJSON.get("city"));
@@ -84,9 +82,15 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 Agent check = agentMapper.check(aesUtil.AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
                 log.info("check: "+check);
                 if(check!=null) {
-                    map.put("status", 1);
-                    map.put("msg","该代理人已注册，直接登录");
-                    return map;
+                    if(!check.getEmployeeId().equals(employeeId)) {
+                        map.put("status", 0);
+                        map.put("msg","登录失败，工号不正确");
+                        return map;
+                    } else {
+                        map.put("status", 1);
+                        map.put("msg","该代理人已注册，直接登录");
+                        return map;
+                    }
                 } else {
                     String openId = aesUtil.AESEncode("lovewlgzs", String.valueOf(userInfoJSON.get("openId")));
                     Agent agent = new Agent(String.valueOf(userInfoJSON.get("nickName")), String.valueOf(userInfoJSON.get("avatarUrl")),

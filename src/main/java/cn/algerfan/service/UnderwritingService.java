@@ -24,4 +24,5 @@ public interface UnderwritingService {
 
     PageInfo<Underwriting> select(String keyword, int pageNum, int pageSize);
 
+    PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize);
 }

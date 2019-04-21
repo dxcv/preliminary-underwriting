@@ -25,7 +25,7 @@ public class Underwriting implements Serializable {
     /**
      * 出生日期
      */
-    private Date birthday;
+    private String birthday;
     /**
      * 手机号
      */
@@ -53,7 +53,7 @@ public class Underwriting implements Serializable {
 
     public Underwriting() {}
 
-    public Underwriting(Integer agentId, String formId, String name, String sex, Date birthday, String phone, String introduce,
+    public Underwriting(Integer agentId, String formId, String name, String sex, String birthday, String phone, String introduce,
                         String data, String conclusion, Date submitTime, Date updateTime) {
         this.agentId = agentId;
         this.formId = formId;
@@ -108,11 +108,11 @@ public class Underwriting implements Serializable {
         this.sex = sex;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

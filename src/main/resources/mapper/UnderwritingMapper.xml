@@ -7,7 +7,7 @@
     <result column="form_id" jdbcType="VARCHAR" property="formId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="introduce" jdbcType="VARCHAR" property="introduce" />
     <result column="data" jdbcType="VARCHAR" property="data" />
@@ -26,7 +26,7 @@
       conclusion, submit_time, update_time
       )
     values (#{underwritingId,jdbcType=INTEGER}, #{agentId,jdbcType=INTEGER}, #{formId,jdbcType=VARCHAR},
-      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR},
       #{conclusion,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
@@ -37,6 +37,13 @@
     from tb_underwriting
     where agent_id = #{agentId,jdbcType=INTEGER}
   </select>
+  <select id="selectByAgentIdAndName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_underwriting
+    where agent_id = #{agentId,jdbcType=INTEGER} and name = #{name}
+  </select>
+  <!-- 后台mapper -->
   <select id="select" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
@@ -44,12 +51,6 @@
     <if test='keyword != null'>
       and name = #{keyword}
     </if>
-  </select>
-  <select id="selectByAgentIdAndName" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_underwriting
-    where agent_id = #{agentId,jdbcType=INTEGER} and name = #{name}
   </select>
 
 
@@ -120,7 +121,7 @@
         #{sex,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        #{birthday,jdbcType=TIMESTAMP},
+        #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -158,7 +159,7 @@
         sex = #{sex,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        birthday = #{birthday,jdbcType=TIMESTAMP},
+        birthday = #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -187,7 +188,7 @@
       form_id = #{formId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
+      birthday = #{birthday,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       introduce = #{introduce,jdbcType=VARCHAR},
       data = #{data,jdbcType=VARCHAR},

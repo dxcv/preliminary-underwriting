@@ -14,9 +14,9 @@ public interface UnderwritingMapper {
 
     Underwriting selectByPrimaryKey(Integer underwritingId);
 
-    int updateByPrimaryKeySelective(Underwriting record);
+    void updateByPrimaryKeySelective(Underwriting record);
 
-    int updateByPrimaryKey(Underwriting record);
+    void updateByPrimaryKey(Underwriting record);
 
     List<Underwriting> selectByAgentId(Integer agentId);
 

@@ -8,16 +8,18 @@ import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
 import cn.algerfan.util.AesUtil;
 import cn.algerfan.util.CheckUtil;
-import cn.algerfan.util.UploadUtil;
-import cn.algerfan.util.openid.HttpRequest;
 import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -30,6 +32,8 @@ import java.util.*;
  */
 @Service
 public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements UnderwritingService {
+    @Value("${filePath}")
+    private String FILE_PATH;
 
     @Resource
     private UnderwritingMapper underwritingMapper;
@@ -38,8 +42,11 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
 
     @Override
     public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String code) {
+        log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
+        log.info("underwriting: "+underwriting);
         Map<String,Object> map = new HashMap<>();
-        if (formId ==null || formId.equals("") || underwriting.getName() == null || underwriting.getName().equals("") ||
+        //formId ==null || formId.equals("") ||
+        if (underwriting.getName() == null || underwriting.getName().equals("") ||
                 underwriting.getSex() == null || underwriting.getSex().equals("") ||
                 underwriting.getBirthday() == null ||
                 underwriting.getIntroduce() == null || underwriting.getIntroduce().equals("")) {
@@ -119,8 +126,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     int month = cale.get(Calendar.MONTH) + 1;
                     int day = cale.get(Calendar.DATE);
                     String path = "/uploadData/"+ year + "/"+ month + "/" + day + "/" + underwriting.getName();
-                    UploadUtil uploadUtil = new UploadUtil();
-                    if (!uploadUtil.saveFile(myFileName, path,realName)) {
+                    if (!saveFile(myFileName, path,realName)) {
                         map.put("status",0);
                         map.put("msg","文件上传失败");
                         return map;
@@ -143,6 +149,40 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         map.put("status",1);
         map.put("msg","添加成功");
         return map;
+    }
+
+    //文件写入
+    private boolean saveFile(MultipartFile file, String path, String realName) {
+        try {
+            File fileDr = new File(FILE_PATH + path);
+            if(!fileDr.exists()&&!fileDr.isDirectory()) {
+                boolean mkdirs = fileDr.mkdirs();
+                if(!mkdirs) return false;
+            }
+            if (!file.isEmpty()) {
+                File saveFile = new File(FILE_PATH + path + "/" +realName);
+                FileOutputStream outputStream = new FileOutputStream(saveFile);
+                BufferedOutputStream out = new BufferedOutputStream(outputStream);
+                out.write(file.getBytes());
+                out.flush();
+                out.close();
+                outputStream.close();
+                return true;
+            }
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //删除文件
+    public boolean deleteFile(String url) {
+        File file = new File("." + url);
+        if (file.exists() && file.exists()) {
+            return file.delete();
+        }
+        return false;
     }
 
     @Override
@@ -175,7 +215,26 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public PageInfo<Underwriting> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> underwritingList = underwritingMapper.select(keyword);
-        return new PageInfo<>(underwritingList);
+        List<Underwriting> underwritings = new ArrayList<>();
+        for (Underwriting underwriting : underwritingList) {
+            if (underwriting.getConclusion() == null) {
+                underwritings.add(underwriting);
+            }
+        }
+        return new PageInfo<>(underwritings);
+    }
+
+    @Override
+    public PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Underwriting> underwritingList = underwritingMapper.select(keyword);
+        List<Underwriting> underwritings = new ArrayList<>();
+        for (Underwriting underwriting : underwritingList) {
+            if (underwriting.getConclusion() != null) {
+                underwritings.add(underwriting);
+            }
+        }
+        return new PageInfo<>(underwritings);
     }
 
 }

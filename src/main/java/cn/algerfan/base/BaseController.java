@@ -6,10 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.algerfan.service.AgentService;
-import cn.algerfan.service.CompanyService;
-import cn.algerfan.service.UnderwritingService;
-import cn.algerfan.service.UserService;
+import cn.algerfan.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,6 +36,8 @@ public abstract class BaseController implements Serializable {
     protected UnderwritingService underwritingService;
     @Resource
     protected CompanyService companyService;
+    @Resource
+    protected PropertiesService propertiesService;
     @Resource
     protected HttpServletRequest request;// 获得request
     @Resource
