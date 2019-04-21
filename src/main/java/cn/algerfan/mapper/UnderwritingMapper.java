@@ -1,6 +1,7 @@
 package cn.algerfan.mapper;
 
 import cn.algerfan.domain.Underwriting;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface UnderwritingMapper {
     List<Underwriting> selectByAgentId(Integer agentId);
 
     List<Underwriting> select(String keyword);
+
+    Underwriting selectByAgentIdAndName(@Param("agentId") Integer agentId, @Param("name") String name);
 }

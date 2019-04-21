@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,8 +41,8 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             map.put("msg", "employeeId 不能为空");
             return map;
         }
-        Company byEmployeeID = companyMapper.findByEmployeeID(employeeId.substring(0, 4));
-        if(byEmployeeID==null) {
+        List<Company> byEmployeeID = companyMapper.findByEmployeeID(employeeId.substring(0, 4));
+        if(byEmployeeID.size()==0) {
             map.put("status",0);
             map.put("msg","对不起，您所录入的工号非长城人寿北京分公司工号，无法进行注册");
             return map;
@@ -51,13 +52,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             map.put("msg", "company 不能为空");
             return map;
         }
-        Agent check = agentMapper.check(employeeId,company);
-        log.info("check: "+check);
-        if(check!=null) {
-            map.put("status", 0);
-            map.put("msg","注册失败，该代理人已存在");
-            return map;
-        }
+
         AesUtil aesUtil = new AesUtil();
         //登录凭证不能为空
         if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
@@ -90,8 +85,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
         try {
             String result = Aes.decrypt(encryptedData, session_key, iv);
             if (null != result && result.length() > 0) {
-                map.put("status", 1);
-                map.put("msg", "解密成功");
                 log.info("解密成功");
 
                 JSONObject userInfoJSON = JSONObject.fromObject(result);
@@ -106,17 +99,27 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
                 log.info("userInfo: "+userInfo);
-                return map;
+                Agent check = agentMapper.check(aesUtil.AESEncode("lovewlgzs", String.valueOf(openid)));
+                log.info("check: "+check);
+                if(check!=null) {
+                    map.put("status", 1);
+                    map.put("msg","该代理人已注册，直接登录");
+                    return map;
+                } else {
+                    String openId = aesUtil.AESEncode("lovewlgzs", String.valueOf(userInfoJSON.get("openId")));
+                    Agent agent = new Agent(String.valueOf(userInfoJSON.get("nickName")), String.valueOf(userInfoJSON.get("avatarUrl")),
+                            openId, employeeId, company, byEmployeeID.get(0).getFirm());
+                    agentMapper.insert(agent);
+                    map.put("status", 1);
+                    map.put("msg", "注册成功");
+                    return map;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         map.put("status", 0);
         map.put("msg", "解密失败");
-        String openId = aesUtil.AESDncode("lovewlgzs", String.valueOf(map.get("openId")));
-        Agent agent = new Agent(String.valueOf(map.get("nickName")), String.valueOf(map.get("avatarUrl")),
-                openId, employeeId, company, byEmployeeID.getFirm());
-        agentMapper.insert(agent);
         return map;
     }
 

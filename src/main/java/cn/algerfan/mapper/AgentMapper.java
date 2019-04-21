@@ -9,7 +9,7 @@ public interface AgentMapper {
 
     void insert(Agent record);
 
-    Agent check(@Param("employeeId") String employeeId, @Param("company") String company);
+    Agent check(@Param("openid") String openid);
 
     int deleteByPrimaryKey(Integer agentId);
 

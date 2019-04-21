@@ -23,7 +23,7 @@
     select
     <include refid="Base_Column_List" />
     from tb_agent
-    where employee_id = #{employeeId,jdbcType=VARCHAR} and company = #{company,jdbcType=VARCHAR}
+    where openid = #{openid,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select

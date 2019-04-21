@@ -19,7 +19,7 @@ public interface CompanyMapper {
 
     List<Company> selectAllCompany();
 
-    Company findByEmployeeID(String employeeId);
+    List<Company> findByEmployeeID(String employeeId);
 
     int insertSelective(Company record);
 
