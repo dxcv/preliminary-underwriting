@@ -23,17 +23,17 @@ public class PropertiesServiceImpl implements PropertiesService {
 
     @Override
     public void show(String filePath, HttpServletResponse response) {
-        File imgFile = new File(FILE_PATH + filePath);
-        new FileUtil().responseFile(response, imgFile);
+        File file = new File(FILE_PATH + filePath);
+        new FileUtil().responseFile(response, file);
     }
 
     @Override
-    public void download(String fileName, String suffix, HttpServletResponse response) {
+    public void download(String fileName, HttpServletResponse response) {
         // 设置下载的响应头信息
         response.setHeader("Content-Disposition",
                 "attachment;fileName=" + "headPic.jpg");
-        File imgFile = new File(FILE_PATH + fileName + "." + suffix);
-        new FileUtil().responseFile(response, imgFile);
+        File file = new File(FILE_PATH + fileName);
+        new FileUtil().responseFile(response, file);
     }
 
 }

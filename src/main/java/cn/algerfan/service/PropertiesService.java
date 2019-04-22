@@ -13,5 +13,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface PropertiesService {
     void show(String filePath, HttpServletResponse response);
 
-    void download(String fileName, String suffix, HttpServletResponse response);
+    void download(String fileName, HttpServletResponse response);
 }

@@ -225,6 +225,11 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
+    public Underwriting selectById(Integer underwritingId) {
+        return underwritingMapper.selectByPrimaryKey(underwritingId);
+    }
+
+    @Override
     public PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> underwritingList = underwritingMapper.select(keyword);
