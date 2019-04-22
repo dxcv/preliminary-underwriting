@@ -4,6 +4,8 @@ import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Underwriting;
 import cn.algerfan.util.FileUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import java.io.*;
  */
 @Controller
 @RequestMapping("/admin/underwriting")
+@Api(value = "后台核保人工作池", tags = "后台核保人工作池")
 public class AdminUnderwritingController extends BaseController {
 
     /**
@@ -37,6 +40,8 @@ public class AdminUnderwritingController extends BaseController {
      * @param pageSize
      */
     @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @ApiOperation(value = "查询或搜索代办预核保", notes = "查询或搜索代办预核保 搜索加上参数keyword-姓名",
+            httpMethod = "GET")
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.select(keyword, pageNum, pageSize);
@@ -53,6 +58,8 @@ public class AdminUnderwritingController extends BaseController {
      * @param model
      */
     @RequestMapping(value = "/selectById", method = RequestMethod.GET)
+    @ApiOperation(value = "查看预核保详情", notes = "查看预核保详情 参数underwritingId-预核保id",
+            httpMethod = "GET")
     public ModelAndView selectById(Integer underwritingId, Model model) {
         Underwriting underwriting = underwritingService.selectById(underwritingId);
         if(underwriting==null) {
@@ -75,6 +82,8 @@ public class AdminUnderwritingController extends BaseController {
      * @param pageSize
      */
     @RequestMapping(value = "/selectHistory", method = RequestMethod.GET)
+    @ApiOperation(value = "预核保历史", notes = "查询或搜索预核保历史 搜索加上参数keyword-姓名",
+            httpMethod = "GET")
     public ModelAndView selectHistory(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
