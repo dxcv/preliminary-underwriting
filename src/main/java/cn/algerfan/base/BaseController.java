@@ -39,6 +39,8 @@ public abstract class BaseController implements Serializable {
     @Resource
     protected PropertiesService propertiesService;
     @Resource
+    protected AnnouncementService announcementService;
+    @Resource
     protected HttpServletRequest request;// 获得request
     @Resource
     protected HttpServletResponse response;//获得response

@@ -38,7 +38,7 @@ public class AdminUnderwritingController extends BaseController {
      */
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                               @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
+                               @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("list", select.getList());
@@ -76,7 +76,7 @@ public class AdminUnderwritingController extends BaseController {
      */
     @RequestMapping(value = "/selectHistory", method = RequestMethod.GET)
     public ModelAndView selectHistory(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                               @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
+                               @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("list", select.getList());
