@@ -4,6 +4,7 @@ import cn.algerfan.domain.Announcement;
 import cn.algerfan.domain.Result;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,4 +20,6 @@ public interface AnnouncementService {
     Announcement toUpdate(Integer announcementId);
 
     Result update(Integer announcementId, Announcement announcement);
+
+    Map<String, Object> selectAnnouncement();
 }

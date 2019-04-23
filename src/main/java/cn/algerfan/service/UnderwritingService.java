@@ -1,5 +1,6 @@
 package cn.algerfan.service;
 
+import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,4 +29,5 @@ public interface UnderwritingService {
 
     PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize);
 
+    Result send(Integer underwritingId, String auditResult, String note);
 }

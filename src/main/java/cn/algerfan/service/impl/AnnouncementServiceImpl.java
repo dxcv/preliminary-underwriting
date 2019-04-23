@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -50,6 +52,16 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             return new Result(ResultCodeEnum.UNUPDATE);
         }
         return new Result(ResultCodeEnum.UPDATE);
+    }
+
+    @Override
+    public Map<String, Object> selectAnnouncement() {
+        Map<String, Object> map = new HashMap<>();
+        List<Announcement> select = announcementMapper.select();
+        map.put("status",1);
+        map.put("msg","查询成功");
+        map.put("list",select);
+        return map;
     }
 
 }

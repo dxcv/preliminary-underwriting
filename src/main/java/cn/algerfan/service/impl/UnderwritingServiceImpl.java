@@ -2,15 +2,18 @@ package cn.algerfan.service.impl;
 
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Agent;
+import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
 import cn.algerfan.util.AesUtil;
 import cn.algerfan.util.CheckUtil;
+import cn.algerfan.util.openid.HttpRequest;
 import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -240,6 +243,42 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
         }
         return new PageInfo<>(underwritings);
+    }
+
+    @Override
+    public Result send(Integer underwritingId, String auditResult, String note) {
+        if(underwritingId==null ||underwritingId==0 || auditResult==null || auditResult.equals("") ||
+                note == null || note.equals("")) {
+            return new Result(0,"发送失败，信息不完整！");
+        }
+        Underwriting underwriting = underwritingMapper.selectByPrimaryKey(underwritingId);
+        if(underwriting.getConclusion() != null) {
+            return new Result(0,"发送失败，该核保人已经发送过通知");
+        }
+        Agent agent = agentMapper.selectByPrimaryKey(underwriting.getAgentId());
+        if(agent == null) {
+            return new Result(0,"发送失败，该代理人不存在");
+        }
+        String openid = new AesUtil().AESDncode("lovewlgzs", agent.getOpenid());
+        JSONObject jsonObject = new JSONObject();
+        //代理人openid
+        jsonObject.put("touser", openid);
+        //消息模版id
+        jsonObject.put("template_id", "1BTR4gR2KAcGX_LSXRS-7InGCIpezSEc3d5Te1qFT5k");
+        //表单id
+        jsonObject.put("form_id", underwriting.getFormId());
+        String templateContent = "{'keyword1':{'value':'测试'},'keyword2':{'value':'" + auditResult +
+                "'},'keyword3':{'value':'" + note + "'}}";
+        jsonObject.put("data", templateContent);
+        jsonObject.put("emphasis_keyword","keyword2.DATA");
+        String string = HttpRequest.sendPost(jsonObject);
+        log.info(string);
+        if(string.contains("ok")) {
+            underwriting.setConclusion("审核结果："+ auditResult+ "，备注：" +note);
+            underwriting.setUpdateTime(new Date());
+            underwritingMapper.updateByPrimaryKeySelective(underwriting);
+        }
+        return new Result(1,"发送成功！");
     }
 
 }

@@ -82,9 +82,9 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 Agent check = agentMapper.check(aesUtil.AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
                 log.info("check: "+check);
                 if(check!=null) {
-                    if(!check.getEmployeeId().equals(employeeId)) {
+                    if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
                         map.put("status", 0);
-                        map.put("msg","登录失败，工号不正确");
+                        map.put("msg","登录失败，工号或者公司不正确");
                         return map;
                     } else {
                         map.put("status", 1);
