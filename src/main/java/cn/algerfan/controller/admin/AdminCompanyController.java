@@ -34,7 +34,7 @@ public class AdminCompanyController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(value = "新增公司——ajax请求", notes = "参数：公司-company，公司简称-firm，工号规则-jobNumber",
+    @ApiOperation(value = "新增公司——ajax请求", notes = "参数：公司-company，公司简称-firm，工号规则（4位）-jobNumber",
             httpMethod = "POST", response = Result.class)
     public Result insert(Company company) {
         return companyService.insert(company);
@@ -84,7 +84,7 @@ public class AdminCompanyController extends BaseController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT)
     @ApiOperation(value = "更新公司信息——ajax请求",
-            notes = "参数：公司id-companyId，公司-company，公司简称-firm，工号规则-jobNumber",
+            notes = "参数：公司id-companyId，公司-company，公司简称-firm，工号规则（4位）-jobNumber",
             httpMethod = "PUT", response = Result.class)
     public Result update(Integer companyId,Company company) {
         return companyService.update(companyId,company);
