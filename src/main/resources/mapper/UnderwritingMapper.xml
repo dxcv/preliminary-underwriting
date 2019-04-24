@@ -1,26 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.algerfan.mapper.UnderwritingMapper" >
-  <resultMap id="BaseResultMap" type="cn.algerfan.domain.Underwriting" >
-    <id column="underwriting_id" property="underwritingId" jdbcType="INTEGER" />
-    <id column="agent_id" property="agentId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="INTEGER" />
-    <result column="age" property="age" jdbcType="INTEGER" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
-    <result column="data" property="data" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.algerfan.mapper.UnderwritingMapper">
+  <resultMap id="BaseResultMap" type="cn.algerfan.domain.Underwriting">
+    <id column="underwriting_id" jdbcType="INTEGER" property="underwritingId" />
+    <result column="agent_id" jdbcType="INTEGER" property="agentId" />
+    <result column="form_id" jdbcType="VARCHAR" property="formId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    underwriting_id, agent_id, name, sex, age, phone, introduce, data
+  <sql id="Base_Column_List">
+    underwriting_id, agent_id, form_id, name, sex, birthday, phone, introduce, data, 
+    conclusion, submit_time, update_time
   </sql>
-  <insert id="insert" parameterType="cn.algerfan.domain.Underwriting" >
-    insert into tb_underwriting (underwriting_id, agent_id, name, sex,
-      age, phone, introduce,
-      data)
-    values (#{underwritingId,jdbcType=INTEGER}, #{agentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
-      #{age,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR},
-      #{data,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="cn.algerfan.domain.Underwriting">
+    insert into tb_underwriting (underwriting_id, agent_id, form_id,
+      name, sex, birthday,
+      phone, introduce, data,
+      conclusion, submit_time, update_time
+      )
+    values (#{underwritingId,jdbcType=INTEGER}, #{agentId,jdbcType=INTEGER}, #{formId,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR},
+      #{conclusion,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <select id="selectByAgentId" resultMap="BaseResultMap" >
     select
@@ -28,6 +37,13 @@
     from tb_underwriting
     where agent_id = #{agentId,jdbcType=INTEGER}
   </select>
+  <select id="selectByAgentIdAndName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_underwriting
+    where agent_id = #{agentId,jdbcType=INTEGER} and name = #{name}
+  </select>
+  <!-- 后台mapper -->
   <select id="select" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
@@ -36,105 +52,149 @@
       and name = #{keyword}
     </if>
   </select>
-
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from tb_underwriting
     where underwriting_id = #{underwritingId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_underwriting
     where underwriting_id = #{underwritingId,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="cn.algerfan.domain.Underwriting" >
+  <insert id="insertSelective" parameterType="cn.algerfan.domain.Underwriting">
     insert into tb_underwriting
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="underwritingId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="underwritingId != null">
         underwriting_id,
       </if>
-      <if test="agentId != null" >
+      <if test="agentId != null">
         agent_id,
       </if>
-      <if test="name != null" >
+      <if test="formId != null">
+        form_id,
+      </if>
+      <if test="name != null">
         name,
       </if>
-      <if test="sex != null" >
+      <if test="sex != null">
         sex,
       </if>
-      <if test="age != null" >
-        age,
+      <if test="birthday != null">
+        birthday,
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         phone,
       </if>
-      <if test="introduce != null" >
+      <if test="introduce != null">
         introduce,
       </if>
-      <if test="data != null" >
+      <if test="data != null">
         data,
       </if>
+      <if test="conclusion != null">
+        conclusion,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="underwritingId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="underwritingId != null">
         #{underwritingId,jdbcType=INTEGER},
       </if>
-      <if test="agentId != null" >
+      <if test="agentId != null">
         #{agentId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="formId != null">
+        #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
-        #{sex,jdbcType=INTEGER},
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        #{age,jdbcType=INTEGER},
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="introduce != null" >
+      <if test="introduce != null">
         #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="data != null" >
+      <if test="data != null">
         #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.algerfan.domain.Underwriting" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.algerfan.domain.Underwriting">
     update tb_underwriting
-    <set >
-      <if test="name != null" >
+    <set>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=INTEGER},
+      </if>
+      <if test="formId != null">
+        form_id = #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
-        sex = #{sex,jdbcType=INTEGER},
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        age = #{age,jdbcType=INTEGER},
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="introduce != null" >
+      <if test="introduce != null">
         introduce = #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="data != null" >
+      <if test="data != null">
         data = #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        conclusion = #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where underwriting_id = #{underwritingId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.algerfan.domain.Underwriting" >
+  <update id="updateByPrimaryKey" parameterType="cn.algerfan.domain.Underwriting">
     update tb_underwriting
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      age = #{age,jdbcType=INTEGER},
+    set agent_id = #{agentId,jdbcType=INTEGER},
+      form_id = #{formId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       introduce = #{introduce,jdbcType=VARCHAR},
-      data = #{data,jdbcType=VARCHAR}
+      data = #{data,jdbcType=VARCHAR},
+      conclusion = #{conclusion,jdbcType=VARCHAR},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where underwriting_id = #{underwritingId,jdbcType=INTEGER}
   </update>
 </mapper>

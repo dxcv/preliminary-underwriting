@@ -1,9 +1,16 @@
 package cn.algerfan.util.openid;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import net.sf.json.JSONObject;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -88,59 +95,59 @@ public class HttpRequest {
     /**
      * 向指定 URL 发送POST方法的请求
      *
-     * @param url
-     *            发送请求的 URL
-     * @param param
-     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param json 请求参数，json形式。
      * @return 所代表远程资源的响应结果
      */
-    public String sendPost(String url, String param) {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        StringBuilder result = new StringBuilder();
+    public static String sendPost(JSONObject json) {
+        //小程序唯一标识   (在微信小程序管理后台获取)
+        String APP_ID = "wx1633b8cd0a523508";
+        //小程序的 app secret (在微信小程序管理后台获取)
+        String APP_SECRET = "0765456e314c6cb199ce97b7bb949a43";
+        //授权（必填）
+        String grant_type = "client_credential";
+        //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
+        //请求参数
+        String params = "grant_type=" + grant_type + "&appid=" + APP_ID + "&secret=" + APP_SECRET;
+        //发送请求
+        String sr = HttpRequest.sendGet("https://api.weixin.qq.com/cgi-bin/token", params);
+        //解析相应内容（转换成json对象）
+        JSONObject json1 = JSONObject.fromObject(sr);
+        //获取小程序全局唯一后台接口调用凭据access_token
+        String access_token = json1.get("access_token").toString();
+
+        HttpClient client = HttpClientBuilder.create().build();
+        String URL = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send" +
+                "?access_token="+access_token;
+        HttpPost post = new HttpPost(URL);
+        post.setHeader("Content-Type", "application/json");
+        post.addHeader("Authorization", "Basic YWRtaW46");
+        String result;
         try {
-            URL realUrl = new URL(url);
-            // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
-            // 设置通用的请求属性
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // 发送POST请求必须设置如下两行
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
-            // 发送请求参数
-            out.print(param);
-            // flush输出流的缓冲
-            out.flush();
-            // 定义BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+            StringEntity s = new StringEntity(json.toString(), "utf-8");
+            s.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                    "application/json"));
+            post.setEntity(s);
+            // 发送请求
+            HttpResponse httpResponse = client.execute(post);
+            // 获取响应输入流
+            InputStream inStream = httpResponse.getEntity().getContent();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    inStream, "utf-8"));
+            StringBuilder strber = new StringBuilder();
             String line;
-            while ((line = in.readLine()) != null) {
-                result.append(line);
+            while ((line = reader.readLine()) != null)
+                strber.append(line).append("\n");
+            inStream.close();
+
+            result = strber.toString();
+            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                return "请求服务器成功，做相应处理-->"+result;
+            } else {
+                return "请求服务端失败-->"+result;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
-                    out.close();
-                }
-                if(in!=null){
-                    in.close();
-                }
-            }
-            catch(IOException ex){
-                ex.printStackTrace();
-            }
-        }
-        return result.toString();
     }
+
 }

@@ -1,8 +1,11 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
+import cn.algerfan.domain.Result;
 import cn.algerfan.util.openid.Aes;
 import cn.algerfan.util.openid.HttpRequest;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +25,11 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/agent")
+@Api(value = "小程序部分 代理人Controller层", tags = "小程序部分 代理人Controller层")
 public class AgentController extends BaseController {
 
     /**
-     * 注册代理人
+     * 注册代理人——小程序部分
      * @param employeeId 员工号
      * @param company 公司名
      * @param encryptedData
@@ -35,6 +39,9 @@ public class AgentController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
+    @ApiOperation(value = "注册代理人——小程序部分",
+            notes = "参数：工号-employeeId，公司名-company，用户信息三个参数",
+            httpMethod = "POST", response = Map.class)
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code){
         return agentService.register(employeeId,company,encryptedData,iv,code);
     }

@@ -2,17 +2,17 @@ package cn.algerfan.enums;
 
 public enum ResultCodeEnum {
 
-    SAVEFAIL(-1,"添加失败，信息不完整"),
+    SAVEFAIL(0,"添加失败，信息不完整"),
     SUCCESS(1,"成功"),//通过
-    FAIL(-1,"失败"), //失败
+    FAIL(0,"失败"), //失败
     SAVE(1,"添加成功"),
-    UNSAVE(-1,"添加失败"),
+    UNSAVE(0,"添加失败"),
     UPDATE(1,"修改成功"),
-    UNUPDATE(-1,"修改失败"),
+    UNUPDATE(0,"修改失败"),
     FIND(1,"查询成功"),
-    UNFIND(-1,"查询失败"),
+    UNFIND(0,"查询失败"),
     DELETE(1,"删除成功"),
-    UNDELETE(-1,"删除失败"),
+    UNDELETE(0,"删除失败"),
     ;
 
     private int code;

@@ -1,6 +1,7 @@
 package cn.algerfan.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Underwriting implements Serializable {
 
@@ -9,6 +10,10 @@ public class Underwriting implements Serializable {
      * 代理人id
      */
     private Integer agentId;
+    /**
+     * 提交formId
+     */
+    private String formId;
     /**
      * 姓名
      */
@@ -40,14 +45,18 @@ public class Underwriting implements Serializable {
     /**
      * 提交时间
      */
-    private String submitTime;
+    private Date submitTime;
     /**
      * 更新时间
      */
-    private String updateTime;
+    private Date updateTime;
 
-    public Underwriting(Integer agentId, String name, String sex, String birthday, String phone, String introduce, String data, String conclusion, String submitTime, String updateTime) {
+    public Underwriting() {}
+
+    public Underwriting(Integer agentId, String formId, String name, String sex, String birthday, String phone, String introduce,
+                        String data, String conclusion, Date submitTime, Date updateTime) {
         this.agentId = agentId;
+        this.formId = formId;
         this.name = name;
         this.sex = sex;
         this.birthday = birthday;
@@ -73,6 +82,14 @@ public class Underwriting implements Serializable {
 
     public void setAgentId(Integer agentId) {
         this.agentId = agentId;
+    }
+
+    public String getFormId() {
+        return formId;
+    }
+
+    public void setFormId(String formId) {
+        this.formId = formId;
     }
 
     public String getName() {
@@ -131,19 +148,19 @@ public class Underwriting implements Serializable {
         this.conclusion = conclusion;
     }
 
-    public String getSubmitTime() {
+    public Date getSubmitTime() {
         return submitTime;
     }
 
-    public void setSubmitTime(String submitTime) {
+    public void setSubmitTime(Date submitTime) {
         this.submitTime = submitTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -152,6 +169,7 @@ public class Underwriting implements Serializable {
         return "Underwriting{" +
                 "underwritingId=" + underwritingId +
                 ", agentId=" + agentId +
+                ", formId='" + formId + '\'' +
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthday='" + birthday + '\'' +
@@ -159,8 +177,9 @@ public class Underwriting implements Serializable {
                 ", introduce='" + introduce + '\'' +
                 ", data='" + data + '\'' +
                 ", conclusion='" + conclusion + '\'' +
-                ", submitTime='" + submitTime + '\'' +
-                ", updateTime='" + updateTime + '\'' +
+                ", submitTime=" + submitTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
+
 }

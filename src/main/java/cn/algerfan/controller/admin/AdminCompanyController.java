@@ -4,6 +4,8 @@ import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/admin/company")
+@Api(value = "后台公司管理", tags = "后台公司管理")
 public class AdminCompanyController extends BaseController {
 
     /**
@@ -31,6 +34,8 @@ public class AdminCompanyController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "新增公司——ajax请求", notes = "参数：公司-company，公司简称-firm，工号规则（4位）-jobNumber",
+            httpMethod = "POST", response = Result.class)
     public Result insert(Company company) {
         return companyService.insert(company);
     }
@@ -42,16 +47,19 @@ public class AdminCompanyController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除公司——ajax请求", notes = "参数：公司id-companyId",
+            httpMethod = "DELETE", response = Result.class)
     public Result delete(Integer companyId) {
         return companyService.delete(companyId);
     }
 
     /**
-     * 跳转更新
+     * 跳转到更新页面
      * @param companyId
      * @param model
      */
     @RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
+    @ApiOperation(value = "跳转到更新页面", notes = "参数：公司id-companyId", httpMethod = "GET")
     public ModelAndView toUpdate(Integer companyId, Model model) {
         if(companyId == null || companyId == 0) {
             model.addAttribute("msg", "查询失败");
@@ -75,18 +83,23 @@ public class AdminCompanyController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT)
+    @ApiOperation(value = "更新公司信息——ajax请求",
+            notes = "参数：公司id-companyId，公司-company，公司简称-firm，工号规则（4位）-jobNumber",
+            httpMethod = "PUT", response = Result.class)
     public Result update(Integer companyId,Company company) {
         return companyService.update(companyId,company);
     }
 
     /**
-     * 查询公司或搜索公司 关键词keyword
+     * 查询公司或搜索公司 搜索加上参数keyword
      * @param keyword
      * @param model
      * @param pageNum
      * @param pageSize
      */
     @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @ApiOperation(value = "查询公司或搜索公司", notes = "查询公司或搜索公司 搜索加上参数keyword",
+            httpMethod = "GET")
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
         PageInfo<Company> select = companyService.select(keyword, pageNum, pageSize);
