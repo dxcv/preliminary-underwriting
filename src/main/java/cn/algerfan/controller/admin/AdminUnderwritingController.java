@@ -49,7 +49,7 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
-        return new ModelAndView("underwriting");
+        return new ModelAndView("/underwriting/underwriting");
     }
 
     /**
@@ -70,7 +70,7 @@ public class AdminUnderwritingController extends BaseController {
         log.info("查询成功："+underwriting);
         model.addAttribute("msg", "查询成功");
         model.addAttribute("underwriting", underwriting);
-        return new ModelAndView("underwritingDetails");
+        return new ModelAndView("/underwriting/underwritingDetails");
     }
 
     /**
@@ -91,7 +91,7 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
-        return new ModelAndView("underwritingHistory");
+        return new ModelAndView("/underwriting/underwritingHistory");
     }
 
 }
