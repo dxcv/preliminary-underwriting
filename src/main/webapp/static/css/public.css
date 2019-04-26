@@ -351,7 +351,7 @@ tbody tr td .operation .op_look{
 }
 .modal_oper .oper_close{
     display: block;
-    background: url(./../images/close.png) no-repeat ;
+    background: url(../images/close.png) no-repeat ;
     background-size:  16px 16px;
     position: relative;
     width: 16px;
