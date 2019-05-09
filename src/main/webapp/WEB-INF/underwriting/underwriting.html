@@ -8,6 +8,10 @@
     <title>预核保-后台</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    <script>
+        var i=1;
+    </script>
+
 </head>
 
 <body>
@@ -81,7 +85,7 @@
 
         <div class="t_box anim">
             <div class="box_tit">
-                <span>公司工号管理</span>
+                <span>待审核人员</span>
                 <div class="box_add">添加</div>
             </div>
             <div class="box_table">
@@ -89,53 +93,28 @@
                     <thead>
                     <tr class="active">
                         <th style="width:50px">序号</th>
-                        <th>公司名称</th>
-                        <th>工号前四位</th>
+                        <th>名字</th>
+                        <th>性别</th>
+                        <th>出生日期</th>
                         <th>操作</th>
-
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>未来工作室1</td>
-                        <td>2016</td>
+                    <tr th:each="user:${list}">
+                        <td><script>document.write(i);i++</script></td>
+                        <td th:text="${user.name}"></td>
+                        <td th:if="${user.sex}==male">男</td>
+                        <td th:if="${user.sex}!=male">女</td>
+                        <td th:text="${user.birthday}"></td>
                         <td>
                             <div class="operation">
-                                <a class="op_look">查看</a>
-                                <a class="op_agree">编辑</a>
-                                <a class="op_refuse">删除</a>
+                                <a th:href="@{/selectById?underwritingId=}+ ${user.agentId}" class="op_agree">查看详情</a>
+                            </div>
+                        </td>
+                    </tr>
 
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>未来工作室2</td>
-                        <td>2017</td>
-                        <td>
-                            <div class="operation">
-                                <a class="op_look">查看</a>
-                                <a class="op_agree">编辑</a>
-                                <a class="op_refuse">删除</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>未来工作室3</td>
-                        <td>2018</td>
-                        <td>
-                            <div class="operation">
-                                <a class="op_look">查看</a>
-                                <a class="op_agree">编辑</a>
-                                <a class="op_refuse">删除</a>
-                            </div>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
