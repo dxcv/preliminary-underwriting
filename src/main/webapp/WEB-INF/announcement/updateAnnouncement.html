@@ -13,7 +13,7 @@
 <div class="aside_nav">
     <div class="nav_tit flex"><span>预</span></div>
     <ul>
-        <li  class="active">
+        <li>
             <a class="flex" href="index.html">待审核</a>
         </li>
         <li>
@@ -25,7 +25,7 @@
         <li>
             <a class="flex" href="agency.html">代理人管理</a>
         </li>
-        <li>
+        <li  class="active">
             <a class="flex" href="notice.html"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
         </li>
     </ul>
@@ -75,11 +75,12 @@
             <div class="seach">搜索</div>
         </div>
         <div class="t_box anim" th:object="${announce}">
-            <form th:action="/admin/announcement/RequestMethod">
-                <input type="text" name="*{announce.announcementId}">
+            <form th:action="/admin/announcement/RequestMethod" method="GET">
+                <input type="text" th:value="*{announce.announcementId}">
                 <input type="text" th:value="*{announce.type}" />
                 <input type="text" th:value="*{announce.date}" />
                 <input type="text" th:value="*{announce.content}" />
+                <input type="submit">
             </form>
         </div>
     </div>

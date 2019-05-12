@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-修改公司</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
 </head>
 <body>
-更新公司页面
+<div class="aside_nav">
+    <div class="nav_tit flex"><span>预</span></div>
+    <ul>
+        <li>
+            <a class="flex" href="index.html">待审核</a>
+        </li>
+        <li>
+            <a class="flex" href="audited.html">已审核</a>
+        </li>
+        <li  class="active">
+            <a class="flex" href="company.html"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
+        </li>
+        <li>
+            <a class="flex" href="agency.html">代理人管理</a>
+        </li>
+        <li>
+            <a class="flex" href="notice.html">公告信息</a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header">
+        <ul class="rt_nav">
+            <li>
+                <img class="nav_img" th:src="@{/static/images/default.jpg}">
+            </li>
+            <li>
+                <a class="quit_icon">
+                    <img th:src="@{/static/images/quit.png}">
+                    <span>安全退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="shadow"></div>
+    <div class="tables" style="margin: 0px;">
+        <div class="table_seach anim">
+            <input placeholder="请输入公司名称" />
+            <div class="seach">搜索</div>
+        </div>
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span>修改公司信息</span>
+            </div>
+            <div class="box_table" th:object="${company}">
+                id<input type="text" th:value="*{company.companyId}">
+                公司<input type="text" th:value="*{company.company}">
+                简称<input type="text" th:value="*{company.firm}">
+                工号规则<input type="text" th:value="*{company.jobNumber}">
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/index.js}"></script>
+<script th:src="@{/static/js/company.js}"></script>
 </html>
