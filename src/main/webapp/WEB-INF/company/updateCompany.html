@@ -20,13 +20,13 @@
             <a class="flex" href="audited.html">已审核</a>
         </li>
         <li  class="active">
-            <a class="flex" href="company.html"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
+            <a class="flex" th:href="@{/admin/company/select}"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
         </li>
         <li>
             <a class="flex" href="agency.html">代理人管理</a>
         </li>
         <li>
-            <a class="flex" href="notice.html">公告信息</a>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
         </li>
     </ul>
 </div>
@@ -55,9 +55,9 @@
                 <span>修改公司信息</span>
             </div>
             <div class="box_table" th:object="${company}">
-                id<input type="text" th:value="*{company.companyId}">
-                公司<input type="text" th:value="*{company.company}">
-                简称<input type="text" th:value="*{company.firm}">
+                公司id<input type="text" th:value="*{company.companyId}">
+                公司名称<input type="text" th:value="*{company.company}">
+                公司简称<input type="text" th:value="*{company.firm}">
                 工号规则<input type="text" th:value="*{company.jobNumber}">
             </div>
         </div>

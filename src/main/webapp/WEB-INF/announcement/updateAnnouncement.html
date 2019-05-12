@@ -20,13 +20,13 @@
             <a class="flex" href="audited.html">已审核</a>
         </li>
         <li>
-            <a class="flex" href="company.html">公司管理</a>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
         </li>
         <li>
             <a class="flex" href="agency.html">代理人管理</a>
         </li>
         <li  class="active">
-            <a class="flex" href="notice.html"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
+            <a class="flex" th:href="@{/admin/announcement/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
         </li>
     </ul>
 </div>
@@ -75,13 +75,15 @@
             <div class="seach">搜索</div>
         </div>
         <div class="t_box anim" th:object="${announce}">
-            <form th:action="/admin/announcement/RequestMethod" method="GET">
-                <input type="text" th:value="*{announce.announcementId}">
-                <input type="text" th:value="*{announce.type}" />
-                <input type="text" th:value="*{announce.date}" />
-                <input type="text" th:value="*{announce.content}" />
-                <input type="submit">
-            </form>
+            <div class="box_tit">
+                <span>修改公告信息</span>
+            </div>
+            <div class="box_table" th:object="${announce}">
+                公告id<input type="text" th:value="*{announce.announcementId}">
+                公告类型<input type="text" th:value="*{announce.type}" />
+                发布时间<input type="text" th:value="*{announce.date}" />
+                公告内容<input type="text" th:value="*{announce.content}" />
+            </div>
         </div>
     </div>
 </div>
