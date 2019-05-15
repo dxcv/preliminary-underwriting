@@ -1,6 +1,7 @@
 package cn.algerfan.controller.admin;
 
 import cn.algerfan.base.BaseController;
+import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Underwriting;
 import cn.algerfan.util.FileUtil;
 import com.github.pagehelper.PageInfo;
@@ -68,6 +69,7 @@ public class AdminUnderwritingController extends BaseController {
             return new ModelAndView("redirect:/admin/underwriting/select");
         }
         log.info("查询成功："+underwriting);
+        Agent agent = agentService.selectById(underwriting.getAgentId());
         model.addAttribute("msg", "查询成功");
         model.addAttribute("underwriting", underwriting);
         return new ModelAndView("underwritingDetails");

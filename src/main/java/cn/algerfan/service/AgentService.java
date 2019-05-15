@@ -1,5 +1,7 @@
 package cn.algerfan.service;
 
+import cn.algerfan.domain.Agent;
+
 import java.util.Map;
 
 /**
@@ -13,4 +15,6 @@ import java.util.Map;
 public interface AgentService {
 
     Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code);
+
+    Agent selectById(Integer agentId);
 }
