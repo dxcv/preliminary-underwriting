@@ -93,5 +93,4 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwritingHistory");
     }
-
 }
