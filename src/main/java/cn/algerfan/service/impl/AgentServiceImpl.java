@@ -109,4 +109,9 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
         return map;
     }
 
+    @Override
+    public Agent selectById(Integer agentId) {
+        return agentMapper.selectByPrimaryKey(agentId);
+    }
+
 }

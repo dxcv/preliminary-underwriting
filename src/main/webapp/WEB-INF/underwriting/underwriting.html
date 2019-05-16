@@ -1,10 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-后台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    <script>
+        var i=1;
+    </script>
+
 </head>
+
 <body>
-核保人代办
+
+<div class="aside_nav">
+    <div class="nav_tit flex"><span>预</span></div>
+    <ul>
+        <li  class="active">
+            <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
+        </li>
+        <li>
+            <a class="flex" href="audited.html">已审核</a>
+        </li>
+        <li>
+            <a class="flex" href="company.html">公司管理</a>
+        </li>
+        <li>
+            <a class="flex" href="agency.html">代理人管理</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header">
+        <ul class="rt_nav">
+
+            <li>
+                <img class="nav_img" th:src="@{/static/images/default.jpg}">
+            </li>
+            <li>
+                <a class="quit_icon">
+                    <img th:src="@{/static/images/quit.png}">
+                    <span>安全退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="add_modal">
+        <div class="modal_tit">添加公司</div>
+        <div class="modal_oper">
+            <a href="javascript:;" class="oper_close"></a>
+        </div>
+        <div class="modal_con">
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>公司名称</span>
+                </div>
+                <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>工号</span>
+                </div>
+                <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
+            </div>
+        </div>
+        <div class="modal_sub">
+            <a class="sub_yes">提交</a>
+            <a class="sub_no">取消</a>
+        </div>
+    </div>
+    <div class="shadow"></div>
+    <div class="tables" style="margin: 0px">
+
+        <div class="table_seach anim">
+            <input placeholder="请输入公司名称" />
+            <div class="seach">搜索</div>
+        </div>
+
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span>待审核人员</span>
+                <div class="box_add">添加</div>
+            </div>
+            <div class="box_table">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th style="width:50px">序号</th>
+                        <th>名字</th>
+                        <th>性别</th>
+                        <th>出生日期</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user:${list}">
+                        <td><script>document.write(i);i++</script></td>
+                        <td th:text="${user.name}"></td>
+                        <td th:if="${user.sex}==male">男</td>
+                        <td th:if="${user.sex}!=male">女</td>
+                        <td th:text="${user.birthday}"></td>
+                        <td>
+                            <div class="operation">
+                                <a th:href="@{/admin/underwriting/selectById?underwritingId=}+ ${user.underwritingId}" th:data-id="${user.underwritingId}" class="op_agree">查看详情</a>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/index.js}"></script>
+<script th:src="@{/static/js/underwriting.js}"></script>
+
 </html>
