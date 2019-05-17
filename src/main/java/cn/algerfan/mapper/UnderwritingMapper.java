@@ -22,5 +22,8 @@ public interface UnderwritingMapper {
 
     List<Underwriting> select(String keyword);
 
+    List<Underwriting> selectAll();
+
     Underwriting selectByAgentIdAndName(@Param("agentId") Integer agentId, @Param("name") String name);
+
 }
