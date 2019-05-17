@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>预核保-公告修改</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/underwritingDetails.css}" />
-</head>
-<body>
-<div class="aside_nav">
-    <div class="nav_tit flex"><span>预</span></div>
-    <ul>
-        <li>
-            <a class="flex" href="index.html">待审核</a>
-        </li>
-        <li>
-            <a class="flex" href="audited.html">已审核</a>
-        </li>
-        <li>
-            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
-        </li>
-        <li>
-            <a class="flex" href="agency.html">代理人管理</a>
-        </li>
-        <li  class="active">
-            <a class="flex" th:href="@{/admin/announcement/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
-        </li>
-    </ul>
-</div>
-<div class="wrap ">
-    <div class="header">
-        <ul class="rt_nav">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>预核保-公告修改</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    </head>
+    <body>
+    <div class="aside_nav">
+        <div class="nav_tit flex"><span>预</span></div>
+        <ul>
             <li>
-                <img class="nav_img" th:src="@{/static/images/default.jpg}">
+                <a class="flex" href="index.html">待审核</a>
             </li>
             <li>
-                <a class="quit_icon">
-                    <img th:src="@{/static/images/quit.png}">
-                    <span>安全退出</span>
-                </a>
+                <a class="flex" href="audited.html">已审核</a>
+            </li>
+            <li>
+                <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+            </li>
+            <li>
+                <a class="flex" href="agency.html">代理人管理</a>
+            </li>
+            <li  class="active">
+                <a class="flex" th:href="@{/admin/announcement/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
             </li>
         </ul>
     </div>
-    <div class="add_modal">
-        <div class="modal_tit">添加公司</div>
-        <div class="modal_oper">
-            <a href="javascript:;" class="oper_close"></a>
+    <div class="wrap ">
+        <div class="header">
+            <ul class="rt_nav">
+                <li>
+                    <img class="nav_img" th:src="@{/static/images/default.jpg}">
+                </li>
+                <li>
+                    <a class="quit_icon">
+                        <img th:src="@{/static/images/quit.png}">
+                        <span>安全退出</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="modal_con">
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>公司名称</span>
-                </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
+        <div class="add_modal">
+            <div class="modal_tit">添加公司</div>
+            <div class="modal_oper">
+                <a href="javascript:;" class="oper_close"></a>
             </div>
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>工号</span>
+            <div class="modal_con">
+                <div class="con_input">
+                    <div class="con_input_l con_input_alike">
+                        <span>公司名称</span>
+                    </div>
+                    <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
                 </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
+                <div class="con_input">
+                    <div class="con_input_l con_input_alike">
+                        <span>工号</span>
+                    </div>
+                    <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
+                </div>
+            </div>
+            <div class="modal_sub">
+                <a class="sub_yes">提交</a>
+                <a class="sub_no">取消</a>
             </div>
         </div>
-        <div class="modal_sub">
-            <a class="sub_yes">提交</a>
-            <a class="sub_no">取消</a>
+        <div class="shadow"></div>
+        <div class="tables" style="margin: 0px;">
+            <div class="table_seach anim">
+                <input placeholder="请输入公司名称" />
+                <div class="seach">搜索</div>
+            </div>
+            <div class="t_box anim" th:object="${announce}">
+                <div class="box_tit">
+                    <span>修改公告信息</span>
+                </div>
+                <div class="box_table" th:object="${announce}">
+                    公告id<input type="text" th:value="*{announce.announcementId}">
+                    公告类型<input type="text" th:value="*{announce.type}" />
+                    发布时间<input type="text" th:value="*{announce.date}" />
+                    公告内容<input type="text" th:value="*{announce.content}" />
+                </div>
+            </div>
         </div>
     </div>
-    <div class="shadow"></div>
-    <div class="tables" style="margin: 0px;">
-        <div class="table_seach anim">
-            <input placeholder="请输入公司名称" />
-            <div class="seach">搜索</div>
-        </div>
-        <div class="t_box anim" th:object="${announce}">
-            <div class="box_tit">
-                <span>修改公告信息</span>
-            </div>
-            <div class="box_table" th:object="${announce}">
-                公告id<input type="text" th:value="*{announce.announcementId}">
-                公告类型<input type="text" th:value="*{announce.type}" />
-                发布时间<input type="text" th:value="*{announce.date}" />
-                公告内容<input type="text" th:value="*{announce.content}" />
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-<script th:src="@{/static/js/index.js}"></script>
-<script th:src="@{/static/js/company.js}"></script>
+    </body>
+    <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+    <script th:src="@{/static/js/index.js}"></script>
+    <script th:src="@{/static/js/company.js}"></script>
 </html>

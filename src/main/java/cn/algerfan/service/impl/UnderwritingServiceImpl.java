@@ -23,6 +23,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -246,6 +247,25 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
+    public PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize) {
+        //2017-05-06 至 2018-05-24
+        String first = keyword.substring(0,10);
+        String last = keyword.substring(13,keyword.length());
+        PageHelper.startPage(pageNum, pageSize);
+        List<Underwriting> underwritingList = underwritingMapper.selectAll();
+        List<Underwriting> underwritings = new ArrayList<>();
+        for (Underwriting underwriting : underwritingList) {
+            //处理核保人的提交时间
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(underwriting.getSubmitTime());
+            if (underwriting.getConclusion() != null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                underwritings.add(underwriting);
+            }
+        }
+        return new PageInfo<>(underwritings);
+    }
+
+    @Override
     public Result send(Integer underwritingId, String auditResult, String note) {
         if(underwritingId==null ||underwritingId==0 || auditResult==null || auditResult.equals("") ||
                 note == null || note.equals("")) {
@@ -280,5 +300,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         return new Result(1,"发送成功！");
     }
+
 
 }

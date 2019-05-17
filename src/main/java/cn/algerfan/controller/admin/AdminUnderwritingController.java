@@ -95,4 +95,18 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwritingHistory");
     }
+
+    @RequestMapping(value = "/selectByDate", method = RequestMethod.GET)
+    @ApiOperation(value = "按时间查询预核保历史", notes = "按时间查询预核保历史 参数keyword-时间间隔",
+            httpMethod = "GET")
+    public ModelAndView selectByDate(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                      @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
+        PageInfo<Underwriting> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
+        log.info("查询成功："+select.getList());
+        model.addAttribute("list", select.getList());
+        model.addAttribute("pages",select.getPages());
+        model.addAttribute("pageNum",select.getPageNum());
+        return new ModelAndView("/underwriting/underwritingSelectByDate");
+    }
+
 }
