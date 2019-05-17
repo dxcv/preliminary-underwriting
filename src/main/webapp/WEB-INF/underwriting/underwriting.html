@@ -20,7 +20,7 @@
     <div class="nav_tit flex"><span>预</span></div>
     <ul>
         <li  class="active">
-            <a class="flex" href="index.html"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
+            <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
         </li>
         <li>
             <a class="flex" href="audited.html">已审核</a>
@@ -32,7 +32,7 @@
             <a class="flex" href="agency.html">代理人管理</a>
         </li>
         <li>
-            <a class="flex" href="notice.html">公告信息</a>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
         </li>
     </ul>
 </div>
@@ -106,12 +106,13 @@
                         <td th:if="${user.sex}==male">男</td>
                         <td th:if="${user.sex}!=male">女</td>
                         <td th:text="${user.birthday}"></td>
-                        <td>9km2
+                        <td>
                             <div class="operation">
-                                <a th:href="@{/selectById?underwritingId=}+ ${user.agentId}" class="op_agree">查看详情</a>
-                            </div>+
+                                <a th:href="@{/admin/underwriting/selectById?underwritingId=}+ ${user.underwritingId}" th:data-id="${user.underwritingId}" class="op_agree">查看详情</a>
+                            </div>
                         </td>
                     </tr>
+
 
                     </tbody>
                 </table>
@@ -123,6 +124,6 @@
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
 <script th:src="@{/static/js/index.js}"></script>
-<script th:src="@{/static/js/company.js}"></script>
+<script th:src="@{/static/js/underwriting.js}"></script>
 
 </html>
