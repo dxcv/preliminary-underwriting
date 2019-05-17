@@ -2,14 +2,17 @@ package cn.algerfan.service.impl;
 
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Company;
+import cn.algerfan.domain.Result;
+import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.mapper.CompanyMapper;
 import cn.algerfan.service.AgentService;
 import cn.algerfan.util.AesUtil;
 import cn.algerfan.util.openid.Aes;
-import cn.algerfan.util.openid.HttpRequest;
 import cn.algerfan.util.openid.Openid;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +115,42 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     @Override
     public Agent selectById(Integer agentId) {
         return agentMapper.selectByPrimaryKey(agentId);
+    }
+
+    @Override
+    public Result delete(Integer agentId) {
+        if(agentId == null || agentId == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        if(agentMapper.deleteByPrimaryKey(agentId) == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        return new Result(ResultCodeEnum.DELETE);
+    }
+
+    @Override
+    public Result update(Integer agentId, Agent agent) {
+        if(agentId == null || agentId == 0 || agent.getEmployeeId() ==null || "".equals(agent.getEmployeeId()) ||
+                agent.getFirm() == null || "".equals(agent.getFirm())) {
+            return new Result(ResultCodeEnum.SAVEFAIL);
+        }
+        Company company = companyMapper.selectByFirm(agent.getFirm());
+        if(company == null) {
+            return new Result(ResultCodeEnum.UNUPDATE);
+        }
+        agent.setCompany(company.getCompany());
+        agent.setAgentId(agentId);
+        if(agentMapper.updateByPrimaryKeySelective(agent) == 0) {
+            return new Result(ResultCodeEnum.UNUPDATE);
+        }
+        return new Result(ResultCodeEnum.UPDATE);
+    }
+
+    @Override
+    public PageInfo<Agent> select(String nickname, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Agent> agentList = agentMapper.select(nickname);
+        return new PageInfo<>(agentList);
     }
 
 }

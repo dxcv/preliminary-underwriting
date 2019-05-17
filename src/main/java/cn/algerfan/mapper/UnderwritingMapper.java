@@ -18,9 +18,9 @@ public interface UnderwritingMapper {
 
     void updateByPrimaryKey(Underwriting record);
 
-    List<Underwriting> selectByAgentId(Integer agentId);
+    List<Underwriting> selectByAgentId(@Param(value="agentId") Integer agentId);
 
-    List<Underwriting> select(String keyword);
+    List<Underwriting> select(@Param(value="keyword") String keyword);
 
     List<Underwriting> selectAll();
 

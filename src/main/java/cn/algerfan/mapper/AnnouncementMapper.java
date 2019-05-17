@@ -1,6 +1,7 @@
 package cn.algerfan.mapper;
 
 import cn.algerfan.domain.Announcement;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface AnnouncementMapper {
 
     List<Announcement> select();
 
-    Announcement selectByContent(String content);
+    Announcement selectByContent(@Param(value="content") String content);
 }

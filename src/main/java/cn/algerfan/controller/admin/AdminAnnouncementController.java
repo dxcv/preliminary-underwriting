@@ -56,7 +56,7 @@ public class AdminAnnouncementController extends BaseController {
         }
         Announcement announcement = announcementService.toUpdate(announcementId);
         if(announcement==null) {
-            model.addAttribute("msg", "查询失败");
+            model.addAttribute("msg", "查询不存在");
             return new ModelAndView("redirect:/admin/announcement/select");
         }
         model.addAttribute("查询成功");

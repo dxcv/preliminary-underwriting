@@ -4,6 +4,8 @@ import cn.algerfan.domain.Agent;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface AgentMapper {
 
@@ -21,6 +23,7 @@ public interface AgentMapper {
 
     int updateByPrimaryKey(Agent record);
 
-    Agent selectByOpenid(String password);
+    Agent selectByOpenid(@Param(value="password") String password);
 
+    List<Agent> select(@Param(value="nickname") String nickname);
 }

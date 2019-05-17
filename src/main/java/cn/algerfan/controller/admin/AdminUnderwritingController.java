@@ -76,7 +76,7 @@ public class AdminUnderwritingController extends BaseController {
     }
 
     /**
-     * 1.预核保历史
+     * 1.查询或搜索预核保历史
      * 2.按姓名查询 keyword（姓名）
      * @param keyword
      * @param model
@@ -96,6 +96,13 @@ public class AdminUnderwritingController extends BaseController {
         return new ModelAndView("/underwriting/underwritingHistory");
     }
 
+    /**
+     * 按时间查询核保人历史
+     * @param keyword
+     * @param model
+     * @param pageNum
+     * @param pageSize
+     */
     @RequestMapping(value = "/selectByDate", method = RequestMethod.GET)
     @ApiOperation(value = "按时间查询预核保历史", notes = "按时间查询预核保历史 参数keyword-时间间隔",
             httpMethod = "GET")
