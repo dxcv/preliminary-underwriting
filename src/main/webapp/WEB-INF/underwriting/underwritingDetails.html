@@ -48,23 +48,27 @@
         </ul>
     </div>
     <div class="add_modal">
-        <div class="modal_tit">添加公司</div>
+        <div class="modal_tit">反馈信息</div>
         <div class="modal_oper">
             <a href="javascript:;" class="oper_close"></a>
         </div>
+        <div class="con_input">
+            <div class="con_input_l con_input_alike">
+                <span>姓名</span>
+            </div>
+            <input class="con_input_r con_input_alike" type="text" value="xiaoming"  default="default"/>
+        </div>
+        <div class="con_input">
+            <div class="con_input_l con_input_alike">
+                <span>状态</span>
+            </div>
+            <input class="con_input_r con_input_alike" type="text" value="不通过"  default="default"/>
+        </div>
         <div class="modal_con">
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>公司名称</span>
-                </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
+            <div class="con_input_l con_input_alike">
+                <span>反馈信息</span>
             </div>
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>工号</span>
-                </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
-            </div>
+            <textarea class="con_input_r back-info" placeholder="请输入反馈信息"></textarea>
         </div>
         <div class="modal_sub">
             <a class="sub_yes">提交</a>
@@ -122,6 +126,10 @@
                             <span>详细状况</span>
                         </div>
                         <textarea readonly="readonly" class="details-item-r  details-item-r-text" th:text="${underwriting.introduce}"></textarea>
+                    </div>
+                    <div class="details-result">
+                        <div class="result result-yes">通过</div>
+                        <div class="result result-no">不通过</div>
                     </div>
                 </div>
 
