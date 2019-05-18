@@ -3,6 +3,10 @@ package cn.algerfan.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 核保人
+ * @author AlgerFan
+ */
 public class Underwriting implements Serializable {
 
     private Integer underwritingId;

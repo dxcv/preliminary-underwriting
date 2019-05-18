@@ -92,7 +92,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
 
     @Override
     public Map<String, Object> selectAllCompany() {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         List<Company> companyList = companyMapper.selectAllCompany();
         map.put("status", 1);
         map.put("msg", "查询成功");

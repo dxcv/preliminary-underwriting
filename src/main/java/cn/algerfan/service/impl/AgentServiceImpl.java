@@ -39,7 +39,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     @Override
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code) {
         log.info("employeeId："+employeeId+"    company："+company+"   encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         if (employeeId == null || employeeId.length() == 0) {
             map.put("status", 0);
             map.put("msg", "employeeId 不能为空");
@@ -72,7 +72,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             if (null != result && result.length() > 0) {
                 log.info("解密成功");
                 JSONObject userInfoJSON = JSONObject.fromObject(result);
-                Map<String, Object> userInfo = new HashMap<>();
+                Map<String, Object> userInfo = new HashMap<>(10);
                 userInfo.put("nickName", userInfoJSON.get("nickName"));
                 userInfo.put("gender", userInfoJSON.get("gender"));
                 userInfo.put("city", userInfoJSON.get("city"));
@@ -82,7 +82,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
                 log.info("userInfo: "+userInfo);
-                Agent check = agentMapper.check(aesUtil.AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
+                Agent check = agentMapper.selectByOpenid(aesUtil.AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
                 log.info("check: "+check);
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {

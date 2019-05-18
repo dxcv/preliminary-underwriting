@@ -1,5 +1,9 @@
 package cn.algerfan.domain;
 
+/**
+ * 公司
+ * @author AlgerFan
+ */
 public class Company {
 
     private Integer companyId;
