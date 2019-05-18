@@ -19,11 +19,11 @@ import java.io.*;
 @Service
 public class PropertiesServiceImpl implements PropertiesService {
     @Value("${filePath}")
-    private String FILE_PATH;
+    private String filePath;
 
     @Override
     public void show(String filePath, HttpServletResponse response) {
-        File file = new File(FILE_PATH + filePath);
+        File file = new File(filePath + filePath);
         new FileUtil().responseFile(response, file);
     }
 
@@ -32,7 +32,7 @@ public class PropertiesServiceImpl implements PropertiesService {
         // 设置下载的响应头信息
         response.setHeader("Content-Disposition",
                 "attachment;fileName=" + "headPic.jpg");
-        File file = new File(FILE_PATH + fileName);
+        File file = new File(filePath + fileName);
         new FileUtil().responseFile(response, file);
     }
 

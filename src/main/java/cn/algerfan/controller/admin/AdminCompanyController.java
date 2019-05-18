@@ -91,14 +91,14 @@ public class AdminCompanyController extends BaseController {
     }
 
     /**
-     * 查询公司或搜索公司 搜索加上参数keyword
+     * 查询公司或搜索公司 搜索加上参数keyword（公司）
      * @param keyword
      * @param model
      * @param pageNum
      * @param pageSize
      */
     @RequestMapping(value = "/select", method = RequestMethod.GET)
-    @ApiOperation(value = "查询公司或搜索公司", notes = "查询公司或搜索公司 搜索加上参数keyword",
+    @ApiOperation(value = "查询公司或搜索公司", notes = "查询公司或搜索公司 搜索加上参数keyword（公司）",
             httpMethod = "GET")
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {

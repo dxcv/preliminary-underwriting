@@ -32,15 +32,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public Announcement toUpdate(Integer announcementId) {
+    public Announcement findById(Integer announcementId) {
         return announcementMapper.selectByPrimaryKey(announcementId);
     }
 
     @Override
     public Result update(Integer announcementId, Announcement announcement) {
         if(announcementId == null || announcementId == 0 ||
-                announcement.getType() == null || announcement.getType().equals("") ||
-                announcement.getContent() == null || announcement.getContent().equals("")) {
+                announcement.getType() == null || "".equals(announcement.getType()) ||
+                announcement.getContent() == null || "".equals(announcement.getContent())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
         announcement.setAnnouncementId(announcementId);
@@ -56,7 +56,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public Map<String, Object> selectAnnouncement() {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         List<Announcement> select = announcementMapper.select();
         map.put("status",1);
         map.put("msg","查询成功");

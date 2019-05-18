@@ -30,13 +30,16 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
 
     @Override
     public Result insert(Company company) {
-        if(company.getCompany() == null || company.getCompany().equals("") ||
-                company.getFirm() == null || company.getFirm().equals("") ||
-                company.getJobNumber() == null || company.getJobNumber().equals("")) {
+        if(company.getCompany() == null || "".equals(company.getCompany()) ||
+                company.getFirm() == null || "".equals(company.getFirm()) ||
+                company.getJobNumber() == null || "".equals(company.getJobNumber())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
         if(companyMapper.selectByCompany(company.getCompany()) !=null) {
-            return new Result(-1,"添加失败，该公司已存在");
+            return new Result(-1,"添加失败，该公司名已存在");
+        }
+        if(companyMapper.selectByFirm(company.getFirm()) !=null) {
+            return new Result(-1,"添加失败，该公司简称已存在");
         }
         if(companyMapper.insert(company) == 0) {
             return new Result(ResultCodeEnum.UNSAVE);
@@ -46,8 +49,10 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
 
     @Override
     public Result delete(Integer companyId) {
-        if(companyId == null || companyId == 0) return new Result(ResultCodeEnum.UNDELETE);
-        if(companyMapper.deleteByPrimaryKey(companyId) == 1) {
+        if(companyId == null || companyId == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        if(companyMapper.deleteByPrimaryKey(companyId) == 0) {
             return new Result(ResultCodeEnum.UNDELETE);
         }
         return new Result(ResultCodeEnum.DELETE);
@@ -60,14 +65,17 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
 
     @Override
     public Result update(Integer companyId, Company company) {
-        if(companyId == null || companyId == 0 || company.getCompany() == null || company.getCompany().equals("") ||
-                company.getFirm() == null || company.getFirm().equals("") ||
-                company.getJobNumber() == null || company.getJobNumber().equals("")) {
+        if(companyId == null || companyId == 0 || company.getCompany() == null || "".equals(company.getCompany()) ||
+                company.getFirm() == null || "".equals(company.getFirm()) ||
+                company.getJobNumber() == null || "".equals(company.getJobNumber())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
         company.setCompanyId(companyId);
         if(companyMapper.selectByCompany(company.getCompany()) !=null) {
             return new Result(-1,"修改失败，该公司名已存在");
+        }
+        if(companyMapper.selectByFirm(company.getFirm()) !=null) {
+            return new Result(-1,"修改失败，该公司简称已存在");
         }
         if(companyMapper.updateByPrimaryKey(company) == 0) {
             return new Result(ResultCodeEnum.UNUPDATE);
@@ -84,7 +92,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
 
     @Override
     public Map<String, Object> selectAllCompany() {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         List<Company> companyList = companyMapper.selectAllCompany();
         map.put("status", 1);
         map.put("msg", "查询成功");

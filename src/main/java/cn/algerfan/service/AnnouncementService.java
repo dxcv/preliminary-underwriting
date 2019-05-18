@@ -15,11 +15,30 @@ import java.util.Map;
  * @since 2019/4/22 20
  */
 public interface AnnouncementService {
+    /**
+     * 后台查询
+     * @return
+     */
     List<Announcement> select();
 
-    Announcement toUpdate(Integer announcementId);
+    /**
+     * 根据id查询
+     * @param announcementId
+     * @return
+     */
+    Announcement findById(Integer announcementId);
 
+    /**
+     * 后台更新
+     * @param announcementId
+     * @param announcement
+     * @return
+     */
     Result update(Integer announcementId, Announcement announcement);
 
+    /**
+     * 小程序查询
+     * @return
+     */
     Map<String, Object> selectAnnouncement();
 }

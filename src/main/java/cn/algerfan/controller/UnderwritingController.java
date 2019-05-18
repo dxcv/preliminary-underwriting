@@ -1,7 +1,6 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
-import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

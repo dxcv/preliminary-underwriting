@@ -2,6 +2,10 @@ package cn.algerfan.domain;
 
 import java.util.Date;
 
+/**
+ * 公告
+ * @author AlgerFan
+ */
 public class Announcement {
 
     private Integer announcementId;

@@ -34,18 +34,27 @@
     where company_id = #{companyId,jdbcType=INTEGER}
   </select>
   <select id="select" resultMap="BaseResultMap" >
+    <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
     select
     <include refid="Base_Column_List" />
-    from tb_company where 1=1
-    <if test='keyword != null'>
-      and company = #{keyword}
-    </if>
+    from tb_company
+    <where>
+      <if test='keyword != null'>
+        company like #{likeStr}
+      </if>
+    </where>
   </select>
   <select id="selectByCompany" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from tb_company
     where company = #{company}
+  </select>
+  <select id="selectByFirm" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_company
+    where firm = #{firm}
   </select>
   <select id="selectAllCompany" resultMap="BaseResultMap" >
     select
