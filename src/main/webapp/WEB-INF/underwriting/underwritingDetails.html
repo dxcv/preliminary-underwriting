@@ -129,8 +129,9 @@
                         <textarea readonly="readonly" class="details-item-r  details-item-r-text" th:text="${underwriting.introduce}"></textarea>
                     </div>
                     <div class="details-result">
-                        <div class="result result-yes">通过</div>
-                        <div class="result result-no">不通过</div>
+                        <input type="hidden" th:value="${underwriting.underwritingId}"  class="underwritingId" />
+                        <div class="result result-yes" data-ststus="审核通过">通过</div>
+                        <div class="result result-no" data-ststus="审核失败">不通过</div>
                     </div>
                 </div>
 
@@ -141,7 +142,5 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-<script th:src="@{/static/js/index.js}"></script>
-<script th:src="@{/static/js/company.js}"></script>
-
+<script th:src="@{/static/js/underwritingDetails.js}"></script>
 </html>
