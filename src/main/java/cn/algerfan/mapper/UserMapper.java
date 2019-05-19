@@ -9,6 +9,13 @@ import java.util.List;
  * @author AlgerFan
  */
 public interface UserMapper {
+
+    /**
+     * 查询全部
+     * @return
+     */
+    List<User> getAllUser();
+
     /**
      * 根据id删除
      * @param userId
@@ -51,9 +58,4 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
-    /**
-     * 查询全部
-     * @return
-     */
-    List<User> getAllUser();
 }
