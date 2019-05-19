@@ -1,21 +1,20 @@
-package cn.algerfan.domain;
+package cn.algerfan.dto;
 
 /**
- * 管理员
- * @author AlgerFan
+ * <p>
+ *  管理员dto
+ * </p>
+ *
+ * @author algerfan
+ * @since 2019/5/18 21
  */
-public class User {
+public class UserDTO {
     private Integer userId;
 
     /**
      * 用户名
      */
     private String userName;
-
-    /**
-     * 密码
-     */
-    private String password;
 
     /**
      * 姓名
@@ -32,11 +31,11 @@ public class User {
      */
     private Integer role;
 
-    public User() {}
+    public UserDTO() {}
 
-    public User(String userName, String password, String name, String phone, Integer role) {
+    public UserDTO(Integer userId, String userName, String name, String phone, Integer role) {
+        this.userId = userId;
         this.userName = userName;
-        this.password = password;
         this.name = name;
         this.phone = phone;
         this.role = role;
@@ -55,15 +54,7 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.userName = userName;
     }
 
     public String getName() {
@@ -71,7 +62,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getPhone() {
@@ -79,7 +70,7 @@ public class User {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public Integer getRole() {
@@ -92,10 +83,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", role=" + role +

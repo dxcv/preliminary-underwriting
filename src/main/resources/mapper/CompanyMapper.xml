@@ -34,7 +34,9 @@
     where company_id = #{companyId,jdbcType=INTEGER}
   </select>
   <select id="select" resultMap="BaseResultMap" >
-    <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    <if test='keyword != null'>
+      <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    </if>
     select
     <include refid="Base_Column_List" />
     from tb_company
