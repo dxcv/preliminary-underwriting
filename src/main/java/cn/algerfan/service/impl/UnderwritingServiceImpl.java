@@ -23,6 +23,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -36,7 +37,7 @@ import java.util.*;
 @Service
 public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements UnderwritingService {
     @Value("${filePath}")
-    private String FILE_PATH;
+    private String filePath;
 
     @Resource
     private UnderwritingMapper underwritingMapper;
@@ -47,12 +48,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String code) {
         log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
         log.info("underwriting: "+underwriting);
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>(10);
         //formId ==null || formId.equals("") ||
-        if (underwriting.getName() == null || underwriting.getName().equals("") ||
-                underwriting.getSex() == null || underwriting.getSex().equals("") ||
+        if (underwriting.getName() == null || "".equals(underwriting.getName()) ||
+                underwriting.getSex() == null || "".equals(underwriting.getSex()) ||
                 underwriting.getBirthday() == null ||
-                underwriting.getIntroduce() == null || underwriting.getIntroduce().equals("")) {
+                underwriting.getIntroduce() == null || "".equals(underwriting.getIntroduce())) {
             map.put("status",0);
             map.put("msg","添加失败，信息不全！");
             return map;
@@ -65,7 +66,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         Map<String, Object> map1 = Openid.session_key(code);
 
-        Agent check = agentMapper.check(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
+        Agent check = agentMapper.selectByOpenid(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
@@ -99,7 +100,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         Map<String, Object> map1 = Openid.session_key(code);
-        Agent check = agentMapper.check(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
+        Agent check = agentMapper.selectByOpenid(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
@@ -111,7 +112,8 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             map.put("msg","添加失败，该核保人不存在");
             return map;
         }
-        String data = "";
+//        String data = "";
+        StringBuilder data = new StringBuilder();
         int num = 0;
         if (multipartFiles.length != 0) {
             for (MultipartFile myFileName : multipartFiles) {
@@ -135,9 +137,9 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                         return map;
                     }
                     if(num==0) {
-                        data = path;
+                        data.append(path);
                     } else {
-                        data = data + "," + path;
+                        data.append(data).append(",").append(path);
                     }
                     num++;
                 } else {
@@ -147,23 +149,30 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                 }
             }
         }
-        underwriting.setData(data);
+        underwriting.setData(String.valueOf(data));
         underwritingMapper.updateByPrimaryKey(underwriting);
         map.put("status",1);
         map.put("msg","添加成功");
         return map;
     }
 
-    //文件写入
+    /**
+     * 文件写入
+     * @param file
+     * @param path
+     * @param realName
+     */
     private boolean saveFile(MultipartFile file, String path, String realName) {
         try {
-            File fileDr = new File(FILE_PATH + path);
+            File fileDr = new File(filePath + path);
             if(!fileDr.exists()&&!fileDr.isDirectory()) {
                 boolean mkdirs = fileDr.mkdirs();
-                if(!mkdirs) return false;
+                if(!mkdirs) {
+                    return false;
+                }
             }
             if (!file.isEmpty()) {
-                File saveFile = new File(FILE_PATH + path + "/" +realName);
+                File saveFile = new File(filePath + path + "/" +realName);
                 FileOutputStream outputStream = new FileOutputStream(saveFile);
                 BufferedOutputStream out = new BufferedOutputStream(outputStream);
                 out.write(file.getBytes());
@@ -179,14 +188,16 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
     }
 
-    //删除文件
-    public boolean deleteFile(String url) {
+    /**
+     * 删除文件
+     */
+    /*public boolean deleteFile(String url) {
         File file = new File("." + url);
         if (file.exists() && file.exists()) {
             return file.delete();
         }
         return false;
-    }
+    }*/
 
     @Override
     public Map<String,Object> findUnderwriting(String encryptedData, String iv, String code) {
@@ -246,9 +257,28 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
+    public PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize) {
+        //2017-05-06 至 2018-05-24
+        String first = keyword.substring(0,10);
+        String last = keyword.substring(13);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Underwriting> underwritingList = underwritingMapper.selectAll();
+        List<Underwriting> underwritings = new ArrayList<>();
+        for (Underwriting underwriting : underwritingList) {
+            //处理核保人的提交时间
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(underwriting.getSubmitTime());
+            if (underwriting.getConclusion() != null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                underwritings.add(underwriting);
+            }
+        }
+        return new PageInfo<>(underwritings);
+    }
+
+    @Override
     public Result send(Integer underwritingId, String auditResult, String note) {
-        if(underwritingId==null ||underwritingId==0 || auditResult==null || auditResult.equals("") ||
-                note == null || note.equals("")) {
+        if(underwritingId==null ||underwritingId==0 || auditResult==null || "".equals(auditResult) ||
+                note == null || "".equals(note)) {
             return new Result(0,"发送失败，信息不完整！");
         }
         Underwriting underwriting = underwritingMapper.selectByPrimaryKey(underwritingId);
@@ -273,12 +303,14 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         jsonObject.put("emphasis_keyword","keyword2.DATA");
         String string = HttpRequest.sendPost(jsonObject);
         log.info(string);
-        if(string.contains("ok")) {
+        String status = "ok";
+        if(string.contains(status)) {
             underwriting.setConclusion("审核结果："+ auditResult+ "，备注：" +note);
             underwriting.setUpdateTime(new Date());
             underwritingMapper.updateByPrimaryKeySelective(underwriting);
         }
         return new Result(1,"发送成功！");
     }
+
 
 }

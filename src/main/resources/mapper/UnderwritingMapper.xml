@@ -45,12 +45,20 @@
   </select>
   <!-- 后台mapper -->
   <select id="select" resultMap="BaseResultMap" >
+    <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
     select
     <include refid="Base_Column_List" />
-    from tb_underwriting where 1=1
-    <if test='keyword != null'>
-      and name = #{keyword}
-    </if>
+    from tb_underwriting
+    <where>
+      <if test='keyword != null'>
+        name like #{likeStr}
+      </if>
+   </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_underwriting
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select

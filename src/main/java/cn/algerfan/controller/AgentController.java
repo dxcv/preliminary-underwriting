@@ -1,18 +1,13 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
-import cn.algerfan.domain.Result;
-import cn.algerfan.util.openid.Aes;
-import cn.algerfan.util.openid.HttpRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,7 +24,7 @@ import java.util.Map;
 public class AgentController extends BaseController {
 
     /**
-     * 注册代理人——小程序部分
+     * 注册或登录代理人——小程序部分
      * @param employeeId 员工号
      * @param company 公司名
      * @param encryptedData
@@ -39,7 +34,7 @@ public class AgentController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    @ApiOperation(value = "注册代理人——小程序部分",
+    @ApiOperation(value = "注册或登录代理人——小程序部分",
             notes = "参数：工号-employeeId，公司名-company，用户信息三个参数",
             httpMethod = "POST", response = Map.class)
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code){

@@ -2,6 +2,10 @@ package cn.algerfan.domain;
 
 import java.io.Serializable;
 
+/**
+ * 代理人
+ * @author AlgerFan
+ */
 public class Agent implements Serializable {
 
     private Integer agentId;

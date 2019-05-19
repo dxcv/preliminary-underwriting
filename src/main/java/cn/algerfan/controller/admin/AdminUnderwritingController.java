@@ -3,21 +3,15 @@ package cn.algerfan.controller.admin;
 import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Underwriting;
-import cn.algerfan.util.FileUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 
 /**
  * <p>
@@ -71,12 +65,13 @@ public class AdminUnderwritingController extends BaseController {
         log.info("查询成功："+underwriting);
         Agent agent = agentService.selectById(underwriting.getAgentId());
         model.addAttribute("msg", "查询成功");
+        model.addAttribute("agent",agent);
         model.addAttribute("underwriting", underwriting);
         return new ModelAndView("/underwriting/underwritingDetails");
     }
 
     /**
-     * 1.预核保历史
+     * 1.查询或搜索预核保历史
      * 2.按姓名查询 keyword（姓名）
      * @param keyword
      * @param model
@@ -95,4 +90,25 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwritingHistory");
     }
+
+    /**
+     * 按时间查询核保人历史
+     * @param keyword
+     * @param model
+     * @param pageNum
+     * @param pageSize
+     */
+    @RequestMapping(value = "/selectByDate", method = RequestMethod.GET)
+    @ApiOperation(value = "按时间查询预核保历史", notes = "按时间查询预核保历史 参数keyword-时间间隔",
+            httpMethod = "GET")
+    public ModelAndView selectByDate(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                      @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
+        PageInfo<Underwriting> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
+        log.info("查询成功："+select.getList());
+        model.addAttribute("list", select.getList());
+        model.addAttribute("pages",select.getPages());
+        model.addAttribute("pageNum",select.getPageNum());
+        return new ModelAndView("/underwriting/underwritingSelectByDate");
+    }
+
 }

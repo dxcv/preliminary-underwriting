@@ -1,5 +1,9 @@
 package cn.algerfan.enums;
 
+/**
+ * 枚举
+ * @author AlgerFan
+ */
 public enum ResultCodeEnum {
 
     SAVEFAIL(0,"添加失败，信息不完整"),

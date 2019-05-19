@@ -2,6 +2,10 @@ package cn.algerfan.domain;
 
 import cn.algerfan.enums.ResultCodeEnum;
 
+/**
+ * 结果集
+ * @author AlgerFan
+ */
 public class Result<T> {
 
     //状态码
