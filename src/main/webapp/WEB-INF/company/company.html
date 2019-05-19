@@ -97,9 +97,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="company:${list}">
-                        <td th:text="${company.company}">公司名</td>
-                        <td th:text="${company.firm}">公司简称</td>
-                        <td th:text="${company.jobNumber}">工号规则</td>
+                        <td th:text="${company.company}"></td>
+                        <td th:text="${company.firm}"></td>
+                        <td th:text="${company.jobNumber}"></td>
                         <td>
                             <div class="operation">
                                 <a class="op_agree" th:href="@{/admin/company/toUpdate(companyId=${company.companyId})}">编辑</a>
