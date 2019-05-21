@@ -56,3 +56,34 @@ $('.delete').click(function () {
         }
     })
 });
+//修改公司信息
+$('.changeSubmit').click(function () {
+    const companyId = $('.changecompanyId').val();
+    const company = $('.changecompany').val();
+    const firm = $('.changefirm').val();
+    const jobNumber = $('.changejobNumber').val();
+    console.log(companyId);
+    console.log(company);
+    console.log(firm);
+    console.log(jobNumber);
+    $.ajax({
+        url: "/admin/company",
+        type : 'PUT',
+        data: {
+            'companyId':companyId,
+            'company':company,
+            'firm':firm,
+            'jobNumber':jobNumber
+        },
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+        }
+    })
+});
+$('.changeCompant').click(function () {
+   window.location.href='/admin/company/select';
+});
+$('.changeAnnoucement').click(function () {
+    window.location.href='/admin/announcement/select';
+});

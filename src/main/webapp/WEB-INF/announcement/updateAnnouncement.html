@@ -75,15 +75,41 @@
                 <input placeholder="请输入公司名称" />
                 <div class="seach">搜索</div>
             </div>
-            <div class="t_box anim" th:object="${announce}">
+            <div class="t_box anim">
                 <div class="box_tit">
                     <span>修改公告信息</span>
                 </div>
-                <div class="box_table" th:object="${announce}">
-                    公告id<input type="text" th:value="*{announce.announcementId}">
-                    公告类型<input type="text" th:value="*{announce.type}" />
-                    发布时间<input type="text" th:value="*{announce.date}" />
-                    公告内容<input type="text" th:value="*{announce.content}" />
+                <div class="box_table" th:object="${announcement}">
+                    <div class="details">
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告ID</span>
+                            </div>
+                            <input disabled="disabled" class="details-item-r changeannouncementId" th:value="${announcement.announcementId}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告类型</span>
+                            </div>
+                            <input class="details-item-r changetype" th:value="${announcement.type}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>发布时间</span>
+                            </div>
+                            <input disabled="disabled" class="details-item-r changecontent" th:value="${announcement.date}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告内容</span>
+                            </div>
+                            <input class="details-item-r changedate" th:value="${announcement.content}" />
+                        </div>
+                        <div class="details-result">
+                            <div class="result result-yes changeSubmit">修改</div>
+                            <div class="result result-no changeAnnoucement">取消</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

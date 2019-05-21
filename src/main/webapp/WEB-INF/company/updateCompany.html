@@ -55,10 +55,36 @@
                 <span>修改公司信息</span>
             </div>
             <div class="box_table" th:object="${company}">
-                公司id<input type="text" th:value="*{companyId}">
-                公司名称<input type="text" th:value="*{company}">
-                公司简称<input type="text" th:value="*{firm}">
-                工号规则<input type="text" th:value="*{jobNumber}">
+                <div class="details">
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>公司ID</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r changecompanyId" th:value="${company.companyId}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>公司名称</span>
+                        </div>
+                        <input class="details-item-r changecompany" th:value="${company.company}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>公司简称</span>
+                        </div>
+                        <input class="details-item-r changefirm" th:value="${company.firm}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>工号规则</span>
+                        </div>
+                        <input class="details-item-r changejobNumber" th:value="${company.jobNumber}" />
+                    </div>
+                    <div class="details-result">
+                        <div class="result result-yes changeSubmit">修改</div>
+                        <div class="result result-no changeCompant">取消</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
