@@ -1,6 +1,7 @@
 package cn.algerfan.controller.admin;
 
 import cn.algerfan.base.BaseController;
+import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
 import cn.algerfan.service.UserService;
@@ -29,6 +30,11 @@ import java.util.List;
 @RequestMapping("/admin/user")
 public class AdminUserController extends BaseController {
 
+    @RequestMapping(method = RequestMethod.POST)
+    public Result addUser(User user) {
+        return userService.addUser(user);
+    }
+
     /**
      * 后台查找所有用户
      * @param model
@@ -50,12 +56,6 @@ public class AdminUserController extends BaseController {
             modelMap.put("user", userService.getUserById(id));
         }
         return "user_detail";
-    }
-
-    @RequestMapping(value = "/addUser")
-    public String addUser(User user) {
-        userService.addUser(user);
-        return "redirect:getAllUser";
     }
 
     @RequestMapping(value = "/updateUser")

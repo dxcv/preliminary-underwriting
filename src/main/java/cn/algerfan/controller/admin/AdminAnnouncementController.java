@@ -60,6 +60,7 @@ public class AdminAnnouncementController extends BaseController {
             return new ModelAndView("redirect:/admin/announcement/select");
         }
         model.addAttribute("查询成功");
+        model.addAttribute("announcement",announcement);
         log.info("查询成功："+announcement);
         return new ModelAndView("announcement/updateAnnouncement");
     }
