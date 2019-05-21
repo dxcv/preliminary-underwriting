@@ -33,3 +33,19 @@
 .cursor_d{
     cursor: default;
 }
+.history{
+    width: 120px;
+    margin-left: 20px;
+    background-color: #009688;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.history a{
+    padding: 5px 10px;
+    display: block;
+    line-height: 30px;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+}

@@ -20,10 +20,10 @@
             <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
         </li>
         <li>
-            <a class="flex" href="audited.html">已审核</a>
+            <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
         </li>
         <li>
-            <a class="flex" href="company.html">公司管理</a>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
         </li>
         <li>
             <a class="flex" href="agency.html">代理人管理</a>
@@ -48,6 +48,7 @@
             </li>
         </ul>
     </div>
+
     <div class="add_modal">
         <div class="modal_tit">反馈信息</div>
         <div class="modal_oper">
@@ -86,7 +87,7 @@
             <!--<input placeholder="请输入公司名称" />-->
             <!--<div class="seach">搜索</div>-->
         <!--</div>-->
-
+        <div class="history"><a href="javascript:history.back(-1)"><< 返回上一页</a> </div>
         <div class="t_box anim">
             <div class="box_tit">
                 <span>待审核人员</span>

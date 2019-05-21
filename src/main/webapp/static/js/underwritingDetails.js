@@ -20,13 +20,16 @@ $('.sub_yes').click(function () {
         },
         dataType: "JSON",
         success: function (data) {
-            console.log(data);
             closeModal();
+            window.history.go(-1);
         }
     })
 });
 $('.oper_close').click(function () {
     closeModal()
+})
+$('.sub_no').click(function () {
+    closeModal();
 })
 //    关闭添加时模态框
 function closeModal(){
