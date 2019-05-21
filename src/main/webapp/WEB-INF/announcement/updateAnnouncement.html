@@ -75,15 +75,15 @@
                 <input placeholder="请输入公司名称" />
                 <div class="seach">搜索</div>
             </div>
-            <div class="t_box anim" th:object="${announce}">
+            <div class="t_box anim">
                 <div class="box_tit">
                     <span>修改公告信息</span>
                 </div>
                 <div class="box_table" th:object="${announce}">
-                    公告id<input type="text" th:value="*{announce.announcementId}">
-                    公告类型<input type="text" th:value="*{announce.type}" />
-                    发布时间<input type="text" th:value="*{announce.date}" />
-                    公告内容<input type="text" th:value="*{announce.content}" />
+                    公告id<input type="text" th:value="*{announcementId}">
+                    公告类型<input type="text" th:value="*{type}" />
+                    发布时间<input type="text" th:value="*{date}" />
+                    公告内容<input type="text" th:value="*{content}" />
                 </div>
             </div>
         </div>
