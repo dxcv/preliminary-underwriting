@@ -43,6 +43,32 @@ public class AdminAnnouncementController extends BaseController {
     }
 
     /**
+     * 新增公告
+     * @param announcement
+     * @return Result
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "新增公告——ajax请求", notes = "参数：公告类型-type，公告内容-content",
+            httpMethod = "POST", response = Result.class)
+    public Result insert(Announcement announcement) {
+        return announcementService.insert(announcement);
+    }
+
+    /**
+     * 删除公告
+     * @param announcementId
+     * @return Result
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除公告——ajax请求", notes = "参数：公告id-announcementId",
+            httpMethod = "DELETE", response = Result.class)
+    public Result delete(Integer announcementId) {
+        return announcementService.delete(announcementId);
+    }
+
+    /**
      * 跳转到更新页面
      * @param announcementId
      * @param model

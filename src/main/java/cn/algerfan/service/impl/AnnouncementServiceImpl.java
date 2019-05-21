@@ -32,6 +32,32 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public Result insert(Announcement announcement) {
+        if(announcement.getType() == null || "".equals(announcement.getType()) ||
+                announcement.getContent() == null || "".equals(announcement.getContent())) {
+            return new Result(ResultCodeEnum.SAVEFAIL);
+        }
+        if(announcementMapper.selectByContent(announcement.getContent()) !=null) {
+            return new Result(-1,"添加失败，该公告已存在");
+        }
+        if(announcementMapper.insert(announcement) == 0) {
+            return new Result(ResultCodeEnum.UNSAVE);
+        }
+        return new Result(ResultCodeEnum.SAVE);
+    }
+
+    @Override
+    public Result delete(Integer announcementId) {
+        if(announcementId == null || announcementId == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        if(announcementMapper.deleteByPrimaryKey(announcementId) == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        return new Result(ResultCodeEnum.DELETE);
+    }
+
+    @Override
     public Announcement findById(Integer announcementId) {
         return announcementMapper.selectByPrimaryKey(announcementId);
     }
@@ -45,8 +71,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
         announcement.setAnnouncementId(announcementId);
         announcement.setDate(new Date());
-        if(announcementMapper.selectByContent(announcement.getContent()) !=null) {
-            return new Result(-1,"修改失败，该公告已存在");
+        if(!announcementMapper.selectByPrimaryKey(announcementId).getContent().equals(announcement.getContent())) {
+            if (announcementMapper.selectByContent(announcement.getContent()) != null) {
+                return new Result(-1, "修改失败，该公告已存在");
+            }
         }
         if(announcementMapper.updateByPrimaryKey(announcement) == 0) {
             return new Result(ResultCodeEnum.UNUPDATE);

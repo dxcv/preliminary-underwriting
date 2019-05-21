@@ -7,6 +7,7 @@ package cn.algerfan.enums;
 public enum ResultCodeEnum {
 
     SAVEFAIL(0,"添加失败，信息不完整"),
+    UPDATEFAIL(0,"修改失败，信息不完整"),
     SUCCESS(1,"成功"),//通过
     FAIL(0,"失败"), //失败
     SAVE(1,"添加成功"),

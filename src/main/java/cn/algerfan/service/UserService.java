@@ -38,11 +38,11 @@ public interface UserService {
      * 更新
      * @param user
      */
-    void updateUser(User user);
+    Result updateUser(Integer userId,User user);
 
     /**
      * 根据id删除
-     * @param ids
+     * @param userId
      */
-    void deleteUser(Integer ids);
+    Result deleteUser(Integer userId);
 }
