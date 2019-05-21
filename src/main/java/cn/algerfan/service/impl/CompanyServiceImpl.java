@@ -68,14 +68,18 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
         if(companyId == null || companyId == 0 || company.getCompany() == null || "".equals(company.getCompany()) ||
                 company.getFirm() == null || "".equals(company.getFirm()) ||
                 company.getJobNumber() == null || "".equals(company.getJobNumber())) {
-            return new Result(ResultCodeEnum.SAVEFAIL);
+            return new Result(ResultCodeEnum.UPDATEFAIL);
         }
         company.setCompanyId(companyId);
-        if(companyMapper.selectByCompany(company.getCompany()) !=null) {
-            return new Result(-1,"修改失败，该公司名已存在");
+        if(!companyMapper.selectByPrimaryKey(companyId).getCompany().equals(company.getCompany())) {
+            if (companyMapper.selectByCompany(company.getCompany()) != null) {
+                return new Result(-1, "修改失败，该公司名已存在");
+            }
         }
-        if(companyMapper.selectByFirm(company.getFirm()) !=null) {
-            return new Result(-1,"修改失败，该公司简称已存在");
+        if(!companyMapper.selectByPrimaryKey(companyId).getFirm().equals(company.getFirm())) {
+            if (companyMapper.selectByFirm(company.getFirm()) != null) {
+                return new Result(-1, "修改失败，该公司简称已存在");
+            }
         }
         if(companyMapper.updateByPrimaryKey(company) == 0) {
             return new Result(ResultCodeEnum.UNUPDATE);

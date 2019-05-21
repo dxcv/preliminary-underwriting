@@ -45,8 +45,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
         announcement.setAnnouncementId(announcementId);
         announcement.setDate(new Date());
-        if(announcementMapper.selectByContent(announcement.getContent()) !=null) {
-            return new Result(-1,"修改失败，该公告已存在");
+        if(!announcementMapper.selectByPrimaryKey(announcementId).getContent().equals(announcement.getContent())) {
+            if (announcementMapper.selectByContent(announcement.getContent()) != null) {
+                return new Result(-1, "修改失败，该公告已存在");
+            }
         }
         if(announcementMapper.updateByPrimaryKey(announcement) == 0) {
             return new Result(ResultCodeEnum.UNUPDATE);

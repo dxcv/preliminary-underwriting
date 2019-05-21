@@ -39,37 +39,52 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result addUser(User user) {
-        if(user.getRole()==null || "".equals(user.getRole()) ||
-                user.getName()==null || "".equals(user.getName()) ||
+        if(user.getRole()==null || user.getRole()==0 ||
+                user.getUserName()==null || "".equals(user.getUserName()) ||
                 user.getPassword()==null || "".equals(user.getPassword())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
-        userMapper.insert(user);
-        return null;
+        if(userMapper.selectByName(user.getUserName()) !=null) {
+            return new Result(-1,"添加失败，该用户名已存在");
+        }
+        if(userMapper.insertSelective(user)==0) {
+            return new Result(ResultCodeEnum.UNSAVE);
+        }
+        return new Result(ResultCodeEnum.SAVE) ;
     }
 
     @Override
     public User getUserById(Integer id) {
-        User userEntity = userMapper.selectByPrimaryKey(id);
-        User user = new User();
-        user.setPhone(userEntity.getPhone());
-        user.setUserId(userEntity.getUserId());
-        user.setName(userEntity.getName());
-        user.setPassword(userEntity.getPassword());
-        return user;
+        return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public void updateUser(User user) {
-        User userEntity = userMapper.selectByPrimaryKey(user.getUserId());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setPhone(user.getPhone());
-        userEntity.setName(user.getName());
-        userMapper.updateByPrimaryKeySelective(userEntity);
+    public Result updateUser(Integer userId,User user) {
+        if(user.getRole()==null || user.getRole()==0 ||
+                user.getUserName()==null || "".equals(user.getUserName()) ||
+                user.getPassword()==null || "".equals(user.getPassword())) {
+            return new Result(ResultCodeEnum.UPDATEFAIL);
+        }
+        if(!userMapper.selectByPrimaryKey(userId).getUserName().equals(user.getUserName())) {
+            if(userMapper.selectByName(user.getUserName()) !=null) {
+                return new Result(-1,"修改失败，该用户名已存在");
+            }
+        }
+        user.setUserId(userId);
+        if(userMapper.updateByPrimaryKeySelective(user)==0) {
+            return new Result(ResultCodeEnum.UNUPDATE);
+        }
+        return new Result(ResultCodeEnum.UPDATE);
     }
 
     @Override
-    public void deleteUser(Integer ids) {
-        userMapper.deleteByPrimaryKey(ids);
+    public Result deleteUser(Integer userId) {
+        if(userId == null || userId == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        if(userMapper.deleteByPrimaryKey(userId) == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        return new Result(ResultCodeEnum.DELETE);
     }
 }

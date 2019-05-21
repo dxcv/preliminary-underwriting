@@ -17,6 +17,12 @@
     <include refid="Base_Column_List" />
     from tb_user
   </select>
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_name = #{userName}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -1,6 +1,7 @@
 package cn.algerfan.mapper;
 
 import cn.algerfan.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ public interface UserMapper {
     List<User> getAllUser();
 
     /**
-     * 根据id删除
-     * @param userId
+     * 根据用户名查询
+     * @param userName
      * @return
      */
-    int deleteByPrimaryKey(Integer userId);
+    User selectByName(@Param("userName") String userName);
 
     /**
      * 添加
@@ -57,5 +58,12 @@ public interface UserMapper {
      * @return
      */
     int updateByPrimaryKey(User record);
+
+    /**
+     * 根据id删除
+     * @param userId
+     * @return
+     */
+    int deleteByPrimaryKey(Integer userId);
 
 }
