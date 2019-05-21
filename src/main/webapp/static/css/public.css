@@ -413,11 +413,11 @@ tbody tr td .operation .op_look{
     height: 35px;
     line-height: 35px;
 }
-.modal_con .con_input .con_input_l{
+.con_input .con_input_l{
     width: 20%;
     text-align: right;
 }
-.modal_con .con_input .con_input_r{
+.con_input .con_input_r{
     width: 75%;
     margin-left: 5%;
     border:1px solid #e6e6e6;

@@ -3,10 +3,13 @@ var status;
 //  是否通过信息
 $('.result').on('click',function () {
     status=$(this).data('status');
+    $('.underwritingStutas').val(status);
     showModal();
 })
 //确认反馈信息
 $('.sub_yes').click(function () {
+    console.log(status);
+
     $.ajax({
         url: "/admin/template/send",
         type : 'GET',
@@ -21,6 +24,9 @@ $('.sub_yes').click(function () {
             closeModal();
         }
     })
+});
+$('.oper_close').click(function () {
+    closeModal()
 })
 //    关闭添加时模态框
 function closeModal(){

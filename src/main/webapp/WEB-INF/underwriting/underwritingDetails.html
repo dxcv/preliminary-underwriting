@@ -53,24 +53,27 @@
         <div class="modal_oper">
             <a href="javascript:;" class="oper_close"></a>
         </div>
-        <div class="con_input">
-            <div class="con_input_l con_input_alike">
-                <span>姓名</span>
-            </div>
-            <input class="con_input_r con_input_alike" type="text" value="xiaoming"  default="default"/>
-        </div>
-        <div class="con_input">
-            <div class="con_input_l con_input_alike">
-                <span>状态</span>
-            </div>
-            <input class="con_input_r con_input_alike" type="text" value="不通过"  default="default"/>
-        </div>
         <div class="modal_con">
-            <div class="con_input_l con_input_alike">
-                <span>反馈信息</span>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>姓名</span>
+                </div>
+                <input class="con_input_r con_input_alike cursor_d" type="text" th:value="${underwriting.name}" />
             </div>
-            <textarea class="con_input_r back-info" placeholder="请输入反馈信息"></textarea>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>状态</span>
+                </div>
+                <input class="con_input_r con_input_alike cursor_d underwritingStutas" type="text" value="是否通过"/>
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>反馈信息</span>
+                </div>
+                <textarea class="con_input_r back-info" placeholder="请输入反馈信息"></textarea>
+            </div>
         </div>
+
         <div class="modal_sub">
             <a class="sub_yes">提交</a>
             <a class="sub_no">取消</a>
@@ -79,10 +82,10 @@
     <div class="shadow"></div>
     <div class="tables" style="margin: 0px">
 
-        <div class="table_seach anim">
-            <input placeholder="请输入公司名称" />
-            <div class="seach">搜索</div>
-        </div>
+        <!--<div class="table_seach anim">-->
+            <!--<input placeholder="请输入公司名称" />-->
+            <!--<div class="seach">搜索</div>-->
+        <!--</div>-->
 
         <div class="t_box anim">
             <div class="box_tit">
@@ -130,8 +133,8 @@
                     </div>
                     <div class="details-result">
                         <input type="hidden" th:value="${underwriting.underwritingId}"  class="underwritingId" />
-                        <div class="result result-yes" data-ststus="审核通过">通过</div>
-                        <div class="result result-no" data-ststus="审核失败">不通过</div>
+                        <div class="result result-yes" data-status="审核通过">通过</div>
+                        <div class="result result-no" data-status="审核失败">不通过</div>
                     </div>
                 </div>
 
