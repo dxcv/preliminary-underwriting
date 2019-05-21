@@ -58,6 +58,7 @@ public class AdminAgentController extends BaseController {
             return new ModelAndView("redirect:/admin/agent/select");
         }
         model.addAttribute("查询成功");
+        model.addAttribute("agent",agent);
         log.info("查询成功："+agent);
         return new ModelAndView("agent/updateAgent");
     }

@@ -22,6 +22,20 @@ public interface AnnouncementService {
     List<Announcement> select();
 
     /**
+     * 后台添加
+     * @param announcement
+     * @return
+     */
+    Result insert(Announcement announcement);
+
+    /**
+     * 后台删除
+     * @param announcementId
+     * @return
+     */
+    Result delete(Integer announcementId);
+
+    /**
      * 根据id查询
      * @param announcementId
      * @return
@@ -41,4 +55,5 @@ public interface AnnouncementService {
      * @return
      */
     Map<String, Object> selectAnnouncement();
+
 }

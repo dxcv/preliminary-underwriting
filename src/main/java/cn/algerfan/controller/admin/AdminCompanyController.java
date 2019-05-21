@@ -71,6 +71,7 @@ public class AdminCompanyController extends BaseController {
             return new ModelAndView("redirect:/admin/company/select");
         }
         model.addAttribute("查询成功");
+        model.addAttribute("company",company);
         log.info("查询成功："+company);
         return new ModelAndView("company/updateCompany");
     }
