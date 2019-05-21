@@ -1,29 +1,61 @@
 package cn.algerfan.mapper;
 
 import cn.algerfan.domain.User;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author algerfan
- * @since 2019/4/15 16
+ * 管理员
+ * @author AlgerFan
  */
-@Repository
 public interface UserMapper {
+
+    /**
+     * 查询全部
+     * @return
+     */
     List<User> getAllUser();
 
-    void addUser(User user);
+    /**
+     * 根据id删除
+     * @param userId
+     * @return
+     */
+    int deleteByPrimaryKey(Integer userId);
 
-    User getUserById(Integer id);
+    /**
+     * 添加
+     * @param record
+     * @return
+     */
+    int insert(User record);
 
-    void updateUser(User user);
+    /**
+     * 选择添加
+     * @param record
+     * @return
+     */
+    int insertSelective(User record);
 
-    void deleteUserById(Integer id);
+    /**
+     * 根据id查询
+     * @param userId
+     * @return
+     */
+    User selectByPrimaryKey(Integer userId);
+
+    /**
+     * 选择更新
+     * @param record
+     * @return
+     */
+    int updateByPrimaryKeySelective(User record);
+
+    /**
+     * 全部更新
+     * @param record
+     * @return
+     */
+    int updateByPrimaryKey(User record);
+
 }

@@ -1,7 +1,8 @@
 package cn.algerfan.service.impl;
 
-import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.domain.User;
+import cn.algerfan.dto.UserDTO;
+import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- *
+ *  管理员
  * </p>
  *
  * @author algerfan
@@ -23,34 +24,32 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> getAllUser() {
+    public List<UserDTO> getAllUser() {
         List<User> userList = userMapper.getAllUser();
-        List<User> userModelList = new ArrayList<>();
+        List<UserDTO> userDTOS = new ArrayList<>();
         for (User user : userList){
-            User userModel = new User();
-            userModel.setName(user.getName());
-            userModel.setId(user.getId());
-            userModel.setAge(user.getAge());
-            userModelList.add(userModel);
+            UserDTO userModel = new UserDTO(user.getUserId(), user.getUserName(),
+                    user.getName(), user.getPhone(), user.getRole());
+            userDTOS.add(userModel);
         }
-        return userModelList;
+        return userDTOS;
     }
 
     @Override
     public void addUser(User user) {
         User userEntity = new User();
         userEntity.setName(user.getName());
-        userEntity.setAge(user.getAge());
+        userEntity.setPhone(user.getPhone());
         userEntity.setPassword(user.getPassword());
-        userMapper.addUser(userEntity);
+        userMapper.insert(userEntity);
     }
 
     @Override
     public User getUserById(Integer id) {
-        User userEntity = userMapper.getUserById(id);
+        User userEntity = userMapper.selectByPrimaryKey(id);
         User user = new User();
-        user.setAge(userEntity.getAge());
-        user.setId(userEntity.getId());
+        user.setPhone(userEntity.getPhone());
+        user.setUserId(userEntity.getUserId());
         user.setName(userEntity.getName());
         user.setPassword(userEntity.getPassword());
         return user;
@@ -58,17 +57,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        User userEntity = userMapper.getUserById(user.getId());
+        User userEntity = userMapper.selectByPrimaryKey(user.getUserId());
         userEntity.setPassword(user.getPassword());
-        userEntity.setAge(user.getAge());
+        userEntity.setPhone(user.getPhone());
         userEntity.setName(user.getName());
-        userMapper.updateUser(userEntity);
+        userMapper.updateByPrimaryKeySelective(userEntity);
     }
 
     @Override
-    public void deleteUser(Integer[] ids) {
-        for (Integer id : ids){
-            userMapper.deleteUserById(id);
-        }
+    public void deleteUser(Integer ids) {
+        userMapper.deleteByPrimaryKey(ids);
     }
 }

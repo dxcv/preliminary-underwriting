@@ -45,7 +45,9 @@
   </select>
   <!-- 后台mapper -->
   <select id="select" resultMap="BaseResultMap" >
-    <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    <if test='keyword != null'>
+      <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    </if>
     select
     <include refid="Base_Column_List" />
     from tb_underwriting

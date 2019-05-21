@@ -1,38 +1,47 @@
-package cn.algerfan.controller;
+package cn.algerfan.controller.admin;
 
 import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.User;
+import cn.algerfan.dto.UserDTO;
 import cn.algerfan.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * <p>
- *  用户测试controller
+ *  管理员
  * </p>
  *
  * @author algerfan
  * @since 2019/4/15 15
  */
 @Controller
-@RequestMapping("/user")
-public class UserController extends BaseController {
-    private final UserService userService;
-    private String prefix = "user/";
+@RequestMapping("/admin/user")
+public class AdminUserController extends BaseController {
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @RequestMapping(value = "/getAllUser")
-    public String getAllUser(ModelMap modelMap) {
-        modelMap.put("userList", userService.getAllUser());
-        return prefix + "user_list";
+    /**
+     * 后台查找所有用户
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/getAllUser",method = RequestMethod.GET)
+    @ApiOperation(value = "后台查找所有用户", notes = "后台查找所有用户）——>" +
+            "userId，用户名userName，姓名name，电话phone，角色role", httpMethod = "GET")
+    public ModelAndView getAllUser(Model model) {
+        List<UserDTO> allUser = userService.getAllUser();
+        log.info("查询成功："+allUser);
+        model.addAttribute("userList", allUser);
+        return new ModelAndView("user/userList");
     }
 
     @RequestMapping(value = "/getUserDetailForm")
@@ -40,7 +49,7 @@ public class UserController extends BaseController {
         if (id != null) {
             modelMap.put("user", userService.getUserById(id));
         }
-        return prefix + "user_detail";
+        return "user_detail";
     }
 
     @RequestMapping(value = "/addUser")
@@ -57,7 +66,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/deleteUser")
     @ResponseBody
-    public String deleteUser(@RequestParam(value = "ids[]") Integer[] ids) {
+    public String deleteUser(Integer ids) {
         userService.deleteUser(ids);
         return "true";
     }

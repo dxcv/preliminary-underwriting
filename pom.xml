@@ -271,7 +271,7 @@
           <version>2.8.2</version>
         </plugin>
         <!-- mybatis generator 自动生成代码插件 -->
-        <!--<plugin>
+        <plugin>
           <groupId>org.mybatis.generator</groupId>
           <artifactId>mybatis-generator-maven-plugin</artifactId>
           <version>1.3.2</version>
@@ -292,7 +292,7 @@
               <version>9.4-1201-jdbc41</version>
             </dependency>
           </dependencies>
-        </plugin>-->
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

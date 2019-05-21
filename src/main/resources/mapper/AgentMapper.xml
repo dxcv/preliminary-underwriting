@@ -27,7 +27,9 @@
   </select>
   <!-- 后台 -->
   <select id="select" resultMap="BaseResultMap" >
-    <bind name="likeStr" value="'%'+ nickname +'%'"></bind>
+    <if test="nickname != null" >
+      <bind name="likeStr" value="'%'+ nickname +'%'"></bind>
+    </if>
     select
     <include refid="Base_Column_List" />
     from tb_agent
