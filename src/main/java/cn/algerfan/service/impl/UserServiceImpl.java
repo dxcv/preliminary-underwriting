@@ -1,7 +1,9 @@
 package cn.algerfan.service.impl;
 
+import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
+import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.service.UserService;
 import org.springframework.stereotype.Service;
@@ -36,12 +38,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        User userEntity = new User();
-        userEntity.setName(user.getName());
-        userEntity.setPhone(user.getPhone());
-        userEntity.setPassword(user.getPassword());
-        userMapper.insert(userEntity);
+    public Result addUser(User user) {
+        if(user.getRole()==null || "".equals(user.getRole()) ||
+                user.getName()==null || "".equals(user.getName()) ||
+                user.getPassword()==null || "".equals(user.getPassword())) {
+            return new Result(ResultCodeEnum.SAVEFAIL);
+        }
+        userMapper.insert(user);
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cn.algerfan.service;
 
+import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
 
@@ -24,7 +25,7 @@ public interface UserService {
      * 添加
      * @param user
      */
-    void addUser(User user);
+    Result addUser(User user);
 
     /**
      * 根据id查询
