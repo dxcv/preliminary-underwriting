@@ -80,10 +80,36 @@
                     <span>修改公告信息</span>
                 </div>
                 <div class="box_table" th:object="${announcement}">
-                    公告id<input type="text" th:value="*{announcementId}">
-                    公告类型<input type="text" th:value="*{type}" />
-                    发布时间<input type="text" th:value="*{date}" />
-                    公告内容<input type="text" th:value="*{content}" />
+                    <div class="details">
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告ID</span>
+                            </div>
+                            <input disabled="disabled" class="details-item-r changeannouncementId" th:value="${announcement.announcementId}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告类型</span>
+                            </div>
+                            <input class="details-item-r changetype" th:value="${announcement.type}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>发布时间</span>
+                            </div>
+                            <input disabled="disabled" class="details-item-r changecontent" th:value="${announcement.date}" />
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-l">
+                                <span>公告内容</span>
+                            </div>
+                            <input class="details-item-r changedate" th:value="${announcement.content}" />
+                        </div>
+                        <div class="details-result">
+                            <div class="result result-yes changeSubmit">修改</div>
+                            <div class="result result-no changeAnnoucement">取消</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -81,3 +81,9 @@ $('.changeSubmit').click(function () {
         }
     })
 });
+$('.changeCompant').click(function () {
+   window.location.href='/admin/company/select';
+});
+$('.changeAnnoucement').click(function () {
+    window.location.href='/admin/announcement/select';
+});

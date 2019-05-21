@@ -60,29 +60,29 @@
                         <div class="details-item-l">
                             <span>公司ID</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r" th:value="${company.companyId}" />
+                        <input disabled="disabled" class="details-item-r changecompanyId" th:value="${company.companyId}" />
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>公司名称</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r" th:value="${company.company}" />
+                        <input class="details-item-r changecompany" th:value="${company.company}" />
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>公司简称</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r" th:value="${company.firm}" />
+                        <input class="details-item-r changefirm" th:value="${company.firm}" />
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>工号规则</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r" th:value="${company.jobNumber}" />
+                        <input class="details-item-r changejobNumber" th:value="${company.jobNumber}" />
                     </div>
                     <div class="details-result">
-                        <div class="result result-yes">修改</div>
-                        <div class="result result-no">取消</div>
+                        <div class="result result-yes changeSubmit">修改</div>
+                        <div class="result result-no changeCompant">取消</div>
                     </div>
                 </div>
             </div>
