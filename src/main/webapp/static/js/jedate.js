@@ -385,7 +385,8 @@
         this.$opts = jet.extend(config,options||{});
         this.valCell = $Q(elem); 
         this.format = this.$opts.format;
-        this.valCell != null ? this.init() : alert(elem+"  ID\u6216\u7C7B\u540D\u4E0D\u5B58\u5728!");
+        this.valCell != null ? this.init() :
+            // alert(elem+"  ID\u6216\u7C7B\u540D\u4E0D\u5B58\u5728!");
         jet.extend(this,this.$opts.method);
         delete this.$opts.method;
     }
