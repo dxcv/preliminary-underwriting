@@ -80,7 +80,8 @@
                         <th>名字</th>
                         <th>性别</th>
                         <th>出生日期</th>
-                        <th style="width:300px ;">审核结果</th>
+                        <th style="width:500px ;">审核结果</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -91,6 +92,9 @@
                         <td th:if="${user.sex}!=male">女</td>
                         <td th:text="${user.birthday}"></td>
                         <td th:text="${user.conclusion}"></td>
+                        <td>
+                            <a th:href="@{/admin/underwriting/selectById?underwritingId=}+ ${user.underwritingId}" class="op_look">查看详情</a>
+                        </td>
                     </tr>
 
 
