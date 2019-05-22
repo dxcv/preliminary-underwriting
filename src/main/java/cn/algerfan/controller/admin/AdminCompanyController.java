@@ -50,6 +50,7 @@ public class AdminCompanyController extends BaseController {
     @ApiOperation(value = "删除公司——ajax请求", notes = "参数：公司id-companyId",
             httpMethod = "DELETE", response = Result.class)
     public Result delete(Integer companyId) {
+        log.info(companyId);
         return companyService.delete(companyId);
     }
 
@@ -88,6 +89,7 @@ public class AdminCompanyController extends BaseController {
             notes = "参数：公司id-companyId，公司-company，公司简称-firm，工号规则（4位）-jobNumber",
             httpMethod = "PUT", response = Result.class)
     public Result update(Integer companyId,Company company) {
+        log.info(company);
         return companyService.update(companyId,company);
     }
 
