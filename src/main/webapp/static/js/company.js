@@ -44,28 +44,24 @@ $('.sub_yes').click(function () {
 // 删除公司
 $('.delete').click(function () {
     const thisId = $(this).next().text();
+    console.log(thisId);
     $.ajax({
-        url: "/admin/company",
+        url: "/admin/company?companyId="+thisId,
         type : 'DELETE',
-        data: {
-            'companyId':thisId
-        },
         dataType: "JSON",
+        contentType: "application/json",
         success: function (data) {
-            console.log(data);
+            alert(data.msg);
+            window.location.href='/admin/company/select';
         }
     })
 });
 //修改公司信息
-$('.changeSubmit').click(function () {
+$('.changeSubmitCompany').click(function () {
     const companyId = $('.changecompanyId').val();
     const company = $('.changecompany').val();
     const firm = $('.changefirm').val();
     const jobNumber = $('.changejobNumber').val();
-    console.log(companyId);
-    console.log(company);
-    console.log(firm);
-    console.log(jobNumber);
     $.ajax({
         url: "/admin/company",
         type : 'PUT',
@@ -77,12 +73,32 @@ $('.changeSubmit').click(function () {
         },
         dataType: "JSON",
         success: function (data) {
-            console.log(data);
+            alert(data.msg);
+            window.location.href='/admin/company/select';
         }
     })
 });
 $('.changeCompant').click(function () {
    window.location.href='/admin/company/select';
+});
+//修改公告信息
+$('.changeSubmitAnnouncement').click(function () {
+    const announcementId = $('.changeannouncementId').val();
+    const changetype = $('.changetype').val();
+    const changedate = $('.changedate').val();
+    $.ajax({
+        url: "/admin/announcement",
+        type : 'PUT',
+        data: {
+            'announcementId':announcementId,
+            'type':changetype,
+            'content':changedate
+        },
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+        }
+    })
 });
 $('.changeAnnoucement').click(function () {
     window.location.href='/admin/announcement/select';
