@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
     <script>
-        var i=1;
+        var j=1;
     </script>
 
 </head>
@@ -51,41 +51,16 @@
             </li>
         </ul>
     </div>
-    <div class="add_modal">
-        <div class="modal_tit">添加公司</div>
-        <div class="modal_oper">
-            <a href="javascript:;" class="oper_close"></a>
-        </div>
-        <div class="modal_con">
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>公司名称</span>
-                </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
-            </div>
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>工号</span>
-                </div>
-                <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
-            </div>
-        </div>
-        <div class="modal_sub">
-            <a class="sub_yes">提交</a>
-            <a class="sub_no">取消</a>
-        </div>
-    </div>
-    <div class="shadow"></div>
     <div class="tables" style="margin: 0px">
 
         <div class="table_seach anim">
-            <input placeholder="请输入公司名称" />
+            <input placeholder="请输入人员名称" />
             <div class="seach">搜索</div>
         </div>
 
         <div class="t_box anim">
             <div class="box_tit">
-                <span>待审核人员</span>
+                <span class="box_tit_sea">待审核人员</span>
                 <!--<div class="box_add">添加</div>-->
             </div>
             <div class="box_table">
@@ -101,7 +76,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="user:${list}">
-                        <td><script>document.write(i);i++</script></td>
+                        <td><script>document.write(j);j++</script></td>
                         <td th:text="${user.name}"></td>
                         <td th:if="${user.sex}==male">男</td>
                         <td th:if="${user.sex}!=male">女</td>
@@ -116,6 +91,22 @@
 
                     </tbody>
                 </table>
+
+                <!--分页-->
+                <div class="fenye" th:if="${pages > 0}">
+                    <ul class="pagination pagination-lg" >
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum-1}}">上一页</a></li>
+                        <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum-3}}" th:text="${pageNum -3}" >1</a></li>
+                        <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum-2}}" th:text="${pageNum -2}" >1</a></li>
+                        <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum-1}}" th:text="${pageNum -1}" >1</a></li>
+                        <li class="active"><a href="#" th:text="${pageNum}" >1</a></li>
+                        <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
+                        <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
+                        <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
+
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
+                    </ul><br>
+                </div>
             </div>
         </div>
     </div>
@@ -123,7 +114,6 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-<script th:src="@{/static/js/index.js}"></script>
 <script th:src="@{/static/js/underwriting.js}"></script>
 
 </html>

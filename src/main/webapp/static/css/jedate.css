@@ -5,11 +5,11 @@
  @官网：http://www.jemui.com/ 或 https://github.com/singod/jeDate
  */
 @font-face {font-family: "jedatefont";
-    src: url('jedatefont.eot?t=1510763148800'); /* IE9*/
-    src: url('jedatefont.eot?t=1510763148800#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('jedatefont.woff?t=1510763148800') format('woff'),
-    url('jedatefont.ttf?t=1510763148800') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('jedatefont.svg?t=1510763148800#jedatefont') format('svg'); /* iOS 4.1- */
+    src: url('./../images/jedatefont.eot?t=1510763148800'); /* IE9*/
+    src: url('./../images/jedatefont.eot?t=1510763148800#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('./../images/jedatefont.woff?t=1510763148800') format('woff'),
+    url('./../images/jedatefont.ttf?t=1510763148800') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('./../images/jedatefont.svg?t=1510763148800#jedatefont') format('svg'); /* iOS 4.1- */
 }
   
 .jedatefont {font-family:"jedatefont" !important;font-style:normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
