@@ -60,6 +60,7 @@ public class UnderwritingController extends BaseController {
             httpMethod = "POST", response = Map.class)
     public Map<String,Object> upload(String name, @RequestParam("file") MultipartFile[] multipartFiles,
                                      String encryptedData, String iv, String code) {
+        log.info(encryptedData+"--"+iv+"--"+code);
         return underwritingService.upload(name,multipartFiles,encryptedData,iv,code);
     }
 

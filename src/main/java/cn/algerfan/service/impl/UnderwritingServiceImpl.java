@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -106,21 +103,27 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             map.put("msg","添加失败，该代理人不存在");
             return map;
         }
+        log.info(check.getAgentId()+"------------"+name);
+        try {
+            name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        log.info("乱码解决后用户名：" + name);
         Underwriting underwriting = underwritingMapper.selectByAgentIdAndName(check.getAgentId(),name);
+        log.info(underwriting);
         if(underwriting == null) {
             map.put("status", 0);
             map.put("msg","添加失败，该核保人不存在");
             return map;
         }
-//        String data = "";
         StringBuilder data = new StringBuilder();
         int num = 0;
         if (multipartFiles.length != 0) {
-            for (MultipartFile myFileName : multipartFiles) {
-                String fileName = myFileName.getOriginalFilename();
-                assert fileName != null;
+            for (int i = 0; i < multipartFiles.length-1; i++) {
+                String fileName = multipartFiles[i].getOriginalFilename();
                 CheckUtil checkUtil = new CheckUtil();
-                if(checkUtil.verify(fileName)) {
+                if(fileName != null && checkUtil.verify(fileName)) {
                     String realName;
                     String fileNameExtension = fileName.substring(fileName.indexOf("."));
                     // 生成实际存储的真实文件名
@@ -131,15 +134,15 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     int month = cale.get(Calendar.MONTH) + 1;
                     int day = cale.get(Calendar.DATE);
                     String path = "/uploadData/"+ year + "/"+ month + "/" + day + "/" + underwriting.getName();
-                    if (!saveFile(myFileName, path,realName)) {
+                    if (!saveFile(multipartFiles[i], path,realName)) {
                         map.put("status",0);
                         map.put("msg","文件上传失败");
                         return map;
                     }
                     if(num==0) {
-                        data.append(path);
+                        data.append(path).append("/").append(realName);
                     } else {
-                        data.append(data).append(",").append(path);
+                        data.append(data).append(",").append(path).append("/").append(realName);
                     }
                     num++;
                 } else {
@@ -311,6 +314,5 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         return new Result(1,"发送成功！");
     }
-
 
 }
