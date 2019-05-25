@@ -413,11 +413,11 @@ tbody tr td .operation .op_look{
     height: 35px;
     line-height: 35px;
 }
-.modal_con .con_input .con_input_l{
+.con_input .con_input_l{
     width: 20%;
     text-align: right;
 }
-.modal_con .con_input .con_input_r{
+.con_input .con_input_r{
     width: 75%;
     margin-left: 5%;
     border:1px solid #e6e6e6;
@@ -455,4 +455,65 @@ tbody tr td .operation .op_look{
     background-color: #1e9fff;
     color: #fff;
     border-color: #1e9fff;
+}
+/*预核保部分是否通过*/
+.details-result{
+    width: 100%;
+}
+.details-result:after{
+    clear: both;
+    content: '';
+    display: block;
+}
+.result{
+    width: 70px;
+    line-height: 30px;
+    text-align: center;
+    float: left;
+    margin-right: 30px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+.result-yes{
+    background-color:#009688;
+    margin-left:10%;
+}
+.result-no{
+    background-color:#FF5722;
+}
+.back-info{
+    height: 110px;
+    resize:none;
+    outline: none;
+    line-height: 35px;
+}
+.cursor_d{
+    cursor: default;
+}
+/*返回上一页*/
+.history{
+    margin-left: 20px;
+    width: 200px;
+}
+.history a {
+    padding: 5px 10px 5px 20px;
+    color: #fff;
+    background: url(./../images/left-j.png) no-repeat;
+    background-size: 15px;
+    background-position: 2px 5px;
+    background-color: #36bc72;
+}
+/*分页代码*/
+.fenye{
+    text-align: center;
+    margin: 10px 0px;
+}
+.pagination{
+    display: block;
+    margin: 0px 0px;
+}
+.pagination-lg > li > a{
+    padding: 6px 10px;
+    font-size: 15px;
 }
