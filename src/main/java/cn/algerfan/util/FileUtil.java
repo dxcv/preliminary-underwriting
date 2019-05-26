@@ -3,6 +3,9 @@ package cn.algerfan.util;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
+/**
+ * @author AlgerFan
+ */
 public class FileUtil {
 
     /**
@@ -13,7 +16,8 @@ public class FileUtil {
     public void responseFile(HttpServletResponse response, File imgFile) {
         try(InputStream is = new FileInputStream(imgFile);
             OutputStream os = response.getOutputStream();){
-            byte [] buffer = new byte[1024]; // 图片文件流缓存池
+            // 图片文件流缓存池
+            byte [] buffer = new byte[1024];
             while(is.read(buffer) != -1){
                 os.write(buffer);
             }
