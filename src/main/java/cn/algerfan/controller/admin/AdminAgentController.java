@@ -95,6 +95,7 @@ public class AdminAgentController extends BaseController {
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
+        model.addAttribute("nickname",nickname);
         return new ModelAndView("agent/agent");
     }
 

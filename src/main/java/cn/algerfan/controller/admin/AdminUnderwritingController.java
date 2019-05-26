@@ -45,6 +45,7 @@ public class AdminUnderwritingController extends BaseController {
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         log.info(select.getPages());
@@ -60,7 +61,7 @@ public class AdminUnderwritingController extends BaseController {
     @RequestMapping(value = "/selectById", method = RequestMethod.GET)
     @ApiOperation(value = "查看预核保详情", notes = "查看预核保详情 参数underwritingId-预核保id",
             httpMethod = "GET")
-    public ModelAndView selectById(Integer underwritingId, Model model) {
+    public ModelAndView selectById(String type, Integer underwritingId, Model model) {
         Underwriting underwriting = underwritingService.selectById(underwritingId);
         if(underwriting==null) {
             log.info("该预核保不存在！");
@@ -87,6 +88,13 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("msg", "查询成功");
         model.addAttribute("agent",agent);
         model.addAttribute("underwriting", underwriting);
+        if("1".equals(type)) {
+            return new ModelAndView("/underwriting/underwritingDetails");
+        }
+        if("2".equals(type)) {
+            return new ModelAndView("/underwriting/underwritingHistoryDetails");
+        }
+        model.addAttribute("msg","查询失败！");
         return new ModelAndView("/underwriting/underwritingDetails");
     }
 
@@ -105,6 +113,7 @@ public class AdminUnderwritingController extends BaseController {
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
@@ -125,6 +134,7 @@ public class AdminUnderwritingController extends BaseController {
                                       @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Underwriting> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());

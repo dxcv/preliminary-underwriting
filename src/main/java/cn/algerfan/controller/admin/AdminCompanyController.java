@@ -107,6 +107,7 @@ public class AdminCompanyController extends BaseController {
                                @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
         PageInfo<Company> select = companyService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());

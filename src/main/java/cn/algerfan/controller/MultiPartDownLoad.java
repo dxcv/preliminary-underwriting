@@ -1,4 +1,3 @@
-/*
 package cn.algerfan.controller;
 
 import org.slf4j.Logger;
@@ -19,36 +18,26 @@ public class MultiPartDownLoad {
 
     private static Logger logger = LoggerFactory.getLogger(MultiPartDownLoad.class);
 
-    */
-/**
+    /**
      * 线程下载成功标志
-     *//*
-
+     */
     private static int flag = 0;
 
-    */
-/**
+    /**
      * 服务器请求路径
-     *//*
-
+     */
     private String serverPath;
-    */
-/**
+    /**
      * 本地路径
-     *//*
-
+     */
     private String localPath;
-    */
-/**
+    /**
      * 线程计数同步辅助
-     *//*
-
+     */
     private CountDownLatch latch;
-    */
-/**
+    /**
      * 定长线程池
-     *//*
-
+     */
     private static ExecutorService threadPool;
 
     public MultiPartDownLoad(String serverPath, String localPath) {
@@ -107,31 +96,23 @@ public class MultiPartDownLoad {
     }
 
 
-    */
-/**
+    /**
      * 内部类用于实现下载
-     *//*
-
+     */
     public class DownLoadThread implements Runnable {
         private Logger logger = LoggerFactory.getLogger(DownLoadThread.class);
 
-        */
-/**
+        /**
          * 线程ID
-         *//*
-
+         */
         private int threadId;
-        */
-/**
+        /**
          * 下载起始位置
-         *//*
-
+         */
         private long startIndex;
-        */
-/**
+        /**
          * 下载结束位置
-         *//*
-
+         */
         private long endIndex;
 
         private CountDownLatch latch;
@@ -182,14 +163,12 @@ public class MultiPartDownLoad {
         }
     }
 
-    */
-/**
+    /**
      * 内部方法，获取远程文件大小
      * @param remoteFileUrl
      * @return
      * @throws IOException
-     *//*
-
+     */
     private long getRemoteFileSize(String remoteFileUrl) throws IOException {
         long fileSize;
         HttpURLConnection httpConnection = (HttpURLConnection) new URL(remoteFileUrl).openConnection();
@@ -215,13 +194,11 @@ public class MultiPartDownLoad {
         return fileSize;
     }
 
-    */
-/**
+    /**
      * 下载文件执行器
      * @param serverPath
      * @return
-     *//*
-
+     */
     public synchronized static String downLoad(String serverPath) {
         ReentrantLock lock = new ReentrantLock();
         lock.lock();
@@ -258,4 +235,3 @@ public class MultiPartDownLoad {
         }
     }
 }
-*/
