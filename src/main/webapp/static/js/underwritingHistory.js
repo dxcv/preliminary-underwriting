@@ -4,7 +4,7 @@ $('.seach').on('click',function () {
     console.log(id);
 
     if(id!=''&& id!=null){
-        window.location.href='/admin/underwritingHistory/selectHistory?keyword='+id;
+        window.location.href='/admin/underwriting/selectHistory?keyword='+id;
     }
 })
 //获取地址栏中是否有keyword

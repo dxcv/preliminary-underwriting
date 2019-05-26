@@ -57,7 +57,7 @@
     <div class="tables" style="margin: 0px">
 
         <div class="table_seach anim">
-            <input placeholder="请输入人员名称" />
+            <input placeholder="请输入搜索人员名称" />
             <div class="seach">搜索</div>
             <div class="jeitem">
                 <label class="jelabel">日期范围选择：</label>
@@ -69,7 +69,7 @@
 
         <div class="t_box anim">
             <div class="box_tit">
-                <span>已审核人员</span>
+                <span class="box_tit_sea">已审核人员</span>
                 <!--<div class="box_add">添加</div>-->
             </div>
             <div class="box_table">
@@ -93,13 +93,30 @@
                         <td th:text="${user.birthday}"></td>
                         <td th:text="${user.conclusion}"></td>
                         <td>
-                            <a th:href="@{/admin/underwriting/selectById?underwritingId=}+ ${user.underwritingId}" class="op_look">查看详情</a>
+                            <div class="operation">
+                                <a th:href="@{/admin/underwriting/selectById?underwritingId=}+ ${user.underwritingId}" class="op_look">查看详情</a>
+                            </div>
                         </td>
                     </tr>
 
 
                     </tbody>
                 </table>
+                <!--分页-->
+                <div class="fenye" th:if="${pages > 0}">
+                    <ul class="pagination pagination-lg" >
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1}}">上一页</a></li>
+                        <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-3}}" th:text="${pageNum -3}" >1</a></li>
+                        <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-2}}" th:text="${pageNum -2}" >1</a></li>
+                        <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1}}" th:text="${pageNum -1}" >1</a></li>
+                        <li class="active"><a href="#" th:text="${pageNum}" >1</a></li>
+                        <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
+                        <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
+                        <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
+
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}}">下一页</a></li>
+                    </ul><br>
+                </div>
 
             </div>
         </div>

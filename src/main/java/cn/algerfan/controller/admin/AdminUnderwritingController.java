@@ -48,6 +48,7 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
+        log.info(select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwriting");
     }
