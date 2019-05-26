@@ -3,6 +3,7 @@ package cn.algerfan.controller.admin;
 import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Underwriting;
+import cn.algerfan.util.CheckUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -64,6 +68,21 @@ public class AdminUnderwritingController extends BaseController {
             return new ModelAndView("redirect:/admin/underwriting/select");
         }
         log.info("查询成功："+underwriting);
+        String[] split = underwriting.getData().split(",");
+        CheckUtil checkUtil = new CheckUtil();
+        List<String> images = new ArrayList<>();
+        List<String> files = new ArrayList<>();
+        for (String s : split) {
+            String substring = s.substring(s.length() - 40);
+            if (checkUtil.checkImage(substring)) {
+                images.add(s);
+            }
+            if (checkUtil.checkFile(substring)) {
+                files.add(s);
+            }
+        }
+        model.addAttribute("images",images);
+        model.addAttribute("files",files);
         Agent agent = agentService.selectById(underwriting.getAgentId());
         model.addAttribute("msg", "查询成功");
         model.addAttribute("agent",agent);
