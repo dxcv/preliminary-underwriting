@@ -43,6 +43,7 @@ public class AdminUnderwritingController extends BaseController {
         log.info("查询成功："+select.getList());
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
+        log.info(select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwriting");
     }

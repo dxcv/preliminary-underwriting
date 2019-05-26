@@ -53,6 +53,7 @@ $('.sub_yes').click(function () {
         success: function (data) {
             closeModal();
             window.history.go(-1);
+            location.reload();
         }
     })
 });

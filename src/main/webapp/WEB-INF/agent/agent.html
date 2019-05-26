@@ -1,10 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-后台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    <script>
+        var j=1;
+    </script>
+
 </head>
+
 <body>
-查询或搜索代理人
+
+<div class="aside_nav">
+    <div class="nav_tit flex"><span>预</span></div>
+    <ul>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/select}">待审核</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+        </li>
+        <li   class="active">
+            <a class="flex"  th:href="@{/admin/agent/select}">
+                <img th:src="@{/static/images/dengdai.png}">
+                <span>代理人管理</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header">
+        <ul class="rt_nav">
+
+            <li>
+                <img class="nav_img" th:src="@{/static/images/default.jpg}">
+            </li>
+            <li>
+                <a class="quit_icon">
+                    <img th:src="@{/static/images/quit.png}">
+                    <span>安全退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tables" style="margin: 0px">
+
+        <div class="table_seach anim">
+            <input placeholder="请输入代理人名称" />
+            <div class="seach">搜索</div>
+        </div>
+
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span class="box_tit_sea">代理人信息</span>
+                <!--<div class="box_add">添加</div>-->
+            </div>
+            <div class="box_table">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th style="width:50px">序号</th>
+                        <th>昵称</th>
+                        <th>公司</th>
+                        <th>工号</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user:${list}">
+                        <td><script>document.write(j);j++</script></td>
+                        <td th:text="${user.nickname}"></td>
+                        <td th:text="${user.company}"></td>
+                        <td th:text="${user.employeeId}"></td>
+                        <td>
+                            <div class="operation">
+                                <a th:href="@{/admin/agent/toUpdate?agentId=}+ ${user.agentId}" th:data-id="${user.agentId}" class="op_agree">查看详情</a>
+                                <a href="javascript:;" th:data-id="${user.agentId}" class="op_refuse">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+
+                <!--分页-->
+                <div class="fenye" th:if="${pages > 0}">
+                    <ul class="pagination pagination-lg" >
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-1}}">上一页</a></li>
+                        <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-3}}" th:text="${pageNum -3}" >1</a></li>
+                        <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-2}}" th:text="${pageNum -2}" >1</a></li>
+                        <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-1}}" th:text="${pageNum -1}" >1</a></li>
+                        <li class="active"><a href="#" th:text="${pageNum}" >1</a></li>
+                        <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
+                        <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
+                        <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
+
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
+                    </ul><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+
 </html>
