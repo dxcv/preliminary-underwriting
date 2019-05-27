@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-后台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    <script>
+        var j=1;
+    </script>
+    <style>
+        input{
+            border: 1px solid #111;
+            margin: 20px 0px;
+        }
+    </style>
+
 </head>
+
 <body>
-后台登录页面 ajax
+<div style="margin: 100px auto;width: 200px;">
+    <input type="text" placeholder="账号" class="name" />
+    <input type="password"  placeholder="密码" class="password"/>
+    <button class="login">登录</button>
+    <p>
+        测试普通管理 123123
+        测试超管 123123
+    </p>
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script>
+$('.login').on('click',function () {
+    var name=$('.name').val();
+    var password=$('.password').val();
+    if(name != '' && password !=''){
+        $.ajax({
+            url: "/administrator/login",
+            type : 'get',
+            data: {
+                'userName':name,
+                'password':password
+            },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                window.location.href='/admin/underwriting/select';
+            }
+        })
+    }
+})
+</script>
+
 </html>
