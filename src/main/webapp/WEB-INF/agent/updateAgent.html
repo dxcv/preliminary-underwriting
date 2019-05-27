@@ -1,10 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-后台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+
 </head>
+
 <body>
-更新代理人
+
+<div class="aside_nav">
+    <div class="nav_tit flex"><span>预</span></div>
+    <ul>
+        <li  class="active">
+            <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+        </li>
+        <li>
+            <a class="flex" href="agency.html">代理人管理</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header">
+        <ul class="rt_nav">
+
+            <li>
+                <img class="nav_img" th:src="@{/static/images/default.jpg}">
+            </li>
+            <li>
+                <a class="quit_icon">
+                    <img th:src="@{/static/images/quit.png}">
+                    <span>安全退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="add_modal">
+        <div class="modal_tit">反馈信息</div>
+        <div class="modal_oper">
+            <a href="javascript:;" class="oper_close"></a>
+        </div>
+        <div class="modal_con">
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>姓名</span>
+                </div>
+                <input class="con_input_r con_input_alike cursor_d" type="text" th:value="${underwriting.name}" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>状态</span>
+                </div>
+                <input class="con_input_r con_input_alike cursor_d underwritingStutas" type="text" value="是否通过"/>
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>反馈信息</span>
+                </div>
+                <textarea class="con_input_r back-info" placeholder="请输入反馈信息"></textarea>
+            </div>
+        </div>
+
+        <div class="modal_sub">
+            <a class="sub_yes">提交</a>
+            <a class="sub_no">取消</a>
+        </div>
+    </div>
+    <div class="shadow"></div>
+    <div class="tables" style="margin: 0px">
+
+        <!--<div class="table_seach anim">-->
+        <!--<input placeholder="请输入公司名称" />-->
+        <!--<div class="seach">搜索</div>-->
+        <!--</div>-->
+        <div class="history anim"><a href="javascript:history.back(-1)">返回上一页</a> </div>
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span>待审核人员</span>
+                <!--<div class="box_add">添加</div>-->
+            </div>
+            <div class="box_table">
+                <div class="details">
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>昵称</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r" th:value="${agent.nickname}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>所属公司</span>
+                        </div>
+                        <input  class="details-item-r" th:value="${agent.company}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>工号</span>
+                        </div>
+                        <input  class="details-item-r" th:value="${agent.employeeId}" />
+                    </div>
+                    <div class="details-result">
+                        <input type="hidden" th:value="${agent.underwritingId}"  class="underwritingId" />
+                        <div class="result result-yes" data-status="审核通过">通过</div>
+                        <div class="result result-no" data-status="审核失败">不通过</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/underwriting.js}"></script>
 </html>
