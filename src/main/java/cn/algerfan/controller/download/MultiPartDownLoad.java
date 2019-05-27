@@ -1,4 +1,4 @@
-package cn.algerfan.controller;
+package cn.algerfan.controller.download;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * @author AlgerFan
+ */
 public class MultiPartDownLoad {
 
     private static Logger logger = LoggerFactory.getLogger(MultiPartDownLoad.class);

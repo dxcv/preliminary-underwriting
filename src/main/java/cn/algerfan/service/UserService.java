@@ -4,6 +4,7 @@ import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -45,4 +46,13 @@ public interface UserService {
      * @param userId
      */
     Result deleteUser(Integer userId);
+
+    /**
+     * 后台登录
+     * @param userName
+     * @param password
+     * @param request
+     * @return
+     */
+    Result adminLogin(String userName, String password, HttpServletRequest request);
 }

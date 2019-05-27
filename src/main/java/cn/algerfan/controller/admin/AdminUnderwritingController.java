@@ -59,7 +59,7 @@ public class AdminUnderwritingController extends BaseController {
      * @param model
      */
     @RequestMapping(value = "/selectById", method = RequestMethod.GET)
-    @ApiOperation(value = "查看预核保详情", notes = "查看预核保详情 参数underwritingId-预核保id",
+    @ApiOperation(value = "查看预核保详情", notes = "查看预核保详情 参数underwritingId-预核保id  type-代办为1，历史为2",
             httpMethod = "GET")
     public ModelAndView selectById(String type, Integer underwritingId, Model model) {
         Underwriting underwriting = underwritingService.selectById(underwritingId);

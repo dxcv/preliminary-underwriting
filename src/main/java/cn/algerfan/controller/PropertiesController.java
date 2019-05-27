@@ -1,36 +1,22 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
-import cn.algerfan.service.StorageService;
+import cn.algerfan.controller.download.MultiPartDownLoad;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.catalina.connector.ClientAbortException;
-import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * <p>
- *  图片文件查看下载Controller
+ *  文件图片查看下载
  * </p>
  *
  * @author algerfan
@@ -40,13 +26,6 @@ import java.util.zip.ZipOutputStream;
 @RequestMapping("/file")
 @Api(value = "文件图片查看下载", tags = "文件图片查看下载")
 public class PropertiesController extends BaseController {
-
-    private final StorageService storageService;
-
-    @Autowired
-    public PropertiesController(StorageService storageService) {
-        this.storageService = storageService;
-    }
 
     /**
      * 处理图片显示
@@ -72,17 +51,25 @@ public class PropertiesController extends BaseController {
         propertiesService.download(filePath,response);
     }
 
+    /**
+     * 多线程文件下载
+     * @param filename
+     * @return
+     */
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = propertiesService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    /**
+     * 分片下载测试
+     */
     @ResponseBody
-    @RequestMapping("/download4")
-    public void download4() {
+    @RequestMapping("/downloadTest")
+    public void downloadTest() {
         String s = MultiPartDownLoad.downLoad("http://underwriting.algerfan.cn/file/files/npp.7.5.4.Installer.exe");
         log.info(s);
     }
