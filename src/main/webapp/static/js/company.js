@@ -13,7 +13,7 @@ $('.shadow').click(function(){
     closeModal();
 });
 // 添加公司
-$('.sub_yes').click(function () {
+$('.addcompany').click(function () {
     const company = $('.company').val();
     const firm = $('.firm').val();
     const jobNumber = $('.jobNumber').val();
@@ -42,7 +42,7 @@ $('.sub_yes').click(function () {
     }
 });
 // 删除公司
-$('.delete').click(function () {
+$('.deletecompany').click(function () {
     const thisId = $(this).next().text();
     console.log(thisId);
     $.ajax({
@@ -96,10 +96,52 @@ $('.changeSubmitAnnouncement').click(function () {
         },
         dataType: "JSON",
         success: function (data) {
-            console.log(data);
+            alert('修改成功');
+            window.location.href='/admin/announcement/select';
         }
     })
 });
 $('.changeAnnoucement').click(function () {
     window.location.href='/admin/announcement/select';
+});
+
+//添加公告
+$('.addAnnouncement').click(function () {
+    const type = $('.announcementType').val();
+    const content = $('.announcementContent').val();
+    if(type == ''){
+        alert('请填写公告类型！');
+    }else if(content == ''){
+        alert('请填写公告内容！');
+    }else{
+        $.ajax({
+            url: "/admin/announcement",
+            type : 'post',
+            data: {
+                'type':type,
+                'content':content
+            },
+            dataType: "JSON",
+            success: function (data) {
+                closeModal();
+                alert('添加成功');
+                window.location.href='/admin/announcement/select';
+            }
+        })
+    }
+});
+// 删除公告
+$('.deleteAnnouncement').click(function () {
+    const thisId = $(this).next().text();
+    console.log(thisId);
+    $.ajax({
+        url: "/admin/announcement?announcementId="+thisId,
+        type : 'DELETE',
+        dataType: "JSON",
+        contentType: "application/json",
+        success: function (data) {
+            alert(data.msg);
+            window.location.href='/admin/announcement/select';
+        }
+    })
 });
