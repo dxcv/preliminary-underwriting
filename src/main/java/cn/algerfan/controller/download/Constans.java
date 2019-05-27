@@ -1,4 +1,4 @@
-package cn.algerfan.controller;
+package cn.algerfan.controller.download;
 
 import java.util.concurrent.*;
 

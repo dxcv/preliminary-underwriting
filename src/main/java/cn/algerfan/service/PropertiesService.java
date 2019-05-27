@@ -1,10 +1,13 @@
 package cn.algerfan.service;
 
+import org.springframework.core.io.Resource;
+
 import javax.servlet.http.HttpServletResponse;
+import java.nio.file.Path;
 
 /**
  * <p>
- *
+ *  文件图片查看下载
  * </p>
  *
  * @author algerfan
@@ -24,4 +27,11 @@ public interface PropertiesService {
      * @param response
      */
     void download(String fileName, HttpServletResponse response);
+
+    /**
+     * 多线程文件下载
+     * @param filename
+     * @return
+     */
+    Resource loadAsResource(String filename);
 }
