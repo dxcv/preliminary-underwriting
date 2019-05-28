@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-后台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/index.css}" />
 </head>
+
 <body>
-后台登录页面 ajax
+<div class="login_form">
+    <h5>账号登录</h5>
+    <input type="text" placeholder="请输入账号用户名" class="name mar" />
+    <input type="password"  placeholder="请输入密码" class="password mar"/>
+    <div class=" mar login">登录</div>
+    <p>
+        测试普通管理 123123
+        测试超管 123123
+    </p>
+
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/index.js}"></script>
+
 </html>

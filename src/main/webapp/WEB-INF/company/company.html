@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="modal_sub">
-            <a class="sub_yes">提交</a>
+            <a class="sub_yes addcompany">提交</a>
             <a class="sub_no">取消</a>
         </div>
     </div>
@@ -103,7 +103,7 @@
                         <td>
                             <div class="operation">
                                 <a class="op_agree" th:href="@{/admin/company/toUpdate(companyId=${company.companyId})}">编辑</a>
-                                <a class="op_refuse delete">删除</a>
+                                <a class="op_refuse deletecompany">删除</a>
                                 <div style="display: none;" th:text="${company.companyId}"></div>
                             </div>
                         </td>

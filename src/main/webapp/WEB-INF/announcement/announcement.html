@@ -45,26 +45,26 @@
                 </ul>
             </div>
             <div class="add_modal">
-                <div class="modal_tit">添加公司</div>
+                <div class="modal_tit">添加公告</div>
                 <div class="modal_oper">
                     <a href="javascript:;" class="oper_close"></a>
                 </div>
                 <div class="modal_con">
                     <div class="con_input">
                         <div class="con_input_l con_input_alike">
-                            <span>公司名称</span>
+                            <span>公告类型</span>
                         </div>
-                        <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
+                        <input class="con_input_r con_input_alike announcementType" type="text" placeholder="请输入添加的公告类型" />
                     </div>
                     <div class="con_input">
                         <div class="con_input_l con_input_alike">
-                            <span>工号</span>
+                            <span>公告内容</span>
                         </div>
-                        <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
+                        <input class="con_input_r con_input_alike announcementContent" type="text" placeholder="请输入公告的详细内容" />
                     </div>
                 </div>
                 <div class="modal_sub">
-                    <a class="sub_yes">提交</a>
+                    <a class="sub_yes addAnnouncement">提交</a>
                     <a class="sub_no">取消</a>
                 </div>
             </div>
@@ -97,7 +97,8 @@
                                     <td>
                                         <div class="operation">
                                             <a class="op_agree" th:href="@{/admin/announcement/toUpdate(announcementId=${announcement.announcementId})}">编辑</a>
-                                            <a class="op_refuse">删除</a>
+                                            <a class="op_refuse deleteAnnouncement">删除</a>
+                                            <span style="display: none;" th:text="${announcement.announcementId}"></span>
                                         </div>
                                     </td>
                                 </tr>

@@ -37,6 +37,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcement.getContent() == null || "".equals(announcement.getContent())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
+        announcement.setDate(new Date());
         if(announcementMapper.selectByContent(announcement.getContent()) !=null) {
             return new Result(-1,"添加失败，该公告已存在");
         }
