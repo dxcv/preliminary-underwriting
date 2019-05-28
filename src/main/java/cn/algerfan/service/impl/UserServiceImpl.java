@@ -8,6 +8,7 @@ import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.service.UserService;
 import cn.algerfan.util.AesUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService {
         return userDTOS;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result addUser(User user) {
         if(user.getRole()==null || user.getRole()==0 ||
