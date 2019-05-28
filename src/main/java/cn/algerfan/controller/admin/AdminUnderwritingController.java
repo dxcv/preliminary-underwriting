@@ -141,4 +141,18 @@ public class AdminUnderwritingController extends BaseController {
         return new ModelAndView("/underwriting/underwritingSelectByDate");
     }
 
+    /**
+     * 核保人员可通过统计功能栏，
+     * 输入时间及选择维度（预核保提交/预核保结论回复）后，下载录入时间段的所需统计明细。
+     * @param keyword
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "/statistical", method = RequestMethod.GET)
+    @ApiOperation(value = "工作量统计（代办统计/历史统计）", notes = "工作量统计（代办统计/历史统计） 参数keyword-时间间隔，type-类型（1为统计代办，2为统计历史）",
+            httpMethod = "GET")
+    public void statistical(String keyword, Integer type) {
+        underwritingService.statistical(keyword, type);
+    }
+
 }
