@@ -12,7 +12,17 @@ function showModal(){
 $('.login').on('click',function () {
     var name=$('.name').val();
     var password=$('.password').val();
-    if(name != '' && password !=''){
+    if(name == ''){
+        $('.name').css({
+            'border-bottom':'1px solid red',
+        })
+        $('.caveat').text("请输入账户用户名！")
+    }else if(password ==''){
+        $('.password').css({
+            'border-bottom':'1px solid red',
+        })
+        $('.caveat').text("请输入密码！")
+    } else if(name != '' && password !=''){
         $.ajax({
             url: "/administrator/login",
             type : 'get',
@@ -22,8 +32,11 @@ $('.login').on('click',function () {
             },
             dataType: "JSON",
             success: function (data) {
-                console.log(data);
-                window.location.href='/admin/underwriting/select';
+                if(data.code==1){
+                    window.location.href='/admin/underwriting/select';
+                }else{
+                    $('.caveat').text(data.msg);
+                }
             }
         })
     }
