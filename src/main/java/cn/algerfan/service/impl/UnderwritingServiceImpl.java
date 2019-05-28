@@ -129,10 +129,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     // 生成实际存储的真实文件名
                     realName = UUID.randomUUID().toString() + fileNameExtension;
                     // 自定义的上传目录
-                    Calendar cale = Calendar.getInstance();
-                    int year = cale.get(Calendar.YEAR);
-                    int month = cale.get(Calendar.MONTH) + 1;
-                    int day = cale.get(Calendar.DATE);
+                    String[] strNow = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).split("-");
+                    String year = strNow[0];
+                    String month = strNow[1];
+                    String day = strNow[2];
                     String path = "/uploadData/"+ year + "/"+ month + "/" + day + "/" + underwriting.getName();
                     if (!saveFile(multipartFiles[i], path,realName)) {
                         map.put("status",0);
@@ -190,17 +190,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return false;
         }
     }
-
-    /**
-     * 删除文件
-     */
-    /*public boolean deleteFile(String url) {
-        File file = new File("." + url);
-        if (file.exists() && file.exists()) {
-            return file.delete();
-        }
-        return false;
-    }*/
 
     @Override
     public Map<String,Object> findUnderwriting(String encryptedData, String iv, String code) {
