@@ -48,8 +48,8 @@ public class PropertiesServiceImpl implements PropertiesService {
     }
 
     @Override
-    public void show(String filePath, HttpServletResponse response) {
-        File file = new File(filePath + filePath);
+    public void show(String fileName, HttpServletResponse response) {
+        File file = new File(filePath + fileName);
         new FileUtil().responseFile(response, file);
     }
 

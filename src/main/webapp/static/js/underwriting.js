@@ -6,7 +6,7 @@ $('.seach').on('click',function () {
     if(id!=''&& id!=null){
         window.location.href='/admin/underwriting/select?keyword='+id;
     }
-})
+});
 //获取地址栏中是否有keyword
 function keyword() {
     if(getParamFromUrl("keyword") !=null){
@@ -26,9 +26,6 @@ function getParamFromUrl(name){
     var r = getParamString(window.location.search,name)
     return r
 }
-
-
-
 //预核保详情页面
 var status;
 //  是否通过信息
@@ -40,7 +37,6 @@ $('.result').on('click',function () {
 //确认反馈信息
 $('.sub_yes').click(function () {
     console.log(status);
-
     $.ajax({
         url: "/admin/template/send",
         type : 'GET',
@@ -59,10 +55,10 @@ $('.sub_yes').click(function () {
 });
 $('.oper_close').click(function () {
     closeModal()
-})
+});
 $('.sub_no').click(function () {
     closeModal();
-})
+});
 //    关闭添加时模态框
 function closeModal(){
     $('.add_modal').removeClass('tran_scale');
@@ -73,3 +69,31 @@ function showModal(){
     $('.add_modal').addClass('tran_scale');
     $('.shadow').show();
 }
+$('.goAgent').click(function () {
+    window.location.href='/admin/agent/select';
+})
+$('.changeAgent').click(function () {
+   const COMPANY = $('.changAgentCompany').val();
+   const EMPLOYEEID=$('.changeEmployeeId').val();
+   const AGENTID=$('.changeAgentId').val();
+   if(COMPANY==''){
+       alert('公司不能为空！');
+   }else if(EMPLOYEEID==''){
+       alert('工号不能为空！');
+   }else{
+       $.ajax({
+           url: "/admin/agent",
+           type : 'PUT',
+           data: {
+               'agentId':AGENTID,
+               'employeeId':EMPLOYEEID,
+               'firm':COMPANY
+           },
+           dataType: "JSON",
+           success: function (data) {
+               alert('修改成功');
+               window.location.href='/admin/agent/select';
+           }
+       })
+   }
+});

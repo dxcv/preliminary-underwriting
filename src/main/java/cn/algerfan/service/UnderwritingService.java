@@ -83,6 +83,15 @@ public interface UnderwritingService {
     PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize);
 
     /**
+     * 核保人员可通过统计功能栏，
+     * 输入时间及选择维度（预核保提交/预核保结论回复）后，下载录入时间段的所需统计明细。
+     * @param keyword
+     * @param type
+     * @return
+     */
+    void statistical(String keyword, Integer type);
+
+    /**
      * 小程序发送模版
      * @param underwritingId
      * @param auditResult
