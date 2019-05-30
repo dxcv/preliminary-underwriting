@@ -8,14 +8,9 @@
     <title>预核保-后台</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
-    <script>
-        var j=1;
-    </script>
-
+    <script>var j;</script>
 </head>
-
 <body>
-
 <div class="aside_nav">
     <div class="nav_tit flex"><span>预</span></div>
     <ul>
@@ -73,28 +68,28 @@
                         <th style="width:50px">序号</th>
                         <th>昵称</th>
                         <th>公司</th>
+                        <th>公司简称</th>
                         <th>工号</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user:${list}">
-                        <td><script>document.write(j);j++</script></td>
+                        <td th:text="${userStat.index+1}"></td>
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.company}"></td>
+                        <td th:text="${user.firm}"></td>
                         <td th:text="${user.employeeId}"></td>
                         <td>
                             <div class="operation">
-                                <a th:href="@{/admin/agent/toUpdate?agentId=}+ ${user.agentId}" th:data-id="${user.agentId}" class="op_agree">查看详情</a>
-                                <a href="javascript:;" th:data-id="${user.agentId}" class="op_refuse">删除</a>
+                                <a th:href="@{/admin/agent/toUpdate(agentId=${user.agentId})}" th:data-id="${user.agentId}" class="op_agree">修改</a>
+                                <a class="op_refuse deleteAgent">删除</a>
+                                <span style="display: none;" th:text="${user.agentId}"></span>
                             </div>
                         </td>
                     </tr>
-
-
                     </tbody>
                 </table>
-
                 <!--分页-->
                 <div class="fenye" th:if="${pages > 0}">
                     <ul class="pagination pagination-lg" >
@@ -106,7 +101,6 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
-
                         <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
                     </ul><br>
                 </div>
@@ -117,5 +111,19 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-
+<script>
+    $('.deleteAgent').click(function () {
+        const thisId = $(this).next().text();
+        $.ajax({
+            url: "/admin/agent?agentId="+thisId,
+            type : 'DELETE',
+            dataType: "JSON",
+            contentType: "application/json",
+            success: function (data) {
+                alert(data.msg);
+                window.location.href='/admin/agent/select';
+            }
+        })
+    });
+</script>
 </html>

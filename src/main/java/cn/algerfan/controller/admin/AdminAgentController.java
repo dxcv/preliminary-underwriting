@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 /**
  * <p>
  *  后台部分 代理人管理
@@ -57,6 +59,8 @@ public class AdminAgentController extends BaseController {
             model.addAttribute("msg", "查询不存在");
             return new ModelAndView("redirect:/admin/agent/select");
         }
+        Map<String, Object> stringObjectMap = companyService.selectAllCompany();
+        model.addAttribute("companyList",stringObjectMap.get("companyList"));
         model.addAttribute("查询成功");
         model.addAttribute("agent",agent);
         log.info("查询成功："+agent);

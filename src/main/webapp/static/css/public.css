@@ -475,11 +475,11 @@ tbody tr td .operation .op_look{
     color: #fff;
     cursor: pointer;
 }
-.result-yes{
+.result-yes,.changeAgent{
     background-color:#009688;
     margin-left:10%;
 }
-.result-no{
+.result-no,.goAgent{
     background-color:#FF5722;
 }
 .back-info{
@@ -516,4 +516,11 @@ tbody tr td .operation .op_look{
 .pagination-lg > li > a{
     padding: 6px 10px;
     font-size: 15px;
+}
+.AgentSelect{
+    width: 90%;
+    height: 35px;
+    float: left;
+    border: 1px solid #e6e6e6;
+    outline: none;
 }
