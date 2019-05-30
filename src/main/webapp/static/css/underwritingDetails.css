@@ -1,3 +1,4 @@
+/*已审核  日期按钮*/
 .date_num{
     height: 35px;
     line-height: 35px;
@@ -9,4 +10,33 @@
     border-radius: 2px;
     cursor: pointer;
     float: left;
+}
+/*未审核详情  查看图片*/
+.details-item-img{
+    width: 90%;
+    float: left;
+}
+.details-item-img img {
+    margin-right: 20px;
+    width: 80px;
+    height: 100px;
+}
+.details-item-img a {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 18px;
+    background-color: #5b8cb9;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+    float: left;
+}
+.details-item-img:after{
+    display: block;
+    content: "";
+    clear: both;
 }
