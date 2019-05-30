@@ -129,10 +129,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     // 生成实际存储的真实文件名
                     realName = UUID.randomUUID().toString() + fileNameExtension;
                     // 自定义的上传目录
-                    Calendar cale = Calendar.getInstance();
-                    int year = cale.get(Calendar.YEAR);
-                    int month = cale.get(Calendar.MONTH) + 1;
-                    int day = cale.get(Calendar.DATE);
+                    String[] strNow = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).split("-");
+                    String year = strNow[0];
+                    String month = strNow[1];
+                    String day = strNow[2];
                     String path = "/uploadData/"+ year + "/"+ month + "/" + day + "/" + underwriting.getName();
                     if (!saveFile(multipartFiles[i], path,realName)) {
                         map.put("status",0);
@@ -142,7 +142,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     if(num==0) {
                         data.append(path).append("/").append(realName);
                     } else {
-                        data.append(data).append(",").append(path).append("/").append(realName);
+                        data.append(",").append(path).append("/").append(realName);
                     }
                     num++;
                 } else {
@@ -190,17 +190,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return false;
         }
     }
-
-    /**
-     * 删除文件
-     */
-    /*public boolean deleteFile(String url) {
-        File file = new File("." + url);
-        if (file.exists() && file.exists()) {
-            return file.delete();
-        }
-        return false;
-    }*/
 
     @Override
     public Map<String,Object> findUnderwriting(String encryptedData, String iv, String code) {
@@ -276,6 +265,35 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
         }
         return new PageInfo<>(underwritings);
+    }
+
+    @Override
+    public void statistical(String keyword, Integer type) {
+        //2017-05-06 至 2018-05-24
+        String first = keyword.substring(0,10);
+        String last = keyword.substring(13);
+        List<Underwriting> underwritingList = underwritingMapper.selectAll();
+        List<Underwriting> underwritingArrayList = new ArrayList<>();
+        for (Underwriting underwriting : underwritingList) {
+            //处理核保人的提交时间
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(underwriting.getSubmitTime());
+            if(type == 1) {
+                if (underwriting.getConclusion() == null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                    underwritingArrayList.add(underwriting);
+                }
+            }
+            if(type == 2) {
+                if (underwriting.getConclusion() != null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                    underwritingArrayList.add(underwriting);
+                }
+            }
+        }
+        List<Integer> agentIds = new ArrayList<>();
+        for (int i = 0; i < underwritingArrayList.size(); i++) {
+
+            agentIds.add(underwritingArrayList.get(i).getAgentId());
+        }
     }
 
     @Override

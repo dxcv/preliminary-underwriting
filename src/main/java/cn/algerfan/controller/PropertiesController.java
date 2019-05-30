@@ -2,6 +2,7 @@ package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
 import cn.algerfan.controller.download.MultiPartDownLoad;
+import cn.algerfan.domain.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.core.io.Resource;
@@ -28,24 +29,24 @@ import java.io.*;
 public class PropertiesController extends BaseController {
 
     /**
-     * 处理图片显示
+     * 单个图片显示
      * @param filePath
      */
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "处理图片显示", notes = "处理图片显示 参数：filePath-文件路径",
+    @ApiOperation(value = "单个图片显示", notes = "单个图片显示 参数：filePath-文件路径",
             httpMethod = "GET")
     public void showPicture(String filePath, HttpServletResponse response, HttpServletRequest request) throws IOException {
         propertiesService.show(filePath,response);
     }
 
     /**
-     * 处理文件图片下载请求
+     * 单个图片、文件下载
      * @param filePath
      * @param response
      */
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    @ApiOperation(value = "处理文件图片下载请求", notes = "处理文件图片下载请求 参数：filePath-文件图片路径",
+    @ApiOperation(value = "单个图片、文件下载", notes = "单个图片、文件下载 参数：filePath-文件图片路径",
             httpMethod = "GET")
     public void download(String filePath, HttpServletResponse response){
         propertiesService.download(filePath,response);
@@ -62,6 +63,20 @@ public class PropertiesController extends BaseController {
         Resource file = propertiesService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    /**
+     * 获取下载地址（压缩）
+     * @param url
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/getLink")
+    @ResponseBody
+    @ApiOperation(value = "获取下载地址（压缩）", notes = "获取下载地址（压缩） 参数：path-项目URL前缀，比如127.0.0.1:10015，keyword-时间间隔",
+            httpMethod = "GET")
+    public Result getLink(String url, String keyword) {
+        return propertiesService.getLink(url, keyword);
     }
 
     /**
