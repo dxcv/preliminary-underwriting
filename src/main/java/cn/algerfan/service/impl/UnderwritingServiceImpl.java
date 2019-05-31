@@ -4,6 +4,7 @@ import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
+import cn.algerfan.dto.UnderwritingDTO;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
@@ -14,12 +15,15 @@ import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -260,7 +264,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             //处理核保人的提交时间
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String dateString = formatter.format(underwriting.getSubmitTime());
-            if (underwriting.getConclusion() != null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+            if (underwriting.getConclusion() != null && first.compareTo(dateString)<=0 && last.compareTo(dateString)>=0) {
                 underwritings.add(underwriting);
             }
         }
@@ -268,7 +272,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
-    public void statistical(String keyword, Integer type) {
+    public void statistical(String keyword, Integer type, HttpServletResponse response) throws IOException {
         //2017-05-06 至 2018-05-24
         String first = keyword.substring(0,10);
         String last = keyword.substring(13);
@@ -279,20 +283,141 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String dateString = formatter.format(underwriting.getSubmitTime());
             if(type == 1) {
-                if (underwriting.getConclusion() == null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                if (underwriting.getConclusion() == null && first.compareTo(dateString)<=0 && last.compareTo(dateString)>=0) {
                     underwritingArrayList.add(underwriting);
                 }
             }
             if(type == 2) {
-                if (underwriting.getConclusion() != null && first.compareTo(dateString)<0 && last.compareTo(dateString)>0) {
+                if (underwriting.getConclusion() != null && first.compareTo(dateString)<=0 && last.compareTo(dateString)>=0) {
                     underwritingArrayList.add(underwriting);
                 }
             }
         }
-        List<Integer> agentIds = new ArrayList<>();
-        for (int i = 0; i < underwritingArrayList.size(); i++) {
+        System.out.println("---"+underwritingArrayList);
+        if(underwritingArrayList.size()!=0) {
+            List<Integer> agentIds = new ArrayList<>();
+            for (Underwriting underwriting : underwritingArrayList) {
+                agentIds.add(underwriting.getAgentId());
+            }
+            List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+            List<Agent> agentList1 = new ArrayList<>();
+            for (int i = 0; i < agentIds.size(); i++) {
+                for (int j = 0; j < agentList.size(); j++) {
+                    if(agentIds.get(i).equals(agentList.get(j).getAgentId())) {
+                        agentList1.add(agentList.get(j));
+                    }
+                }
+            }
+            List<UnderwritingDTO> underwritingDTOList = new ArrayList<>();
+            for (int i = 0; i < underwritingArrayList.size(); i++) {
+                underwritingDTOList.add(new UnderwritingDTO(agentList1.get(i).getCompany(),agentList1.get(i).getNickname(),
+                        agentList1.get(i).getEmployeeId(),underwritingArrayList.get(i).getName(),underwritingArrayList.get(i).getSex(),
+                        underwritingArrayList.get(i).getBirthday(),underwritingArrayList.get(i).getIntroduce(),
+                        underwritingArrayList.get(i).getConclusion(),underwritingArrayList.get(i).getSubmitTime()));
+            }
+            log.info("查询成功："+underwritingDTOList);
 
-            agentIds.add(underwritingArrayList.get(i).getAgentId());
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet();
+            sheet.setDefaultRowHeightInPoints(20);
+            HSSFPrintSetup ps = sheet.getPrintSetup();
+            ps.setLandscape(false); // 打印方向，true：横向，false：纵向
+            ps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); //纸张
+            sheet.setHorizontallyCenter(true);//设置打印页面为水平居中
+
+            //设置要导出的文件的名字
+            String fileName = first+"至"+last+"工作量统计.xls";
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+            //新增数据行，并且设置单元格数据
+            int rowNum = 1;
+            String[] headers = {"代理人公司", "代理人昵称", "代理人工号",
+                    "姓名", "性别", "出生日期", "疾病史介绍", "结论", "提交时间"};
+            //headers表示excel表中第一行的表头
+            HSSFRow row = sheet.createRow(0);
+            //设置行高
+            row.setHeightInPoints(30);
+            //设置列宽，setColumnWidth的第二个参数要乘以256，这个参数的单位是1/256个字符宽度
+            sheet.setColumnWidth(0, 19 * 256);
+            sheet.setColumnWidth(1, 19 * 256);
+            sheet.setColumnWidth(2, 19 * 256);
+            sheet.setColumnWidth(3, 19 * 256);
+            sheet.setColumnWidth(4, 19 * 256);
+            sheet.setColumnWidth(5, 19 * 256);
+            sheet.setColumnWidth(6, 19 * 256);
+            sheet.setColumnWidth(7, 19 * 256);
+            sheet.setColumnWidth(8, 19 * 256);
+            //其他表样式
+            HSSFCellStyle style = workbook.createCellStyle();
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+            HSSFFont font = workbook.createFont();
+            font.setFontName("宋体");
+            font.setFontHeightInPoints((short) 11);//设置字体大小
+            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//设置字体水平居中
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+            style.setFont(font);
+            //表头样式
+            HSSFCellStyle style2 = workbook.createCellStyle();
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+            HSSFFont font2 = workbook.createFont();//其他字体样式
+            font2.setFontName("宋体");
+            font2.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+            font2.setFontHeightInPoints((short) 11);//设置字体大小
+            style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);//设置字体水平居中
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+            style2.setFont(font2);
+
+            //在excel表中添加表头
+            for (int i = 0; i < headers.length; i++) {
+                HSSFCell cell = row.createCell(i);
+                HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+                cell.setCellStyle(style2);
+                cell.setCellValue(text);
+            }
+            //在表中存放查询到的数据放入对应的列
+            HSSFCell cell;
+            for (UnderwritingDTO underwritingDTOS : underwritingDTOList) {
+                HSSFRow row1 = sheet.createRow(rowNum);
+                //设置行高
+                row1.setHeightInPoints(25);
+                cell = row1.createCell(0);
+                cell.setCellValue(underwritingDTOS.getCompany());
+                cell.setCellStyle(style);
+                cell = row1.createCell(1);
+                cell.setCellValue(underwritingDTOS.getNickname());
+                cell.setCellStyle(style);
+                cell = row1.createCell(2);
+                cell.setCellValue(underwritingDTOS.getEmployeeId());
+                cell.setCellStyle(style);
+                cell = row1.createCell(3);
+                cell.setCellValue(underwritingDTOS.getName());
+                cell.setCellStyle(style);
+                cell = row1.createCell(4);
+                cell.setCellValue(underwritingDTOS.getSex());
+                cell.setCellStyle(style);
+                cell = row1.createCell(5);
+                cell.setCellValue(underwritingDTOS.getBirthday());
+                cell.setCellStyle(style);
+                cell = row1.createCell(6);
+                cell.setCellValue(underwritingDTOS.getIntroduce());
+                cell.setCellStyle(style);
+                cell = row1.createCell(7);
+                cell.setCellValue(underwritingDTOS.getConclusion());
+                cell.setCellStyle(style);
+                cell = row1.createCell(8);
+                cell.setCellValue(underwritingDTOS.getSubmitTime());
+                cell.setCellStyle(style);
+                rowNum++;
+            }
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+            response.flushBuffer();
+            workbook.write(response.getOutputStream());
         }
     }
 

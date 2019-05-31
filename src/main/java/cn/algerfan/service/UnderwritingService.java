@@ -5,6 +5,9 @@ import cn.algerfan.domain.Underwriting;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -87,9 +90,10 @@ public interface UnderwritingService {
      * 输入时间及选择维度（预核保提交/预核保结论回复）后，下载录入时间段的所需统计明细。
      * @param keyword
      * @param type
+     * @param response
      * @return
      */
-    void statistical(String keyword, Integer type);
+    void statistical(String keyword, Integer type, HttpServletResponse response) throws IOException;
 
     /**
      * 小程序发送模版

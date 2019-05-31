@@ -39,6 +39,16 @@
       </if>
     </where>
   </select>
+  <select id="selectByAgentIds" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from tb_agent
+    WHERE agent_id IN
+    <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
