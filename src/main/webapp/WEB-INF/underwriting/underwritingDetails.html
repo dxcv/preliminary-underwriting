@@ -133,7 +133,7 @@
                         </div>
                         <textarea readonly="readonly" class="details-item-r  details-item-r-text" th:text="${underwriting.introduce}"></textarea>
                     </div>
-                    <div th:if="${images != ''}"   class="details-item">
+                    <div th:if="${images != null}"   class="details-item">
                         <div class="details-item-l">
                             <span>附加图片信息</span>
                         </div>
@@ -142,7 +142,7 @@
                         </div>
 
                     </div>
-                    <div th:if="${files != ''}"  class="details-item">
+                    <div th:if="${files != null}"  class="details-item">
                         <div class="details-item-l">
                             <span>附加文件信息</span>
                         </div>

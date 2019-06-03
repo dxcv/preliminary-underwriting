@@ -34,7 +34,7 @@
         <li>
             <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
         </li>
-        <li th:if="${session.}">
+        <li >
             <a class="flex" th:href="@{/admin/user/select}">管理员管理</a>
         </li>
     </ul>
@@ -94,7 +94,6 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
-
                         <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/underwriting/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
                     </ul><br>
                 </div>
