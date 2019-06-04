@@ -72,11 +72,11 @@ public interface UnderwritingMapper {
     List<Underwriting> selectAll();
 
     /**
-     * 根据agentId、姓名查询
+     * 根据agentId、手机号查询
      * @param agentId
-     * @param name
+     * @param phone
      * @return
      */
-    Underwriting selectByAgentIdAndName(@Param("agentId") Integer agentId, @Param("name") String name);
+    Underwriting selectByAgentIdAndPhone(@Param("agentId") Integer agentId, @Param("phone") String phone);
 
 }
