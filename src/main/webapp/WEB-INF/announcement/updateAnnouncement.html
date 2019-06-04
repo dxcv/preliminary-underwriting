@@ -12,7 +12,7 @@
     </head>
     <body>
     <div class="aside_nav">
-        <div class="nav_tit flex"><span>预</span></div>
+        <div class="nav_tit flex" th:include="pubic/header :: logo"></div>
         <ul>
             <li>
                 <a class="flex" th:href="@{/admin/underwriting/select}">待审核</a>
@@ -35,19 +35,7 @@
         </ul>
     </div>
     <div class="wrap ">
-        <div class="header">
-            <ul class="rt_nav">
-                <li>
-                    <img class="nav_img" th:src="@{/static/images/default.jpg}">
-                </li>
-                <li>
-                    <a class="quit_icon">
-                        <img th:src="@{/static/images/quit.png}">
-                        <span>安全退出</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <div class="header" th:include="pubic/header :: header"></div>
         <div class="add_modal">
             <div class="modal_tit">添加公司</div>
             <div class="modal_oper">

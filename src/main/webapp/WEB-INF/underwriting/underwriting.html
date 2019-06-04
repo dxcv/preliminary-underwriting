@@ -17,7 +17,7 @@
 <body>
 
 <div class="aside_nav">
-    <div class="nav_tit flex"><span>预</span></div>
+    <div class="nav_tit flex" th:include="pubic/header :: logo"></div>
     <ul>
         <li  class="active">
             <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>

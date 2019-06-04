@@ -2,12 +2,17 @@
     <ul class="rt_nav">
         <li>
             <img class="nav_img" th:src="@{/static/images/default.jpg}">
+            <span th:text="${session.user.name}"></span>
         </li>
         <li>
-            <a class="quit_icon">
+            <a class="quit_icon" >
                 <img th:src="@{/static/images/quit.png}">
                 <span>安全退出</span>
             </a>
         </li>
     </ul>
 </footer>
+<logo th:fragment="logo">
+    <img th:src="@{/static/images/logo.jpg}">
+    <h6>预核保</h6>
+</logo>
