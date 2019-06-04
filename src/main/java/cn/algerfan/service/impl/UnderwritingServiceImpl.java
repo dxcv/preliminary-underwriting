@@ -74,7 +74,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             log.info("添加失败，该代理人不存在");
             return map;
         }
-        Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getName());
+        Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getPhone());
         if(underwriting1 != null) {
             underwriting.setUpdateTime(new Date());
             underwriting.setAgentId(check.getAgentId());
@@ -112,12 +112,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         log.info(check.getAgentId()+"------------"+phone);
-        /*try {
-            name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        log.info("乱码解决后用户名：" + name);*/
         Underwriting underwriting = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),phone);
         log.info(underwriting);
         if(underwriting == null) {
