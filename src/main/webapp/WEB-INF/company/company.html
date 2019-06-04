@@ -19,14 +19,17 @@
         <li>
             <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
         </li>
-        <li  class="active">
-            <a class="flex" th:href="@{/admin/company/select}"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
-        </li>
         <li>
             <a class="flex" th:href="@{/admin/agent/select}">代理人管理</a>
         </li>
         <li>
             <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
+        </li>
+        <li  class="active" th:if="${session.user.role}=='200'">
+            <a class="flex" th:href="@{/admin/company/select}"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
+        </li>
+        <li th:if="${session.user.role}=='200'">
+            <a class="flex" th:href="@{/admin/user/select}">管理员管理</a>
         </li>
     </ul>
 </div>

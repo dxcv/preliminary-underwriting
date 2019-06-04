@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,11 +151,12 @@ public class AdminUnderwritingController extends BaseController {
      * @param type
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/statistical", method = RequestMethod.GET)
     @ApiOperation(value = "工作量统计（代办统计/历史统计）", notes = "工作量统计（代办统计/历史统计） 参数keyword-时间间隔，type-类型（1为统计代办，2为统计历史）",
             httpMethod = "GET")
-    public void statistical(String keyword, Integer type) {
-        underwritingService.statistical(keyword, type);
+    public void statistical(String keyword, Integer type, HttpServletResponse response) throws IOException {
+        underwritingService.statistical(keyword, type, response);
     }
 
 }

@@ -67,4 +67,11 @@ public interface AgentMapper {
      * @return
      */
     List<Agent> select(@Param(value="nickname") String nickname);
+
+    /**
+     * 根据id批量查询
+     * @param list
+     * @return
+     */
+    List<Agent> selectByAgentIds(@Param(value="list") List<Integer> list);
 }
