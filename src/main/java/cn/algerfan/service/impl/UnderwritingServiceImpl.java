@@ -122,10 +122,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         StringBuilder data = new StringBuilder();
         if (multipartFiles.length != 0) {
-            for (int i = 0; i < multipartFiles.length; i++) {
-                String fileName = multipartFiles[i].getOriginalFilename();
+            for (MultipartFile multipartFile : multipartFiles) {
+                String fileName = multipartFile.getOriginalFilename();
                 CheckUtil checkUtil = new CheckUtil();
-                if(fileName != null && checkUtil.verify(fileName)) {
+                if (fileName != null && checkUtil.verify(fileName)) {
                     String realName;
                     String fileNameExtension = fileName.substring(fileName.indexOf("."));
                     // 生成实际存储的真实文件名
@@ -135,21 +135,21 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     String year = strNow[0];
                     String month = strNow[1];
                     String day = strNow[2];
-                    String path = "/uploadData/"+ year + "/"+ month + "/" + day + "/" + underwriting.getName();
-                    if (!saveFile(multipartFiles[i], path,realName)) {
-                        map.put("status",0);
-                        map.put("msg","文件上传失败");
+                    String path = "/uploadData/" + year + "/" + month + "/" + day + "/" + underwriting.getName();
+                    if (!saveFile(multipartFile, path, realName)) {
+                        map.put("status", 0);
+                        map.put("msg", "文件上传失败");
                         log.info("文件上传失败");
                         return map;
                     }
-                    if(underwriting.getData()==null || "".equals(underwriting.getData())) {
+                    if (underwriting.getData() == null || "".equals(underwriting.getData())) {
                         data.append(path).append("/").append(realName);
                     } else {
                         data.append(underwriting.getData()).append(",").append(path).append("/").append(realName);
                     }
                 } else {
-                    map.put("status",0);
-                    map.put("msg","文件格式不正确");
+                    map.put("status", 0);
+                    map.put("msg", "文件格式不正确");
                     log.info("文件格式不正确");
                     return map;
                 }
@@ -294,7 +294,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                 }
             }
         }
-        System.out.println("---"+underwritingArrayList);
         if(underwritingArrayList.size()!=0) {
             List<Integer> agentIds = new ArrayList<>();
             for (Underwriting underwriting : underwritingArrayList) {
@@ -302,10 +301,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
             List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
             List<Agent> agentList1 = new ArrayList<>();
-            for (int i = 0; i < agentIds.size(); i++) {
-                for (int j = 0; j < agentList.size(); j++) {
-                    if(agentIds.get(i).equals(agentList.get(j).getAgentId())) {
-                        agentList1.add(agentList.get(j));
+            for (Integer agentId : agentIds) {
+                for (Agent agent : agentList) {
+                    if (agentId.equals(agent.getAgentId())) {
+                        agentList1.add(agent);
                     }
                 }
             }
@@ -316,7 +315,9 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                         underwritingArrayList.get(i).getBirthday(),underwritingArrayList.get(i).getIntroduce(),
                         underwritingArrayList.get(i).getConclusion(),underwritingArrayList.get(i).getSubmitTime()));
             }
-            log.info("查询成功："+underwritingDTOList);
+            underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getCompany().compareTo(h2.getCompany()));
+            underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getNickname().compareTo(h2.getNickname()));
+            log.info("查询成功："+ System.currentTimeMillis() +underwritingDTOList);
 
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();
