@@ -129,4 +129,21 @@ public class UserServiceImpl implements UserService {
         result1.setMsg("用户名或密码错误");
         return result1;
     }
+
+    @Override
+    public Result updateAdministrator(Integer userId, Integer role) {
+        if(userId==null || userId==0 || role==null || role==0) {
+            return new Result(ResultCodeEnum.UPDATEFAIL);
+        }
+        if(role!=100 && role!=200) {
+            return new Result(ResultCodeEnum.UPDATEFAIL);
+        }
+        User user = new User();
+        user.setUserId(userId);
+        user.setRole(role);
+        if(userMapper.updateByPrimaryKeySelective(user)==0) {
+            return new Result(ResultCodeEnum.UNUPDATE);
+        }
+        return new Result(ResultCodeEnum.UPDATE);
+    }
 }

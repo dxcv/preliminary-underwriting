@@ -37,11 +37,11 @@
     from tb_underwriting
     where agent_id = #{agentId,jdbcType=INTEGER}
   </select>
-  <select id="selectByAgentIdAndName" resultMap="BaseResultMap" >
+  <select id="selectByAgentIdAndPhone" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from tb_underwriting
-    where agent_id = #{agentId,jdbcType=INTEGER} and name = #{name}
+    where agent_id = #{agentId,jdbcType=INTEGER} and phone = #{phone}
   </select>
   <!-- 后台mapper -->
   <select id="select" resultMap="BaseResultMap" >

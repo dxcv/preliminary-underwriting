@@ -71,9 +71,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
+            log.info("添加失败，该代理人不存在");
             return map;
         }
-        Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndName(check.getAgentId(),underwriting.getName());
+        Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getPhone());
         if(underwriting1 != null) {
             underwriting.setUpdateTime(new Date());
             underwriting.setAgentId(check.getAgentId());
@@ -81,6 +82,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             underwritingMapper.updateByPrimaryKeySelective(underwriting);
             map.put("status", 1);
             map.put("msg","该核保人已存在，已更新资料");
+            log.info("该核保人已存在，已更新资料");
             return map;
         }
         underwriting.setSubmitTime(new Date());
@@ -88,14 +90,15 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         underwritingMapper.insert(underwriting);
         map.put("status",1);
         map.put("msg","添加成功");
+        log.info("添加成功");
         return map;
     }
 
     @Override
-    public Map<String, Object> upload(String name, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
+    public Map<String, Object> upload(String phone, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
         Map<String,Object> map = new HashMap<>();
         //用户凭证不能为空
-        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
+        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
             map.put("status", 0);
             map.put("msg", "code、encryptedData、iv 不能为空");
             return map;
@@ -105,26 +108,21 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
+            log.info("添加失败，该代理人不存在");
             return map;
         }
-        log.info(check.getAgentId()+"------------"+name);
-        try {
-            name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        log.info("乱码解决后用户名：" + name);
-        Underwriting underwriting = underwritingMapper.selectByAgentIdAndName(check.getAgentId(),name);
+        log.info(check.getAgentId()+"------------"+phone);
+        Underwriting underwriting = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),phone);
         log.info(underwriting);
         if(underwriting == null) {
             map.put("status", 0);
             map.put("msg","添加失败，该核保人不存在");
+            log.info("添加失败，该核保人不存在");
             return map;
         }
         StringBuilder data = new StringBuilder();
-        int num = 0;
         if (multipartFiles.length != 0) {
-            for (int i = 0; i < multipartFiles.length-1; i++) {
+            for (int i = 0; i < multipartFiles.length; i++) {
                 String fileName = multipartFiles[i].getOriginalFilename();
                 CheckUtil checkUtil = new CheckUtil();
                 if(fileName != null && checkUtil.verify(fileName)) {
@@ -141,25 +139,28 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     if (!saveFile(multipartFiles[i], path,realName)) {
                         map.put("status",0);
                         map.put("msg","文件上传失败");
+                        log.info("文件上传失败");
                         return map;
                     }
-                    if(num==0) {
+                    if(underwriting.getData()==null || "".equals(underwriting.getData())) {
                         data.append(path).append("/").append(realName);
                     } else {
-                        data.append(",").append(path).append("/").append(realName);
+                        data.append(underwriting.getData()).append(",").append(path).append("/").append(realName);
                     }
-                    num++;
                 } else {
                     map.put("status",0);
                     map.put("msg","文件格式不正确");
+                    log.info("文件格式不正确");
                     return map;
                 }
             }
         }
+        log.info("上传文件："+data);
         underwriting.setData(String.valueOf(data));
         underwritingMapper.updateByPrimaryKey(underwriting);
         map.put("status",1);
         map.put("msg","添加成功");
+        log.info("添加成功");
         return map;
     }
 

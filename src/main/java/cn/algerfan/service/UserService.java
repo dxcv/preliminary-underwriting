@@ -55,4 +55,12 @@ public interface UserService {
      * @return
      */
     Result adminLogin(String userName, String password, HttpServletRequest request);
+
+    /**
+     * 更新管理员权限
+     * @param userId
+     * @param role
+     * @return
+     */
+    Result updateAdministrator(Integer userId, Integer role);
 }

@@ -37,6 +37,7 @@ public class Openid {
         String openid = (String) json.get("openid");
         map.put("session_key",session_key);
         map.put("openid",openid);
+        System.out.println("-----"+map);
         return map;
     }
 }
