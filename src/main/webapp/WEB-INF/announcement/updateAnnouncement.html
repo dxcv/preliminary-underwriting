@@ -15,19 +15,22 @@
         <div class="nav_tit flex"><span>预</span></div>
         <ul>
             <li>
-                <a class="flex" href="index.html">待审核</a>
+                <a class="flex" th:href="@{/admin/underwriting/select}">待审核</a>
             </li>
             <li>
-                <a class="flex" href="audited.html">已审核</a>
+                <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
             </li>
             <li>
                 <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
             </li>
             <li>
-                <a class="flex" href="agency.html">代理人管理</a>
+                <a class="flex"  th:href="@{/admin/agent/select}">代理人管理</a>
             </li>
-            <li  class="active">
-                <a class="flex" th:href="@{/admin/announcement/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
+            <li   class="active">
+                <a class="flex" th:href="@{/admin/announcement/select}"><img th:src="@{/static/images/dengdai.png}"> <span>公告信息</span></a>
+            </li>
+            <li >
+                <a class="flex" th:href="@{/admin/user/select}">管理员管理</a>
             </li>
         </ul>
     </div>
@@ -115,7 +118,7 @@
         </div>
     </div>
     </body>
-    <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-    <script th:src="@{/static/js/index.js}"></script>
-    <script th:src="@{/static/js/company.js}"></script>
+<!--    <script th:src="@{/static/js/jquery-2.1.0.js}"></script>-->
+<!--    <script th:src="@{/static/js/index.js}"></script>-->
+<!--    <script th:src="@{/static/js/company.js}"></script>-->
 </html>

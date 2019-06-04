@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>userList</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-管理员管理</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
+    <script>
+        var j=1;
+    </script>
+
 </head>
+
 <body>
-管理员查询
+
+<div class="aside_nav">
+    <div class="nav_tit flex"><span>预</span></div>
+    <ul>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+        </li>
+        <li>
+            <a class="flex"  th:href="@{/admin/agent/select}">代理人管理</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
+        </li>
+        <li   class="active">
+            <a class="flex" th:href="@{/admin/user/select}"><img th:src="@{/static/images/dengdai.png}"> <span>管理员管理</span></a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header" th:include="pubic/header :: header"></div>
+    <div class="tables" style="margin: 0px">
+
+        <div class="table_seach anim">
+            <input placeholder="请输入搜索人员名称" />
+            <div class="seach">搜索</div>
+        </div>
+
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span class="box_tit_sea">管理员人员</span>
+                <!--<div class="box_add">添加</div>-->
+            </div>
+            <div class="box_table">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th style="width:50px">序号</th>
+                        <th>账号</th>
+                        <th>手机号</th>
+                        <th>身份</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user:${userList}">
+                        <td><script>document.write(j);j++</script></td>
+                        <td th:text="${user.userName}"></td>
+                        <td th:text="${user.phone}"></td>
+                        <td th:if="${user.role ==100}">普通管理员</td>
+                        <td th:if="${user.role ==200}">超级管理员</td>
+                        <td>
+                            <div class="operation">
+                                <a th:href="@{'/admin/user/toUpdate?userId='+ ${user.userId}}" th:data-id="${user.userId}" class="op_agree">查看详情</a>
+                                <a href="javascript:;" class="op_refuse">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
 </html>
