@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,6 +29,18 @@ import java.util.List;
 @RequestMapping("/admin/user")
 @Api(value = "管理员管理", tags = "管理员管理")
 public class AdminUserController extends BaseController {
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "out", method = RequestMethod.GET)
+    @ApiOperation(value = "退出登录——ajax请求", httpMethod = "GET")
+    public ModelAndView out(HttpSession session){
+        session.removeAttribute("user");
+        return new ModelAndView("adminLogin");
+    }
 
     /**
      * 添加管理员
