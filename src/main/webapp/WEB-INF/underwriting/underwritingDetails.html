@@ -15,7 +15,7 @@
 <body>
 
 <div class="aside_nav">
-    <div class="nav_tit flex"><span>预</span></div>
+    <div class="nav_tit flex" th:include="pubic/header :: logo"></div>
     <ul>
         <li  class="active">
             <a class="flex" th:href="@{/admin/underwriting/select}"> <img th:src="@{/static/images/dengdai.png}"> <span>待审核</span></a>
@@ -38,20 +38,7 @@
     </ul>
 </div>
 <div class="wrap ">
-    <div class="header">
-        <ul class="rt_nav">
-
-            <li>
-                <img class="nav_img" th:src="@{/static/images/default.jpg}">
-            </li>
-            <li>
-                <a class="quit_icon">
-                    <img th:src="@{/static/images/quit.png}">
-                    <span>安全退出</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <div class="header" th:include="pubic/header :: header"></div>
 
     <div class="add_modal">
         <div class="modal_tit">反馈信息</div>
@@ -136,7 +123,7 @@
                         </div>
                         <textarea readonly="readonly" class="details-item-r  details-item-r-text" th:text="${underwriting.introduce}"></textarea>
                     </div>
-                    <div th:if="${images != ''}"   class="details-item">
+                    <div th:if="${images != null}"   class="details-item">
                         <div class="details-item-l">
                             <span>附加图片信息</span>
                         </div>
@@ -145,7 +132,7 @@
                         </div>
 
                     </div>
-                    <div th:if="${files != ''}"  class="details-item">
+                    <div th:if="${files != null}"  class="details-item">
                         <div class="details-item-l">
                             <span>附加文件信息</span>
                         </div>

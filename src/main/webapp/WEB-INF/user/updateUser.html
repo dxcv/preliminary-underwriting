@@ -1,11 +1,115 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预核保-公告修改</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
 </head>
 <body>
-管理员修改
+<div class="aside_nav">
+    <div class="nav_tit flex" th:include="pubic/header :: logo"></div>
+    <ul>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/select}">待审核</a>
+        </li>
+        <li>
+            <a class="flex" th:href="@{/admin/underwriting/selectHistory}">已审核</a>
+        </li>
+        <li>
+            <a class="flex"  th:href="@{/admin/agent/select}">代理人管理</a>
+        </li>
+        <li  >
+            <a class="flex" th:href="@{/admin/announcement/select}">公告管理</a>
+        </li>
+        <li th:if="${session.user.role}=='200'">
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+        </li>
+        <li th:if="${session.user.role}=='200'"  class="active">
+            <a class="flex" th:href="@{/admin/user/select}"><img th:src="@{/static/images/dengdai.png}"> <span>管理员管理</span></a>
+        </li>
+    </ul>
+</div>
+<div class="wrap ">
+    <div class="header" th:include="pubic/header :: header"></div>
+    <div class="add_modal">
+        <div class="modal_tit">添加公司</div>
+        <div class="modal_oper">
+            <a href="javascript:;" class="oper_close"></a>
+        </div>
+        <div class="modal_con">
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>公司名称</span>
+                </div>
+                <input class="con_input_r con_input_alike" type="text" placeholder="请输入添加的公司名称" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>工号</span>
+                </div>
+                <input class="con_input_r con_input_alike" type="text" placeholder="请输入公司工号的前四位" />
+            </div>
+        </div>
+        <div class="modal_sub">
+            <a class="sub_yes">提交</a>
+            <a class="sub_no">取消</a>
+        </div>
+    </div>
+    <div class="shadow"></div>
+    <div class="tables" style="margin: 0px;">
+        <div class="t_box anim">
+            <div class="box_tit">
+                <span>修改管理员信息</span>
+            </div>
+            <div class="box_table" th:object="${user}">
+                <div class="details">
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>用户名</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r changeannouncementId" th:value="${user.userName}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>密码</span>
+                        </div>
+                        <input class="details-item-r changetype" placeholder="请输入新密码" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>姓名</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r changecontent" th:value="${user.name}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>手机号</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r changecontent" th:value="${user.phone}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
+                            <span>角色</span>
+                        </div>
+                        <input class="details-item-r changedate" th:value="${user.role}" />
+                    </div>
+
+                    <div class="details-result">
+                        <div class="result result-yes changeSubmitAnnouncement">修改</div>
+                        <div class="result result-no changeAnnoucement">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/index.js}"></script>
+<script th:src="@{/static/js/company.js}"></script>
 </html>

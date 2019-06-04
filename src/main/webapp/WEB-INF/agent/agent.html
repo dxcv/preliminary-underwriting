@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="aside_nav">
-    <div class="nav_tit flex"><span>预</span></div>
+    <div class="nav_tit flex" th:include="pubic/header :: logo"></div>
     <ul>
         <li>
             <a class="flex" th:href="@{/admin/underwriting/select}">待审核</a>
@@ -38,20 +38,7 @@
     </ul>
 </div>
 <div class="wrap ">
-    <div class="header">
-        <ul class="rt_nav">
-
-            <li>
-                <img class="nav_img" th:src="@{/static/images/default.jpg}">
-            </li>
-            <li>
-                <a class="quit_icon">
-                    <img th:src="@{/static/images/quit.png}">
-                    <span>安全退出</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <div class="header" th:include="pubic/header :: header"></div>
     <div class="tables" style="margin: 0px">
 
         <div class="table_seach anim">
@@ -86,15 +73,14 @@
                         <td>
                             <div class="operation">
                                 <a th:href="@{/admin/agent/toUpdate(agentId=${user.agentId})}" th:data-id="${user.agentId}" class="op_agree">修改</a>
-                                <a class="op_refuse deleteAgent">删除</a>
-                                <span style="display: none;" th:text="${user.agentId}"></span>
+                                <a class="op_refuse deleteAgent" th:data-id="${user.agentId}">删除</a>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <!--分页-->
-                <div class="fenye" th:if="${pages > 0}">
+                <div class="fenye" th:if="${nickname == null}">
                     <ul class="pagination pagination-lg" >
                         <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-1}}">上一页</a></li>
                         <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum-3}}" th:text="${pageNum -3}" >1</a></li>
@@ -107,6 +93,19 @@
                         <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
                     </ul><br>
                 </div>
+                <div class="fenye" th:if="${nickname != null}">
+                    <ul class="pagination pagination-lg" >
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/company/select?pageNum='+${pageNum-1}+'&nickname='+${nickname} }">上一页</a></li>
+                        <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum-3}+'&nickname='+${nickname} }" th:text="${pageNum -3}" >1</a></li>
+                        <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum-2} +'&nickname='+${nickname} }" th:text="${pageNum -2}" >1</a></li>
+                        <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum-1} +'&nickname='+${nickname} }" th:text="${pageNum -1}" >1</a></li>
+                        <li class="active"><a href="#" th:text="${pageNum}" >1</a></li>
+                        <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+1} +'&nickname='+${nickname} }" th:text="${pageNum +1}" >1</a></li>
+                        <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+2}+'&nickname='+${nickname} }" th:text="${pageNum +2}" >1</a></li>
+                        <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+3}+'&nickname='+${nickname} }" th:text="${pageNum +3}" >1</a></li>
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+1}+'&nickname='+${nickname} }">下一页</a></li>
+                    </ul><br>
+                </div>
             </div>
         </div>
     </div>
@@ -114,19 +113,5 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
-<script>
-    $('.deleteAgent').click(function () {
-        const thisId = $(this).next().text();
-        $.ajax({
-            url: "/admin/agent?agentId="+thisId,
-            type : 'DELETE',
-            dataType: "JSON",
-            contentType: "application/json",
-            success: function (data) {
-                alert(data.msg);
-                window.location.href='/admin/agent/select';
-            }
-        })
-    });
-</script>
+<script th:src="@{/static/js/agent.js}"></script>
 </html>
