@@ -79,7 +79,7 @@ ul li{
 }
 .aside_nav ul .active a{
     color: #fff;
-    background-color: #AA3130;
+    background-color:#293846;
 }
 .aside_nav ul li a {
 
@@ -200,7 +200,7 @@ ul li{
 
 }
 .header {
-    background: #AA3130;
+    background: #f3f3f4;
     height: 50px;
     border-bottom: 1px solid #e7eaec!important;
     width: 100%;
