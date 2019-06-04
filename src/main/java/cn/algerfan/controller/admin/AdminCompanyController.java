@@ -104,7 +104,7 @@ public class AdminCompanyController extends BaseController {
     @ApiOperation(value = "查询公司或搜索公司", notes = "查询公司或搜索公司 搜索加上参数keyword（公司）",
             httpMethod = "GET")
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                               @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
+                               @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Company> select = companyService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("keyword",keyword);

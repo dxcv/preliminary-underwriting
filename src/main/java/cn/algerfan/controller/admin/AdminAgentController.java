@@ -93,7 +93,7 @@ public class AdminAgentController extends BaseController {
     @ApiOperation(value = "查询代理人或搜索代理人", notes = "查询代理人或搜索代理人 搜索加上参数nickname（昵称）",
             httpMethod = "GET")
     public ModelAndView select(String nickname, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                               @RequestParam(name = "pageSize", defaultValue = "16") int pageSize) {
+                               @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Agent> select = agentService.select(nickname, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("list", select.getList());

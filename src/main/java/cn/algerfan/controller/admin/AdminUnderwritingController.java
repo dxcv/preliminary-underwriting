@@ -51,7 +51,7 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
-        log.info(select.getPages());
+        log.info(select);
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwriting");
     }
@@ -72,21 +72,26 @@ public class AdminUnderwritingController extends BaseController {
             return new ModelAndView("redirect:/admin/underwriting/select");
         }
         log.info("查询成功："+underwriting);
-        String[] split = underwriting.getData().split(",");
-        CheckUtil checkUtil = new CheckUtil();
-        List<String> images = new ArrayList<>();
-        List<String> files = new ArrayList<>();
-        for (String s : split) {
-            String substring = s.substring(s.length() - 40);
-            if (checkUtil.checkImage(substring)) {
-                images.add(s);
+        if(underwriting.getData()!=null && !"".equals(underwriting.getData())){
+            String[] split = underwriting.getData().split(",");
+            CheckUtil checkUtil = new CheckUtil();
+            List<String> images = new ArrayList<>();
+            List<String> files = new ArrayList<>();
+            for (String s : split) {
+                String substring = s.substring(s.length() - 40);
+                if (checkUtil.checkImage(substring)) {
+                    images.add(s);
+                }
+                if (checkUtil.checkFile(substring)) {
+                    files.add(s);
+                }
             }
-            if (checkUtil.checkFile(substring)) {
-                files.add(s);
-            }
+            model.addAttribute("images",images);
+            model.addAttribute("files",files);
+        } else {
+            model.addAttribute("images",null);
+            model.addAttribute("files",null);
         }
-        model.addAttribute("images",images);
-        model.addAttribute("files",files);
         Agent agent = agentService.selectById(underwriting.getAgentId());
         model.addAttribute("msg", "查询成功");
         model.addAttribute("agent",agent);

@@ -59,17 +59,32 @@ public interface UnderwritingMapper {
     List<Underwriting> selectByAgentId(@Param(value="agentId") Integer agentId);
 
     /**
-     * 根据姓名模糊查询
+     * 根据姓名模糊查询代办
      * @param keyword
      * @return
      */
     List<Underwriting> select(@Param(value="keyword") String keyword);
 
     /**
+     * 根据姓名模糊查询历史
+     * @param keyword
+     * @return
+     */
+    List<Underwriting> selectHistory(@Param(value="keyword") String keyword);
+
+    /**
      * 查询全部
      * @return
      */
     List<Underwriting> selectAll();
+
+    /**
+     * 通过日期查询
+     * @return
+     * @param first
+     * @param last
+     */
+    List<Underwriting> selectByDate(@Param("first") String first, @Param("last") String last);
 
     /**
      * 根据agentId、手机号查询
