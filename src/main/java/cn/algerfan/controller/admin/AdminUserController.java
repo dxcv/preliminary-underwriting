@@ -36,7 +36,7 @@ public class AdminUserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "out", method = RequestMethod.GET)
-    @ApiOperation(value = "退出登录——ajax请求", httpMethod = "GET")
+    @ApiOperation(value = "退出登录", httpMethod = "GET")
     public ModelAndView out(HttpSession session){
         session.removeAttribute("user");
         return new ModelAndView("adminLogin");
