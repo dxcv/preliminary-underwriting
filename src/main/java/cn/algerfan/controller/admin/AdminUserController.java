@@ -113,4 +113,20 @@ public class AdminUserController extends BaseController {
         model.addAttribute("userList", allUser);
         return new ModelAndView("user/userList");
     }
+
+    /**
+     * 修改管理员权限
+     * @param userId
+     * @param role
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "修改管理员权限——ajax请求",
+            notes = "参数：管理员id-userId，角色role（普通管理员为100，超级管理员为200）",
+            httpMethod = "POST", response = Result.class)
+    public Result updateAdministrator(Integer userId,Integer role) {
+        return userService.updateAdministrator(userId, role);
+    }
+
 }

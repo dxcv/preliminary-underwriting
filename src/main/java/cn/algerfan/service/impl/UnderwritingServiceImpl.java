@@ -95,7 +95,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public Map<String, Object> upload(String name, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
         Map<String,Object> map = new HashMap<>();
         //用户凭证不能为空
-        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
+        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
             map.put("status", 0);
             map.put("msg", "code、encryptedData、iv 不能为空");
             return map;
@@ -108,12 +108,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         log.info(check.getAgentId()+"------------"+name);
-        try {
+        /*try {
             name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        log.info("乱码解决后用户名：" + name);
+        log.info("乱码解决后用户名：" + name);*/
         Underwriting underwriting = underwritingMapper.selectByAgentIdAndName(check.getAgentId(),name);
         log.info(underwriting);
         if(underwriting == null) {

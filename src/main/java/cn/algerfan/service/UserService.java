@@ -55,4 +55,6 @@ public interface UserService {
      * @return
      */
     Result adminLogin(String userName, String password, HttpServletRequest request);
+
+    Result updateAdministrator(Integer userId, Integer role);
 }

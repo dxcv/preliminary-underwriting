@@ -32,6 +32,8 @@ public class User {
      */
     private Integer role;
 
+
+
     public User() {}
 
     public User(String userName, String password, String name, String phone, Integer role) {
