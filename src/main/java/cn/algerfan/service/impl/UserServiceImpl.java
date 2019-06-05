@@ -1,5 +1,6 @@
 package cn.algerfan.service.impl;
 
+import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
@@ -7,6 +8,7 @@ import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.service.UserService;
 import cn.algerfan.util.AesUtil;
+import cn.algerfan.util.AesUtilTwo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ import java.util.List;
  * @since 2019/4/15 16
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseDao<User> implements UserService {
     @Resource
     private UserMapper userMapper;
 
@@ -49,8 +51,11 @@ public class UserServiceImpl implements UserService {
                 user.getPassword()==null || "".equals(user.getPassword())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
-        AesUtil aesUtil = new AesUtil();
-        user.setPassword(aesUtil.AESEncode("lovewlgzs", String.valueOf(user.getPassword())));
+        try {
+            user.setPassword(AesUtilTwo.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(userMapper.selectByName(user.getUserName()) !=null) {
             return new Result(-1,"添加失败，该用户名已存在");
         }
@@ -78,8 +83,12 @@ public class UserServiceImpl implements UserService {
                 return new Result(-1,"修改失败，该用户名已存在");
             }
         }
-        AesUtil aesUtil = new AesUtil();
-        String loveUser = aesUtil.AESEncode("lovewlgzs", String.valueOf(user.getPassword()));
+        String loveUser = null;
+        try {
+            loveUser = AesUtilTwo.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(!user1.getPassword().equals(loveUser)) {
             user.setPassword(loveUser);
         }
@@ -106,8 +115,13 @@ public class UserServiceImpl implements UserService {
         if(userName==null || "".equals(userName) || password==null || "".equals(password)) {
             return new Result(ResultCodeEnum.FAIL);
         }
-        AesUtil aesUtil = new AesUtil();
-        password = aesUtil.AESEncode("lovewlgzs", String.valueOf(password));
+//        AesUtil aesUtil = new AesUtil();
+//        password = aesUtil.AESEncode("lovewlgzs", String.valueOf(password));
+        try {
+            password = AesUtilTwo.aesEncrypt(password, "lovewlgzs5201314");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         List<User> allUser = userMapper.getAllUser();
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(60 * 20);

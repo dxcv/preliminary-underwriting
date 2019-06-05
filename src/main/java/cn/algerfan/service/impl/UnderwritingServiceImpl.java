@@ -9,6 +9,7 @@ import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
 import cn.algerfan.util.AesUtil;
+import cn.algerfan.util.AesUtilTwo;
 import cn.algerfan.util.CheckUtil;
 import cn.algerfan.util.openid.HttpRequest;
 import cn.algerfan.util.openid.Openid;
@@ -67,7 +68,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         Map<String, Object> map1 = Openid.session_key(code);
 
-        Agent check = agentMapper.selectByOpenid(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
+        Agent check = null;
+        try {
+            check = agentMapper.selectByOpenid(AesUtilTwo.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
@@ -104,7 +110,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         Map<String, Object> map1 = Openid.session_key(code);
-        Agent check = agentMapper.selectByOpenid(new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid"))));
+        Agent check = null;
+        try {
+            check = agentMapper.selectByOpenid(AesUtilTwo.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(check==null) {
             map.put("status", 0);
             map.put("msg","添加失败，该代理人不存在");
@@ -207,7 +218,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
         Map<String, Object> map1 = Openid.session_key(code);
 
-        String password = new AesUtil().AESEncode("lovewlgzs", String.valueOf(map1.get("openid")));
+        String password = null;
+        try {
+            password = AesUtilTwo.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Agent agent = agentMapper.selectByOpenid(password);
         if(agent==null) {
             map.put("status",0);
@@ -424,7 +440,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         if(agent == null) {
             return new Result(0,"发送失败，该代理人不存在");
         }
-        String openid = new AesUtil().AESDncode("lovewlgzs", agent.getOpenid());
+        String openid = null;
+        try {
+            openid = AesUtilTwo.aesDecrypt(agent.getOpenid(), "lovewlgzs5201314");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         JSONObject jsonObject = new JSONObject();
         //代理人openid
         jsonObject.put("touser", openid);
