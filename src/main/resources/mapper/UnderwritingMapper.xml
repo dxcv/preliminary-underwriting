@@ -74,7 +74,7 @@
   <select id="selectByDate" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from tb_underwriting where conclusion is not null and submit_time>=#{first} and submit_time<=#{last}
+    from tb_underwriting where conclusion is not null and submit_time&gt;=#{first} and submit_time&lt;=#{last}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
