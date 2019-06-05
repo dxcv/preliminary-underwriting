@@ -149,8 +149,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     @Override
     public PageInfo<Agent> select(String nickname, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Agent> agentList = agentMapper.select(nickname);
-        return new PageInfo<>(agentList);
+        return new PageInfo<>(agentMapper.select(nickname));
     }
 
 }

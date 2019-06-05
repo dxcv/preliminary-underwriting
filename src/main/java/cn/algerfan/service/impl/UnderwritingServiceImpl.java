@@ -225,14 +225,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     @Override
     public PageInfo<Underwriting> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Underwriting> underwritingList = underwritingMapper.select(keyword);
-        List<Underwriting> underwritings = new ArrayList<>();
-        for (Underwriting underwriting : underwritingList) {
-            if (underwriting.getConclusion() == null) {
-                underwritings.add(underwriting);
-            }
-        }
-        return new PageInfo<>(underwritings);
+        return new PageInfo<>(underwritingMapper.select(keyword));
     }
 
     @Override
@@ -243,23 +236,17 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     @Override
     public PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Underwriting> underwritingList = underwritingMapper.select(keyword);
-        List<Underwriting> underwritings = new ArrayList<>();
-        for (Underwriting underwriting : underwritingList) {
-            if (underwriting.getConclusion() != null) {
-                underwritings.add(underwriting);
-            }
-        }
-        return new PageInfo<>(underwritings);
+        return new PageInfo<>(underwritingMapper.selectHistory(keyword));
     }
 
     @Override
     public PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize) {
-        //2017-05-06 至 2018-05-24
-        String first = keyword.substring(0,10);
-        String last = keyword.substring(13);
+        //2017-05-06 至 2018-05-24yyyy-MM-dd HH:mm:ss
+        String first = keyword.substring(0,10)+" 00:00:00";
+        String last = keyword.substring(13)+" 00:00:00";
         PageHelper.startPage(pageNum, pageSize);
-        List<Underwriting> underwritingList = underwritingMapper.selectAll();
+        List<Underwriting> underwritingList = underwritingMapper.selectByDate(first,last);
+        /*List<Underwriting> underwritingList = underwritingMapper.selectAll();
         List<Underwriting> underwritings = new ArrayList<>();
         for (Underwriting underwriting : underwritingList) {
             //处理核保人的提交时间
@@ -268,8 +255,8 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             if (underwriting.getConclusion() != null && first.compareTo(dateString)<=0 && last.compareTo(dateString)>=0) {
                 underwritings.add(underwriting);
             }
-        }
-        return new PageInfo<>(underwritings);
+        }*/
+        return new PageInfo<>(underwritingList);
     }
 
     @Override

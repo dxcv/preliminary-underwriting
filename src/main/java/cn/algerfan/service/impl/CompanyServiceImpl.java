@@ -90,8 +90,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
     @Override
     public PageInfo<Company> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Company> companyList = companyMapper.select(keyword);
-        return new PageInfo<>(companyList);
+        return new PageInfo<>(companyMapper.select(keyword));
     }
 
     @Override

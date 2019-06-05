@@ -50,17 +50,31 @@
     </if>
     select
     <include refid="Base_Column_List" />
-    from tb_underwriting
-    <where>
-      <if test='keyword != null'>
-        name like #{likeStr}
-      </if>
-   </where>
+    from tb_underwriting where conclusion is null
+    <if test='keyword != null'>
+      and name like #{likeStr}
+    </if>
+  </select>
+  <select id="selectHistory" resultMap="BaseResultMap" >
+    <if test='keyword != null'>
+      <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    </if>
+    select
+    <include refid="Base_Column_List" />
+    from tb_underwriting where conclusion is not null
+    <if test='keyword != null'>
+      and name like #{likeStr}
+    </if>
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from tb_underwriting
+  </select>
+  <select id="selectByDate" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_underwriting where conclusion is not null and submit_time&gt;=#{first} and submit_time&lt;=#{last}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
