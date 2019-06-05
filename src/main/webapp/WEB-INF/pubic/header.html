@@ -5,7 +5,7 @@
             <span th:text="${session.user.name}"></span>
         </li>
         <li>
-            <a class="quit_icon" >
+            <a th:href="@{/admin/user/out}" class="quit_icon" >
                 <img th:src="@{/static/images/quit.png}">
                 <span>安全退出</span>
             </a>

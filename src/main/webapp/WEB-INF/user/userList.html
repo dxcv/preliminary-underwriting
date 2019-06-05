@@ -41,6 +41,43 @@
 </div>
 <div class="wrap ">
     <div class="header" th:include="pubic/header :: header"></div>
+    <div class="add_modal">
+        <div class="modal_tit">添加管理员</div>
+        <div class="modal_oper">
+            <a href="javascript:;" class="oper_close"></a>
+        </div>
+        <div class="modal_con">
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>账号名称</span>
+                </div>
+                <input class="con_input_r con_input_alike username" type="text" placeholder="请输入添加的账号名称" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike">
+                    <span>密码</span>
+                </div>
+                <input class="con_input_r con_input_alike password" type="password" placeholder="请输入添加的账号密码" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike name">
+                    <span>姓名</span>
+                </div>
+                <input class="con_input_r con_input_alike jobNumber" type="text" placeholder="请输入名称，非必填" />
+            </div>
+            <div class="con_input">
+                <div class="con_input_l con_input_alike phone">
+                    <span>手机号</span>
+                </div>
+                <input class="con_input_r con_input_alike jobNumber" type="text" placeholder="请输入手机号，非必填" />
+            </div>
+        </div>
+        <div class="modal_sub">
+            <a class="sub_yes adduser">提交</a>
+            <a class="sub_no">取消</a>
+        </div>
+    </div>
+    <div class="shadow"></div>
     <div class="tables" style="margin: 0px">
 
         <div class="table_seach anim">
@@ -51,7 +88,7 @@
         <div class="t_box anim">
             <div class="box_tit">
                 <span class="box_tit_sea">管理员人员</span>
-                <!--<div class="box_add">添加</div>-->
+                <div class="box_add">添加</div>
             </div>
             <div class="box_table">
                 <table class="table table-bordered table-hover">
@@ -74,7 +111,7 @@
                         <td>
                             <div class="operation">
                                 <a th:href="@{'/admin/user/toUpdate?userId='+ ${user.userId}}" th:data-id="${user.userId}" class="op_agree">查看详情</a>
-                                <a href="javascript:;" class="op_refuse">删除</a>
+                                <a href="javascript:;" th:data-id="${user.userId}" class="op_refuse">删除</a>
                             </div>
                         </td>
                     </tr>
@@ -89,4 +126,6 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/index.js}"></script>
+<script th:src="@{/static/js/userList.js}"></script>
 </html>

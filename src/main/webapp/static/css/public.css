@@ -203,6 +203,7 @@ ul li{
     background: #f3f3f4;
     height: 50px;
     border-bottom: 1px solid #e7eaec!important;
+    /*box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);*/
     width: 100%;
 }
 input{
@@ -214,6 +215,8 @@ input{
     overflow: hidden;
     margin-right: 3%;
     margin-top: 0px;
+    margin-bottom: 0px;
+
 }
 
 .header .rt_nav li {
@@ -221,7 +224,7 @@ input{
     padding: 0 10px;
     text-align: center;
     cursor: pointer;
-    color: #fff;
+    color: #111;
 }
 .header .rt_nav li .nav_img{
     width: 30px;
@@ -234,7 +237,7 @@ input{
     height: 50px;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: #111;
 }
 
 .header .rt_nav li .quit_icon img{
