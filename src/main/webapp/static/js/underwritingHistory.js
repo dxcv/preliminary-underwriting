@@ -26,3 +26,12 @@ function getParamFromUrl(name){
     var r = getParamString(window.location.search,name)
     return r
 }
+//下载历史
+$('.date_num').mouseenter(function () {
+    if($('.jeinput').val() == ""){
+        $('.date_num').attr('href','javascript:;');
+    }else{
+        let href='/admin/underwriting/statistical?keyword='+$('.jeinput').val()+'&type=2';
+        $('.date_num').attr('href',href);
+    }
+})
