@@ -137,7 +137,7 @@
                             <span>附加文件信息</span>
                         </div>
                         <div class="details-item-img" >
-                            <a th:each="files: ${files}" th:href="@{'/file/show(filePath='+ ${files}}">文件下载</a>
+                            <a th:each="files: ${files}" th:href="@{'/file/download?filePath='+ ${files}}">文件下载</a>
                         </div>
                     </div>
                     <div class="details-result">

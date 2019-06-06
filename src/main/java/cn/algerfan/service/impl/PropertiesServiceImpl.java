@@ -57,7 +57,7 @@ public class PropertiesServiceImpl implements PropertiesService {
     public void download(String fileName, HttpServletResponse response) {
         // 设置下载的响应头信息
         response.setHeader("Content-Disposition",
-                "attachment;fileName=" + "headPic.jpg");
+                "attachment;fileName=" + fileName.substring(26));
         File file = new File(filePath + fileName);
         new FileUtil().responseFile(response, file);
     }
