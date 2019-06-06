@@ -47,16 +47,13 @@ $('.op_refuse').on('click',function () {
     let id=$(this).data('id');
     if(confirm('此操作危险！你确定要删除吗？')){
         $.ajax({
-            url: "/admin/user",
+            url: "/admin/user?userId="+id,
             type : 'DELETE',
-            data: {
-                'userId':id,
-            },
             dataType: "JSON",
             success: function (data) {
                 if(data.code==1){
                     alert('删除成功');
-                    // window.location.href='/admin/user/select';
+                    window.location.href='/admin/user/select';
                 }else{
                     alert("删除失败");
                 }
