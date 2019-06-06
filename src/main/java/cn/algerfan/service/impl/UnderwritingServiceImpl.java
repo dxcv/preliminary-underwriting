@@ -5,6 +5,7 @@ import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
 import cn.algerfan.dto.UnderwritingDTO;
+import cn.algerfan.dto.UnderwritingTime;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
@@ -239,9 +240,17 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
-    public PageInfo<Underwriting> select(String keyword, int pageNum, int pageSize) {
+    public PageInfo<UnderwritingTime> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(underwritingMapper.select(keyword));
+        List<Underwriting> select = underwritingMapper.select(keyword);
+        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (Underwriting underwriting : select) {
+            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
+                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
+                    formatter.format(underwriting.getSubmitTime())));
+        }
+        return new PageInfo<>(underwritingTimes);
     }
 
     @Override
@@ -250,29 +259,34 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
-    public PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize) {
+    public PageInfo<UnderwritingTime> selectHistory(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(underwritingMapper.selectHistory(keyword));
+        List<Underwriting> select = underwritingMapper.selectHistory(keyword);
+        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (Underwriting underwriting : select) {
+            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
+                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
+                    underwriting.getIntroduce(),underwriting.getConclusion(),formatter.format(underwriting.getUpdateTime())));
+        }
+        return new PageInfo<>(underwritingTimes);
     }
 
     @Override
-    public PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize) {
+    public PageInfo<UnderwritingTime> selectByDate(String keyword, int pageNum, int pageSize) {
         //2017-05-06 至 2018-05-24yyyy-MM-dd HH:mm:ss
         String first = keyword.substring(0,10)+" 00:00:00";
         String last = keyword.substring(13)+" 00:00:00";
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> underwritingList = underwritingMapper.selectByDate(first,last);
-        /*List<Underwriting> underwritingList = underwritingMapper.selectAll();
-        List<Underwriting> underwritings = new ArrayList<>();
+        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (Underwriting underwriting : underwritingList) {
-            //处理核保人的提交时间
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = formatter.format(underwriting.getSubmitTime());
-            if (underwriting.getConclusion() != null && first.compareTo(dateString)<=0 && last.compareTo(dateString)>=0) {
-                underwritings.add(underwriting);
-            }
-        }*/
-        return new PageInfo<>(underwritingList);
+            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
+                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
+                    formatter.format(underwriting.getUpdateTime())));
+        }
+        return new PageInfo<>(underwritingTimes);
     }
 
     @Override

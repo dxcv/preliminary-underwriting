@@ -5,6 +5,7 @@ import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
 import cn.algerfan.service.UserService;
+import cn.algerfan.util.AesUtilTwo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,10 +88,44 @@ public class AdminUserController extends BaseController {
             model.addAttribute("msg", "查询失败");
             return new ModelAndView("redirect:/admin/user/select");
         }
+        try {
+            user.setPassword(AesUtilTwo.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         model.addAttribute("查询成功");
         model.addAttribute("user",user);
         log.info("查询成功："+user);
         return new ModelAndView("user/updateUser");
+    }
+
+    /**
+     * 跳转到修改个人信息
+     * @param model
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/toUpdatePerson", method = RequestMethod.GET)
+    @ApiOperation(value = "跳转到修改个人信息", notes = "参数：管理员id-userId", httpMethod = "GET")
+    public ModelAndView toUpdatePerson(Model model, Integer userId) {
+        if(userId == null || userId == 0) {
+            model.addAttribute("msg", "查询失败");
+            return new ModelAndView("redirect:/admin/user/select");
+        }
+        User user = userService.getUserById(userId);
+        if(user==null) {
+            model.addAttribute("msg", "查询失败");
+            return new ModelAndView("redirect:/admin/user/select");
+        }
+        try {
+            user.setPassword(AesUtilTwo.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("查询成功");
+        model.addAttribute("user",user);
+        log.info("查询成功："+user);
+        return new ModelAndView("user/updatePerson");
     }
 
     /**

@@ -90,7 +90,7 @@
                     <thead>
                     <tr class="active">
                         <th style="width:50px">序号</th>
-                        <th>账号</th>
+                        <th>用户名</th>
                         <th>手机号</th>
                         <th>身份</th>
                         <th>是否启用</th>
@@ -98,24 +98,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="user:${userList}">
+                    <tr th:each="user:${userList}" th:if="${user.role==100 || user.role ==300}">
                         <td><script>document.write(j);j++</script></td>
                         <td th:text="${user.userName}"></td>
                         <td th:text="${user.phone}"></td>
-                        <td th:if="${user.role ==100}">普通管理员</td>
-                        <td th:if="${user.role ==200}">超级管理员</td>
-                        <td th:if="${user.role ==300}">该管理员未启用</td>
+                        <td>普通管理员</td>
                         <td th:if="${user.role ==100}">
-                            <input class="switch switch-anim" type="checkbox" checked>
+                            <input class="switch switch-anim" th:data-id="${user.userId}" type="checkbox" checked>
                         </td>
-                        <td th:if="${user.role ==200}">无权限</td>
                         <td th:if="${user.role ==300}">
-                            <input class="switch switch-anim" type="checkbox" >
+                            <input class="switch switch-anim" th:data-id="${user.userId}" type="checkbox" >
                         </td>
                         <td>
                             <div class="operation">
                                 <a th:href="@{'/admin/user/toUpdate?userId='+ ${user.userId}}" th:data-id="${user.userId}" class="op_agree">查看详情</a>
-                                <a href="javascript:;" th:if="${user.role != 200}" th:data-id="${user.userId}" class="op_refuse">删除</a>
+                                <a href="javascript:;" th:data-id="${user.userId}" class="op_refuse">删除</a>
                             </div>
                         </td>
                     </tr>

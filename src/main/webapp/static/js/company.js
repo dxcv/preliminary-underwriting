@@ -44,17 +44,18 @@ $('.addcompany').click(function () {
 // 删除公司
 $('.deletecompany').click(function () {
     const thisId = $(this).next().text();
-    console.log(thisId);
-    $.ajax({
-        url: "/admin/company?companyId="+thisId,
-        type : 'DELETE',
-        dataType: "JSON",
-        contentType: "application/json",
-        success: function (data) {
-            alert(data.msg);
-            window.location.href='/admin/company/select';
-        }
-    })
+    if(confirm('此操作危险！你确定要删除吗？')) {
+        $.ajax({
+            url: "/admin/company?companyId=" + thisId,
+            type: 'DELETE',
+            dataType: "JSON",
+            contentType: "application/json",
+            success: function (data) {
+                // alert(data.msg);
+                window.location.href = '/admin/company/select';
+            }
+        })
+    }
 });
 //修改公司信息
 $('.changeSubmitCompany').click(function () {
@@ -161,15 +162,16 @@ $('.addAnnouncement').click(function () {
 // 删除公告
 $('.deleteAnnouncement').click(function () {
     const thisId = $(this).next().text();
-    console.log(thisId);
-    $.ajax({
-        url: "/admin/announcement?announcementId="+thisId,
-        type : 'DELETE',
-        dataType: "JSON",
-        contentType: "application/json",
-        success: function (data) {
-            alert(data.msg);
-            window.location.href='/admin/announcement/select';
-        }
-    })
+    if(confirm('此操作危险！你确定要删除吗？')) {
+        $.ajax({
+            url: "/admin/announcement?announcementId=" + thisId,
+            type: 'DELETE',
+            dataType: "JSON",
+            contentType: "application/json",
+            success: function (data) {
+                // alert(data.msg);
+                window.location.href = '/admin/announcement/select';
+            }
+        })
+    }
 });

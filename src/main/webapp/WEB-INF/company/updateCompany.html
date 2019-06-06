@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="Shortcut Icon" th:href="@{/static/images/logo.icon}">
-    <title>预核保-修改公司</title>
+    <title>预核保-修改公司信息</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
 </head>
@@ -45,12 +45,7 @@
             </div>
             <div class="box_table" th:object="${company}">
                 <div class="details">
-                    <!--<div class="details-item">
-                        <div class="details-item-l">
-                            <span>公司ID</span>
-                        </div>
-                        <input disabled="disabled" class="details-item-r changecompanyId" th:value="${company.companyId}" />
-                    </div>-->
+                    <input style="display: none" class="details-item-r changecompanyId" th:value="${company.companyId}" />
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>公司名称</span>
