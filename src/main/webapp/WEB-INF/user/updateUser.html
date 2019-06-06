@@ -97,12 +97,15 @@
                         <div class="details-item-l">
                             <span>角色</span>
                         </div>
-                        <input class="details-item-r changedate" th:value="${user.role}" />
+                        <input class="details-item-r changedate" th:data-role="${user.role}" th:if="${user.role==100}" value="普通管理员" disabled="disabled"  />
+                        <input class="details-item-r changedate" th:data-role="${user.role}" th:if="${user.role==200}" value="超级管理员" disabled="disabled"  />
+                        <input class="details-item-r changedate" th:data-role="${user.role}" th:if="${user.role==300}" value="该管理员未启用" disabled="disabled"  />
                     </div>
 
                     <div class="details-result">
                         <div class="result result-yes">修改</div>
                         <div class="result result-no">取消</div>
+                        <p class="errormsg" style="color: red"></p>
                     </div>
                 </div>
             </div>

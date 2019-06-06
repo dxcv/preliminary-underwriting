@@ -69,26 +69,52 @@ $('.result-yes').click(function () {
     const password = $('.password').val();
     const name = $('.name').val();
     const phone = $('.phone').val();
-    $.ajax({
-        url: "/admin/company",
-        type : 'PUT',
-        data: {
-            'role':'100',
-            'userName':username,
-            'password':password,
-            'name':name,
-            'phone':phone
-        },
-        dataType: "JSON",
-        success: function (data) {
-            if(data.code==1){
-                alert(data.msg);
-                window.location.href='/admin/user/select';
-            }
+    if(username == ''){
+        $('.errormsg').text("请输入完整账户名称");
+    }else if(password == ''){
+        $('.errormsg').text("请输入完整密码");
+    } else{
+        $.ajax({
+            url: "/admin/company",
+            type : 'PUT',
+            data: {
+                'role':'100',
+                'userName':username,
+                'password':password,
+                'name':name,
+                'phone':phone
+            },
+            dataType: "JSON",
+            success: function (data) {
+                if(data.code==1){
+                    alert(data.msg);
+                    window.location.href='/admin/user/select';
+                }
 
-        }
-    })
+            }
+        })
+    }
+
 });
 $('.result-no').click(function () {
     window.location.href='/admin/user/select';
 });
+//是否启用
+$('.switch').on('click',function () {
+    let id=$('.op_agree').data("id");
+    $.ajax({
+        url: "/admin/user/update",
+        type : 'POST',
+        data:{
+            'userId':id,
+        },
+        dataType: "JSON",
+        success: function (data) {
+            if(data.code==1){
+                location.reload();
+            }else{
+                alert("修改失败")
+            }
+        }
+    })
+})

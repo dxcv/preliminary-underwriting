@@ -71,7 +71,11 @@
             <a class="sub_no">取消</a>
         </div>
     </div>
+    <div class="imgs">
+        <img class="imgs-block" src="">
+    </div>
     <div class="shadow"></div>
+
     <div class="tables" style="margin: 0px">
 
         <!--<div class="table_seach anim">-->
@@ -128,7 +132,7 @@
                             <span>附加图片信息</span>
                         </div>
                         <div class="details-item-img" >
-                            <img th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
+                            <img class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
                         </div>
 
                     </div>
@@ -136,7 +140,7 @@
                         <div class="details-item-l">
                             <span>附加文件信息</span>
                         </div>
-                        <div class="details-item-img" >
+                        <div  class="details-item-img" >
                             <a th:each="files: ${files}" th:href="@{'/file/show(filePath='+ ${files}}">文件下载</a>
                         </div>
                     </div>

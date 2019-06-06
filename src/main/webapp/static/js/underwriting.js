@@ -97,3 +97,21 @@ $('.changeAgent').click(function () {
        })
    }
 });
+//打开图片
+function showimg(){
+    $('.shadow').show();
+    $('.imgs').show();
+}
+function noneimg(){
+    $('.shadow').hide();
+    $('.imgs').hide();
+}
+$('.item-img').on('click',function () {
+    showimg();
+    let src=$(this).attr('src');
+    console.log(src);
+     $('.imgs-block').attr('src',src)
+})
+$('.shadow').click(function () {
+    noneimg();
+})
