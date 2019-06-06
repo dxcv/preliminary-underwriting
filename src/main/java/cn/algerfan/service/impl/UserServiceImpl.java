@@ -89,9 +89,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(!user1.getPassword().equals(loveUser)) {
-            user.setPassword(loveUser);
-        }
+        user.setPassword(loveUser);
         user.setUserId(userId);
         if(userMapper.updateByPrimaryKeySelective(user)==0) {
             return new Result(ResultCodeEnum.UNUPDATE);
