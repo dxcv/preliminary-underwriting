@@ -57,6 +57,12 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             map.put("msg","对不起，您所录入的工号非长城人寿北京分公司工号，无法进行注册");
             return map;
         }
+        Agent agent1 = agentMapper.checkEmployeeID(employeeId);
+        if(agent1!=null) {
+            map.put("status",0);
+            map.put("msg","对不起，您所录入的工号已经使用，无法进行注册");
+            return map;
+        }
 
         //登录凭证不能为空
         if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
@@ -87,11 +93,11 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
                         map.put("status", 0);
-                        map.put("msg","登录失败，工号或者公司不正确");
+                        map.put("msg","登录失败，公司或工号不正确");
                         return map;
                     } else {
                         map.put("status", 1);
-                        map.put("msg","该代理人已注册，直接登录");
+                        map.put("msg","您已注册，直接登录");
                         return map;
                     }
                 } else {

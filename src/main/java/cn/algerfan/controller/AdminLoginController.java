@@ -21,15 +21,23 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2019/5/27 10
  */
 @Controller
-@RequestMapping("/administrator")
-@Api(value = "登录退出", tags = "登录退出")
 public class AdminLoginController extends BaseController {
 
     /**
      * 跳转到后台登录
      * @return
      */
-    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ApiOperation(value = "跳转到后台登录", httpMethod = "GET")
+    public ModelAndView toLogins() {
+        return new ModelAndView("adminLogin");
+    }
+
+    /**
+     * 跳转到后台登录
+     * @return
+     */
+    @RequestMapping(value = "/administrator/toLogin", method = RequestMethod.GET)
     @ApiOperation(value = "跳转到后台登录", httpMethod = "GET")
     public ModelAndView toLogin() {
         return new ModelAndView("adminLogin");
@@ -43,7 +51,7 @@ public class AdminLoginController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/administrator/login", method = RequestMethod.GET)
     @ApiOperation(value = "后台登录——ajax请求", notes = "后台登录——ajax请求）——>" +
             "参数：userName-用户名，password-密码", httpMethod = "GET")
     public Result adminLogin(String userName, String password, HttpServletRequest request) {

@@ -74,4 +74,11 @@ public interface AgentMapper {
      * @return
      */
     List<Agent> selectByAgentIds(@Param(value="list") List<Integer> list);
+
+    /**
+     * 根据工号查询代理人
+     * @param employeeId
+     * @return
+     */
+    Agent checkEmployeeID(@Param(value = "employeeId") String employeeId);
 }
