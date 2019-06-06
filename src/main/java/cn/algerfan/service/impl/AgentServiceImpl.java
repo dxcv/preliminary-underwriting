@@ -41,9 +41,14 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code) {
         log.info("employeeId："+employeeId+"    company："+company+"   encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
         Map<String, Object> map = new HashMap<>(10);
-        if (employeeId == null || employeeId.length() == 0) {
+        if (employeeId == null || employeeId.length() == 0 || company==null || "".equals(company)) {
             map.put("status", 0);
-            map.put("msg", "employeeId 不能为空");
+            map.put("msg", "参数不完整");
+            return map;
+        }
+        if(employeeId.length()!=10) {
+            map.put("status", 0);
+            map.put("msg", "对不起，您所录入的工号非长城人寿北京分公司工号，无法进行注册");
             return map;
         }
         List<Company> byEmployeeID = companyMapper.findByEmployeeID(employeeId.substring(0, 4));
@@ -52,13 +57,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             map.put("msg","对不起，您所录入的工号非长城人寿北京分公司工号，无法进行注册");
             return map;
         }
-        if (company == null || company.length() == 0) {
-            map.put("status", 0);
-            map.put("msg", "company 不能为空");
-            return map;
-        }
 
-        AesUtil aesUtil = new AesUtil();
         //登录凭证不能为空
         if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
             map.put("status", 0);

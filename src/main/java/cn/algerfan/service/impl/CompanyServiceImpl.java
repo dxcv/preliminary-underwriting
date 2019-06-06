@@ -3,6 +3,7 @@ package cn.algerfan.service.impl;
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
+import cn.algerfan.dto.CompanyDTO;
 import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.CompanyMapper;
 import cn.algerfan.service.CompanyService;
@@ -11,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,9 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
                 company.getFirm() == null || "".equals(company.getFirm()) ||
                 company.getJobNumber() == null || "".equals(company.getJobNumber())) {
             return new Result(ResultCodeEnum.SAVEFAIL);
+        }
+        if(company.getJobNumber().length()!=4) {
+            return new Result(-1,"添加失败，工号不符合规则");
         }
         if(companyMapper.selectByCompany(company.getCompany()) !=null) {
             return new Result(-1,"添加失败，该公司名已存在");
@@ -70,6 +75,9 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
                 company.getJobNumber() == null || "".equals(company.getJobNumber())) {
             return new Result(ResultCodeEnum.UPDATEFAIL);
         }
+        if(company.getJobNumber().length()!=4) {
+            return new Result(-1,"添加失败，工号不符合规则");
+        }
         company.setCompanyId(companyId);
         if(!companyMapper.selectByPrimaryKey(companyId).getCompany().equals(company.getCompany())) {
             if (companyMapper.selectByCompany(company.getCompany()) != null) {
@@ -97,9 +105,13 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
     public Map<String, Object> selectAllCompany() {
         Map<String, Object> map = new HashMap<>(10);
         List<Company> companyList = companyMapper.selectAllCompany();
+        List<CompanyDTO> companyDTOList = new ArrayList<>();
+        for (Company company : companyList) {
+            companyDTOList.add(new CompanyDTO(company.getCompany(), company.getFirm()));
+        }
         map.put("status", 1);
         map.put("msg", "查询成功");
-        map.put("companyList", companyList);
+        map.put("companyList", companyDTOList);
         return map;
     }
 
