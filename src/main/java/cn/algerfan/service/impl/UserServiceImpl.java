@@ -115,8 +115,6 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         if(userName==null || "".equals(userName) || password==null || "".equals(password)) {
             return new Result(ResultCodeEnum.FAIL);
         }
-//        AesUtil aesUtil = new AesUtil();
-//        password = aesUtil.AESEncode("lovewlgzs", String.valueOf(password));
         try {
             password = AesUtilTwo.aesEncrypt(password, "lovewlgzs5201314");
         } catch (Exception e) {
@@ -128,13 +126,17 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         Result result = new Result(ResultCodeEnum.SUCCESS);
         for (User user : allUser) {
             if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
+                if (user.getRole() == 300) {
+                    result.setMsg("您的账号未启用！");
+                    return result;
+                }
                 session.setAttribute("user", user);
                 if (user.getRole() == 100) {
-                    result.setMsg("普通管理员登录");
+                    result.setMsg("普通管理员登录成功");
                     return result;
                 }
                 if (user.getRole() == 200) {
-                    result.setMsg("超级管理员登录");
+                    result.setMsg("超级管理员登录成功");
                     return result;
                 }
             }
@@ -145,16 +147,21 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
     }
 
     @Override
-    public Result updateAdministrator(Integer userId, Integer role) {
-        if(userId==null || userId==0 || role==null || role==0) {
+    public Result updateAdministrator(Integer userId) {
+        if(userId==null || userId==0) {
             return new Result(ResultCodeEnum.UPDATEFAIL);
         }
-        if(role!=100 && role!=200) {
-            return new Result(ResultCodeEnum.UPDATEFAIL);
+        User user = userMapper.selectByPrimaryKey(userId);
+        if(user==null) {
+            return new Result(ResultCodeEnum.UNUPDATE);
         }
-        User user = new User();
-        user.setUserId(userId);
-        user.setRole(role);
+        if(user.getRole()==100) {
+            user.setRole(300);
+        } else if(user.getRole()==300) {
+            user.setRole(100);
+        } else {
+            return new Result(ResultCodeEnum.UNUPDATE);
+        }
         if(userMapper.updateByPrimaryKeySelective(user)==0) {
             return new Result(ResultCodeEnum.UNUPDATE);
         }

@@ -59,8 +59,7 @@ public interface UserService {
     /**
      * 更新管理员权限
      * @param userId
-     * @param role
      * @return
      */
-    Result updateAdministrator(Integer userId, Integer role);
+    Result updateAdministrator(Integer userId);
 }
