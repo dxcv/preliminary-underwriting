@@ -108,9 +108,9 @@ function noneimg(){
 }
 $('.item-img').on('click',function () {
     showimg();
-    let src=$(this).attr('src');
-    console.log(src);
-     $('.imgs-block').attr('src',src)
+    // let src=$(this).attr('src');
+    // console.log(src);
+    //  $('.imgs-block').attr('src',src)
 })
 $('.shadow').click(function () {
     noneimg();
