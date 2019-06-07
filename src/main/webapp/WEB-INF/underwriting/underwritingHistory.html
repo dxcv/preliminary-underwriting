@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="Shortcut Icon" th:href="@{/static/images/logo.icon}">
-    <title>预核保-后台</title>
+    <title>预核保-已审核</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/jeDate-test.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/jedate.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
@@ -72,6 +72,7 @@
                         <th>名字</th>
                         <th>性别</th>
                         <th>出生日期</th>
+                        <th>提交日期</th>
                         <th style="width:500px ;">审核结果</th>
                         <th>操作</th>
                     </tr>
@@ -83,6 +84,7 @@
                         <td th:if="${user.sex}==male">男</td>
                         <td th:if="${user.sex}!=male">女</td>
                         <td th:text="${user.birthday}"></td>
+                        <td th:text="${user.time}"></td>
                         <td th:text="${user.conclusion}"></td>
                         <td>
                             <div class="operation">

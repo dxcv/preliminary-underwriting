@@ -89,9 +89,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(!user1.getPassword().equals(loveUser)) {
-            user.setPassword(loveUser);
-        }
+        user.setPassword(loveUser);
         user.setUserId(userId);
         if(userMapper.updateByPrimaryKeySelective(user)==0) {
             return new Result(ResultCodeEnum.UNUPDATE);
@@ -102,6 +100,10 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
     @Override
     public Result deleteUser(Integer userId) {
         if(userId == null || userId == 0) {
+            return new Result(ResultCodeEnum.UNDELETE);
+        }
+        User user = userMapper.selectByPrimaryKey(userId);
+        if(user.getRole()==200) {
             return new Result(ResultCodeEnum.UNDELETE);
         }
         if(userMapper.deleteByPrimaryKey(userId) == 0) {
@@ -155,6 +157,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         if(user==null) {
             return new Result(ResultCodeEnum.UNUPDATE);
         }
+        log.info(user);
         if(user.getRole()==100) {
             user.setRole(300);
         } else if(user.getRole()==300) {

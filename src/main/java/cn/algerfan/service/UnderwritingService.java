@@ -2,6 +2,7 @@ package cn.algerfan.service;
 
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Underwriting;
+import cn.algerfan.dto.UnderwritingTime;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,7 +59,7 @@ public interface UnderwritingService {
      * @param pageSize
      * @return
      */
-    PageInfo<Underwriting> select(String keyword, int pageNum, int pageSize);
+    PageInfo<UnderwritingTime> select(String keyword, int pageNum, int pageSize);
 
     /**
      * 后台根据id查询
@@ -74,7 +75,7 @@ public interface UnderwritingService {
      * @param pageSize
      * @return
      */
-    PageInfo<Underwriting> selectHistory(String keyword, int pageNum, int pageSize);
+    PageInfo<UnderwritingTime> selectHistory(String keyword, int pageNum, int pageSize);
 
     /**
      * 后台根据时间查询历史
@@ -83,7 +84,7 @@ public interface UnderwritingService {
      * @param pageSize
      * @return
      */
-    PageInfo<Underwriting> selectByDate(String keyword, int pageNum, int pageSize);
+    PageInfo<UnderwritingTime> selectByDate(String keyword, int pageNum, int pageSize);
 
     /**
      * 核保人员可通过统计功能栏，

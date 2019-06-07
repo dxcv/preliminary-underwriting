@@ -57,12 +57,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             map.put("msg","对不起，您所录入的工号非长城人寿北京分公司工号，无法进行注册");
             return map;
         }
-        Agent agent1 = agentMapper.checkEmployeeID(employeeId);
-        if(agent1!=null) {
-            map.put("status",0);
-            map.put("msg","对不起，您所录入的工号已经使用，无法进行注册");
-            return map;
-        }
 
         //登录凭证不能为空
         if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
@@ -101,6 +95,12 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                         return map;
                     }
                 } else {
+                    Agent agent1 = agentMapper.checkEmployeeID(employeeId);
+                    if(agent1!=null) {
+                        map.put("status",0);
+                        map.put("msg","对不起，您所录入的工号已经使用，无法进行注册");
+                        return map;
+                    }
                     String openId = AesUtilTwo.aesEncrypt(String.valueOf(userInfoJSON.get("openId")), "lovewlgzs5201314");
                     Agent agent = new Agent(String.valueOf(userInfoJSON.get("nickName")), String.valueOf(userInfoJSON.get("avatarUrl")),
                             openId, employeeId, company, byEmployeeID.get(0).getFirm());

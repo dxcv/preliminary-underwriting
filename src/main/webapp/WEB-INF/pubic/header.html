@@ -1,8 +1,10 @@
 <footer th:fragment="header">
     <ul class="rt_nav">
         <li>
-            <img class="nav_img" th:src="@{/static/images/default.jpg}">
-            <span th:text="${session.user.name}"></span>
+            <a th:href="@{'/admin/user/toUpdatePerson?userId='+ ${session.user.userId}}" class="quit_icon" >
+                <img th:src="@{/static/images/person.png}">
+                <span>个人资料</span>
+            </a>
         </li>
         <li>
             <a th:href="@{/admin/user/out}" class="quit_icon" >

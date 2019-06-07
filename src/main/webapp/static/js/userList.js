@@ -5,9 +5,9 @@ $('.adduser').click(function () {
     const name = $('.name').val();
     const phone = $('.phone').val();
     if(username == ''){
-        alert('请填写账号名称！');
+        alert('请填写用户名！');
     }else if(password == ''){
-        alert('请填写账号密码！');
+        alert('请填写密码！');
     }else{
         $.ajax({
             url: "/admin/user",
@@ -52,7 +52,7 @@ $('.op_refuse').on('click',function () {
             dataType: "JSON",
             success: function (data) {
                 if(data.code==1){
-                    alert('删除成功');
+                    // alert('删除成功');
                     window.location.href='/admin/user/select';
                 }else{
                     alert("删除失败");
@@ -65,20 +65,23 @@ $('.op_refuse').on('click',function () {
 
 //修改管理员信息
 $('.result-yes').click(function () {
+    const userId = $('.userId').val();
+    const role = $('.role').val();
     const username = $('.username').val();
     const password = $('.password').val();
     const name = $('.name').val();
     const phone = $('.phone').val();
     if(username == ''){
-        $('.errormsg').text("请输入完整账户名称");
+        $('.errormsg').text("请输入完整用户名");
     }else if(password == ''){
         $('.errormsg').text("请输入完整密码");
     } else{
         $.ajax({
-            url: "/admin/company",
+            url: "/admin/user",
             type : 'PUT',
             data: {
-                'role':'100',
+                'userId':userId,
+                'role':role,
                 'userName':username,
                 'password':password,
                 'name':name,
@@ -101,7 +104,7 @@ $('.result-no').click(function () {
 });
 //是否启用
 $('.switch').on('click',function () {
-    let id=$('.op_agree').data("id");
+    let id=$(this).data("id");
     $.ajax({
         url: "/admin/user/update",
         type : 'POST',

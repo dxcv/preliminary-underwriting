@@ -3,6 +3,7 @@ package cn.algerfan.controller.admin;
 import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Underwriting;
+import cn.algerfan.dto.UnderwritingTime;
 import cn.algerfan.util.CheckUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class AdminUnderwritingController extends BaseController {
             httpMethod = "GET")
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
-        PageInfo<Underwriting> select = underwritingService.select(keyword, pageNum, pageSize);
+        PageInfo<UnderwritingTime> select = underwritingService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
@@ -94,11 +96,20 @@ public class AdminUnderwritingController extends BaseController {
         Agent agent = agentService.selectById(underwriting.getAgentId());
         model.addAttribute("msg", "查询成功");
         model.addAttribute("agent",agent);
-        model.addAttribute("underwriting", underwriting);
         if("1".equals(type)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            UnderwritingTime underwritingTime = new UnderwritingTime(underwriting.getUnderwritingId(),
+                    underwriting.getName(),underwriting.getSex(),underwriting.getBirthday(),underwriting.getPhone(),
+                    underwriting.getConclusion(),formatter.format(underwriting.getSubmitTime()));
+            model.addAttribute("underwriting", underwritingTime);
             return new ModelAndView("/underwriting/underwritingDetails");
         }
         if("2".equals(type)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            UnderwritingTime underwritingTime = new UnderwritingTime(underwriting.getUnderwritingId(),
+                    underwriting.getName(),underwriting.getSex(),underwriting.getBirthday(),underwriting.getPhone(),
+                    underwriting.getIntroduce(),underwriting.getConclusion(),formatter.format(underwriting.getSubmitTime()));
+            model.addAttribute("underwriting", underwritingTime);
             return new ModelAndView("/underwriting/underwritingHistoryDetails");
         }
         model.addAttribute("msg","查询失败！");
@@ -118,7 +129,7 @@ public class AdminUnderwritingController extends BaseController {
             httpMethod = "GET")
     public ModelAndView selectHistory(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
-        PageInfo<Underwriting> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
+        PageInfo<UnderwritingTime> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
@@ -139,7 +150,7 @@ public class AdminUnderwritingController extends BaseController {
             httpMethod = "GET")
     public ModelAndView selectByDate(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                       @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
-        PageInfo<Underwriting> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
+        PageInfo<UnderwritingTime> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
