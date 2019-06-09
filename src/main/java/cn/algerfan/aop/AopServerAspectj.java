@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 /**
  * created by viking on 2018/07/15
  * aop切面
+ * @author algerfan
  */
 @Component
 @Aspect
@@ -33,7 +34,8 @@ public class AopServerAspectj {
     public void beforeCut(JoinPoint joinPoint){
         Class<?> clazz = joinPoint.getTarget().getClass();
         log.info(clazz+":before aop");
-        Method[] declaredMethods = clazz.getDeclaredMethods();  //所有申明的方法（不包括继承的）
+        //所有申明的方法（不包括继承的）
+        Method[] declaredMethods = clazz.getDeclaredMethods();
         for (Method m : declaredMethods){
             System.out.println("the declaredMethod of this class:"+m.getName());
         }
@@ -42,7 +44,8 @@ public class AopServerAspectj {
     public void afterCut(JoinPoint joinPoint){
         Class<?> clazz = joinPoint.getTarget().getClass();
         log.info(clazz+":after aop");
-        Method[] declaredMethods = clazz.getDeclaredMethods();  //所有申明的方法（不包括继承的）
+        //所有申明的方法（不包括继承的）
+        Method[] declaredMethods = clazz.getDeclaredMethods();
         for (Method m : declaredMethods){
             System.out.println("the declaredMethod of this class:"+m.getName());
         }

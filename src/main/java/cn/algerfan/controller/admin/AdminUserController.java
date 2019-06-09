@@ -4,14 +4,11 @@ import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.User;
 import cn.algerfan.dto.UserDTO;
-import cn.algerfan.service.UserService;
-import cn.algerfan.util.AesUtilTwo;
+import cn.algerfan.util.AesUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,7 +86,7 @@ public class AdminUserController extends BaseController {
             return new ModelAndView("redirect:/admin/user/select");
         }
         try {
-            user.setPassword(AesUtilTwo.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
+            user.setPassword(AesUtil.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +115,7 @@ public class AdminUserController extends BaseController {
             return new ModelAndView("redirect:/admin/user/select");
         }
         try {
-            user.setPassword(AesUtilTwo.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
+            user.setPassword(AesUtil.aesDecrypt(user.getPassword(),"lovewlgzs5201314"));
         } catch (Exception e) {
             e.printStackTrace();
         }

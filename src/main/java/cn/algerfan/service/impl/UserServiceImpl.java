@@ -8,7 +8,6 @@ import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.UserMapper;
 import cn.algerfan.service.UserService;
 import cn.algerfan.util.AesUtil;
-import cn.algerfan.util.AesUtilTwo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +51,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
             return new Result(ResultCodeEnum.SAVEFAIL);
         }
         try {
-            user.setPassword(AesUtilTwo.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314"));
+            user.setPassword(AesUtil.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +84,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         }
         String loveUser = null;
         try {
-            loveUser = AesUtilTwo.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314");
+            loveUser = AesUtil.aesEncrypt(String.valueOf(user.getPassword()), "lovewlgzs5201314");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +117,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
             return new Result(ResultCodeEnum.FAIL);
         }
         try {
-            password = AesUtilTwo.aesEncrypt(password, "lovewlgzs5201314");
+            password = AesUtil.aesEncrypt(password, "lovewlgzs5201314");
         } catch (Exception e) {
             e.printStackTrace();
         }

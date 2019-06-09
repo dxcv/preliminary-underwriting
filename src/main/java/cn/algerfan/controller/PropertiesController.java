@@ -1,7 +1,6 @@
 package cn.algerfan.controller;
 
 import cn.algerfan.base.BaseController;
-import cn.algerfan.controller.download.MultiPartDownLoad;
 import cn.algerfan.domain.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,16 +76,6 @@ public class PropertiesController extends BaseController {
             httpMethod = "GET")
     public Result getLink(String url, String keyword) {
         return propertiesService.getLink(url, keyword);
-    }
-
-    /**
-     * 分片下载测试
-     */
-    @ResponseBody
-    @RequestMapping("/downloadTest")
-    public void downloadTest() {
-        String s = MultiPartDownLoad.downLoad("http://underwriting.algerfan.cn/file/files/npp.7.5.4.Installer.exe");
-        log.info(s);
     }
 
 }

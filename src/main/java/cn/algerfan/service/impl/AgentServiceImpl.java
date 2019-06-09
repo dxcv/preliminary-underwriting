@@ -9,7 +9,6 @@ import cn.algerfan.domain.Agent;
 import cn.algerfan.mapper.CompanyMapper;
 import cn.algerfan.service.AgentService;
 import cn.algerfan.util.AesUtil;
-import cn.algerfan.util.AesUtilTwo;
 import cn.algerfan.util.openid.Aes;
 import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
@@ -82,7 +81,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
                 log.info("userInfo: "+userInfo);
-                Agent check = agentMapper.selectByOpenid(AesUtilTwo.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
+                Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
                 log.info("check: "+check);
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
@@ -101,7 +100,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                         map.put("msg","对不起，您所录入的工号已经使用，无法进行注册");
                         return map;
                     }
-                    String openId = AesUtilTwo.aesEncrypt(String.valueOf(userInfoJSON.get("openId")), "lovewlgzs5201314");
+                    String openId = AesUtil.aesEncrypt(String.valueOf(userInfoJSON.get("openId")), "lovewlgzs5201314");
                     Agent agent = new Agent(String.valueOf(userInfoJSON.get("nickName")), String.valueOf(userInfoJSON.get("avatarUrl")),
                             openId, employeeId, company, byEmployeeID.get(0).getFirm());
                     agentMapper.insert(agent);
