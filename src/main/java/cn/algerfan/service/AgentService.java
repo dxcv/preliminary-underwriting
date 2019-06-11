@@ -4,6 +4,8 @@ import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Result;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -57,4 +59,13 @@ public interface AgentService {
      * @return
      */
     PageInfo<Agent> select(String nickname, int pageNum, int pageSize);
+
+    /**
+     * 核保人员可通过统计功能栏，
+     * 输入时间及选择维度（预核保提交/预核保结论回复）后，下载录入时间段的所需代理人统计明细。
+     * @param keyword
+     * @param response
+     * @return
+     */
+    void statistical(String keyword, HttpServletResponse response) throws IOException;
 }

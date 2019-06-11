@@ -69,6 +69,7 @@
                     <thead>
                     <tr class="active">
                         <th style="width:50px">序号</th>
+                        <th>代理人昵称</th>
                         <th>名字</th>
                         <th>性别</th>
                         <th>出生日期</th>
@@ -80,6 +81,7 @@
                     <tbody>
                     <tr th:each="user:${list}">
                         <td><script>document.write(i);i++</script></td>
+                        <td th:text="${user.nickname}"></td>
                         <td th:text="${user.name}"></td>
                         <td th:if="${user.sex}==male">男</td>
                         <td th:if="${user.sex}!=male">女</td>

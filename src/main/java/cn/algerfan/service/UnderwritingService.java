@@ -84,7 +84,7 @@ public interface UnderwritingService {
      * @param pageSize
      * @return
      */
-    PageInfo<UnderwritingTime> selectByDate(String keyword, int pageNum, int pageSize);
+//    PageInfo<UnderwritingTime> selectByDate(String keyword, int pageNum, int pageSize);
 
     /**
      * 核保人员可通过统计功能栏，

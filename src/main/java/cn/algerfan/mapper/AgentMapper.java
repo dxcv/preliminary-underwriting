@@ -81,4 +81,10 @@ public interface AgentMapper {
      * @return
      */
     Agent checkEmployeeID(@Param(value = "employeeId") String employeeId);
+
+    /**
+     * 查询全部代理人
+     * @return
+     */
+    List<Agent> selectAll();
 }

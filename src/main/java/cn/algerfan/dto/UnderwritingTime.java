@@ -19,6 +19,14 @@ public class UnderwritingTime implements Serializable {
      */
     private String formId;
     /**
+     * 代理人昵称
+     */
+    private String nickname;
+    /**
+     * 代理人工号
+     */
+    private String employeeId;
+    /**
      * 姓名
      */
     private String name;
@@ -47,22 +55,71 @@ public class UnderwritingTime implements Serializable {
      */
     private String conclusion;
     /**
-     * 提交时间或审核时间
+     * 提交时间
      */
     private String time;
 
-    public UnderwritingTime(Integer underwritingId, String name, String sex, String birthday, String phone, String time) {
+    /**
+     * 查询核保人代办  没有的参数：代理人id、提交formId、上传资料、手机号、疾病史介绍、结论
+     * @param underwritingId
+     * @param nickname
+     * @param employeeId
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param time
+     */
+    public UnderwritingTime(Integer underwritingId, String nickname, String employeeId, String name,
+                            String sex, String birthday, String time) {
         this.underwritingId = underwritingId;
+        this.nickname = nickname;
+        this.employeeId = employeeId;
         this.name = name;
         this.sex = sex;
         this.birthday = birthday;
-        this.phone = phone;
         this.time = time;
     }
 
-    public UnderwritingTime(Integer underwritingId, String name, String sex, String birthday, String phone,
-                            String introduce, String time) {
+    /**
+     * 查询核保人历史  没有的参数：代理人id、提交formId、上传资料、手机号、疾病史介绍
+     * @param underwritingId
+     * @param nickname
+     * @param employeeId
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param conclusion
+     * @param time
+     */
+    public UnderwritingTime(Integer underwritingId, String nickname, String employeeId, String name, String sex, String birthday,
+                            String conclusion, String time) {
         this.underwritingId = underwritingId;
+        this.nickname = nickname;
+        this.employeeId = employeeId;
+        this.name = name;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.conclusion = conclusion;
+        this.time = time;
+    }
+
+    /**
+     * 查询代办核保人详情  没有的参数：代理人id、提交formId、上传资料、结论
+     * @param underwritingId
+     * @param nickname
+     * @param employeeId
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param phone
+     * @param introduce
+     * @param time
+     */
+    public UnderwritingTime(Integer underwritingId, String nickname, String employeeId, String name, String sex,
+                            String birthday, String phone, String introduce, String time) {
+        this.underwritingId = underwritingId;
+        this.nickname = nickname;
+        this.employeeId = employeeId;
         this.name = name;
         this.sex = sex;
         this.birthday = birthday;
@@ -71,9 +128,24 @@ public class UnderwritingTime implements Serializable {
         this.time = time;
     }
 
-    public UnderwritingTime(Integer underwritingId, String name, String sex, String birthday, String phone,
-                            String introduce,String conclusion, String time) {
+    /**
+     * 查询历史核保人详情  没有的参数：代理人id、提交formId、上传资料
+     * @param underwritingId
+     * @param nickname
+     * @param employeeId
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param phone
+     * @param introduce
+     * @param conclusion
+     * @param time
+     */
+    public UnderwritingTime(Integer underwritingId, String nickname, String employeeId, String name, String sex,
+                            String birthday, String phone, String introduce, String conclusion, String time) {
         this.underwritingId = underwritingId;
+        this.nickname = nickname;
+        this.employeeId = employeeId;
         this.name = name;
         this.sex = sex;
         this.birthday = birthday;
@@ -89,6 +161,22 @@ public class UnderwritingTime implements Serializable {
 
     public void setUnderwritingId(Integer underwritingId) {
         this.underwritingId = underwritingId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
@@ -171,20 +259,4 @@ public class UnderwritingTime implements Serializable {
         this.conclusion = conclusion;
     }
 
-    @Override
-    public String toString() {
-        return "UnderwritingTime{" +
-                "underwritingId=" + underwritingId +
-                ", agentId=" + agentId +
-                ", formId='" + formId + '\'' +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", phone='" + phone + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", data='" + data + '\'' +
-                ", conclusion='" + conclusion + '\'' +
-                ", time='" + time + '\'' +
-                '}';
-    }
 }

@@ -3,6 +3,7 @@ package cn.algerfan.service.impl;
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
+import cn.algerfan.domain.Underwriting;
 import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.domain.Agent;
@@ -14,9 +15,15 @@ import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +162,99 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     public PageInfo<Agent> select(String nickname, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(agentMapper.select(nickname));
+    }
+
+    @Override
+    public void statistical(String keyword, HttpServletResponse response) throws IOException {
+        //2017-05-06 至 2018-05-24
+        String first = keyword.substring(0,10);
+        String last = keyword.substring(13);
+        List<Agent> agentList = agentMapper.selectAll();
+        List<Agent> agentArrayList = new ArrayList<>(agentList);
+        agentArrayList.sort((Agent a1, Agent a2) -> a1.getCompany().compareTo(a2.getCompany()));
+        log.info("查询成功："+ agentArrayList);
+        if(agentList.size()!=0) {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet();
+            sheet.setDefaultRowHeightInPoints(20);
+            HSSFPrintSetup ps = sheet.getPrintSetup();
+            ps.setLandscape(false); // 打印方向，true：横向，false：纵向
+            ps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); //纸张
+            sheet.setHorizontallyCenter(true);//设置打印页面为水平居中
+
+            //设置要导出的文件的名字
+            String fileName = "代理人信息统计.xls";
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+            //新增数据行，并且设置单元格数据
+            int rowNum = 1;
+            String[] headers = {"代理人公司","代理人公司简称", "代理人昵称", "代理人工号"};
+            //headers表示excel表中第一行的表头
+            HSSFRow row = sheet.createRow(0);
+            //设置行高
+            row.setHeightInPoints(30);
+            //设置列宽，setColumnWidth的第二个参数要乘以256，这个参数的单位是1/256个字符宽度
+            sheet.setColumnWidth(0, 19 * 256);
+            sheet.setColumnWidth(1, 19 * 256);
+            sheet.setColumnWidth(2, 19 * 256);
+            sheet.setColumnWidth(3, 19 * 256);
+            //其他表样式
+            HSSFCellStyle style = workbook.createCellStyle();
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+            HSSFFont font = workbook.createFont();
+            font.setFontName("宋体");
+            font.setFontHeightInPoints((short) 11);//设置字体大小
+            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//设置字体水平居中
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+            style.setFont(font);
+            //表头样式
+            HSSFCellStyle style2 = workbook.createCellStyle();
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+            HSSFFont font2 = workbook.createFont();//其他字体样式
+            font2.setFontName("宋体");
+            font2.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+            font2.setFontHeightInPoints((short) 11);//设置字体大小
+            style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);//设置字体水平居中
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+            style2.setFont(font2);
+
+            //在excel表中添加表头
+            for (int i = 0; i < headers.length; i++) {
+                HSSFCell cell = row.createCell(i);
+                HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+                cell.setCellStyle(style2);
+                cell.setCellValue(text);
+            }
+            //在表中存放查询到的数据放入对应的列
+            HSSFCell cell;
+            for (Agent agent : agentArrayList) {
+                HSSFRow row1 = sheet.createRow(rowNum);
+                //设置行高
+                row1.setHeightInPoints(25);
+                cell = row1.createCell(0);
+                cell.setCellValue(agent.getCompany());
+                cell.setCellStyle(style);
+                cell = row1.createCell(1);
+                cell.setCellValue(agent.getFirm());
+                cell.setCellStyle(style);
+                cell = row1.createCell(2);
+                cell.setCellValue(agent.getNickname());
+                cell.setCellStyle(style);
+                cell = row1.createCell(3);
+                cell.setCellValue(agent.getEmployeeId());
+                cell.setCellStyle(style);
+                rowNum++;
+            }
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+            response.flushBuffer();
+            workbook.write(response.getOutputStream());
+        }
     }
 
 }

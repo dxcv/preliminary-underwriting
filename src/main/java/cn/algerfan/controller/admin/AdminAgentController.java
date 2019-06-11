@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -101,6 +103,21 @@ public class AdminAgentController extends BaseController {
         model.addAttribute("pageNum",select.getPageNum());
         model.addAttribute("nickname",nickname);
         return new ModelAndView("agent/agent");
+    }
+
+    /**
+     * 核保人员可通过统计功能栏，
+     * 输入时间及选择维度（预核保提交/预核保结论回复）后，下载录入时间段的所需代理人统计明细。
+     * @param keyword
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/statistical", method = RequestMethod.GET)
+    @ApiOperation(value = "工作量统计（代理人统计）", notes = "工作量统计（代理人统计） 参数keyword-时间间隔",
+            httpMethod = "GET")
+    public void statistical(String keyword, HttpServletResponse response) throws IOException {
+        agentService.statistical(keyword, response);
     }
 
 }

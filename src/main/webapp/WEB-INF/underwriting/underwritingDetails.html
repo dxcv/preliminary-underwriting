@@ -93,6 +93,12 @@
                 <div class="details">
                     <div class="details-item">
                         <div class="details-item-l">
+                            <span>代理人昵称</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r" th:value="${underwriting.nickname}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
                             <span>姓名</span>
                         </div>
                         <input disabled="disabled" class="details-item-r" th:value="${underwriting.name}" />
@@ -135,7 +141,6 @@
                         <div class="details-item-img" >
                             <img class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
                         </div>
-
                     </div>
                     <div th:if="${files != null}"  class="details-item">
                         <div class="details-item-l">

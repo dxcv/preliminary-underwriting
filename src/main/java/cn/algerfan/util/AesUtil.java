@@ -15,7 +15,7 @@ import sun.misc.BASE64Decoder;
  * @author AlgerFan
  */
 public class AesUtil {
-    //密钥 (需要前端和后端保持一致)
+    //密钥 (需要前端和后端保持一致) ，长度为16的倍数
     private static final String KEY = "lovewlgzs5201314";
     //算法
     private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";

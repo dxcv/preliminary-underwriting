@@ -242,12 +242,25 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public PageInfo<UnderwritingTime> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.select(keyword);
+        List<Integer> agentIds = new ArrayList<>();
+        for (Underwriting underwriting : select) {
+            agentIds.add(underwriting.getAgentId());
+        }
+        List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+        List<Agent> agentList1 = new ArrayList<>();
+        for (Integer agentId : agentIds) {
+            for (Agent agent : agentList) {
+                if (agentId.equals(agent.getAgentId())) {
+                    agentList1.add(agent);
+                }
+            }
+        }
         List<UnderwritingTime> underwritingTimes = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (Underwriting underwriting : select) {
-            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
-                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
-                    formatter.format(underwriting.getSubmitTime())));
+        for (int i = 0; i < select.size(); i++) {
+            underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
+                    agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
+                    select.get(i).getBirthday(), formatter.format(select.get(i).getSubmitTime())));
         }
         return new PageInfo<>(underwritingTimes);
     }
@@ -261,32 +274,60 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public PageInfo<UnderwritingTime> selectHistory(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.selectHistory(keyword);
+        List<Integer> agentIds = new ArrayList<>();
+        for (Underwriting underwriting : select) {
+            agentIds.add(underwriting.getAgentId());
+        }
+        List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+        List<Agent> agentList1 = new ArrayList<>();
+        for (Integer agentId : agentIds) {
+            for (Agent agent : agentList) {
+                if (agentId.equals(agent.getAgentId())) {
+                    agentList1.add(agent);
+                }
+            }
+        }
         List<UnderwritingTime> underwritingTimes = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (Underwriting underwriting : select) {
-            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
-                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
-                    underwriting.getIntroduce(),underwriting.getConclusion(),formatter.format(underwriting.getUpdateTime())));
+        for (int i = 0; i < select.size(); i++) {
+            underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
+                    agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
+                    select.get(i).getBirthday(), select.get(i).getConclusion(),
+                    formatter.format(select.get(i).getSubmitTime())));
         }
         return new PageInfo<>(underwritingTimes);
     }
 
-    @Override
+    /*@Override
     public PageInfo<UnderwritingTime> selectByDate(String keyword, int pageNum, int pageSize) {
         //2017-05-06 至 2018-05-24yyyy-MM-dd HH:mm:ss
         String first = keyword.substring(0,10)+" 00:00:00";
         String last = keyword.substring(13)+" 00:00:00";
         PageHelper.startPage(pageNum, pageSize);
-        List<Underwriting> underwritingList = underwritingMapper.selectByDate(first,last);
+        List<Underwriting> select = underwritingMapper.selectByDate(first,last);
+        *//*List<Integer> agentIds = new ArrayList<>();
+        for (Underwriting underwriting : select) {
+            agentIds.add(underwriting.getAgentId());
+        }
+        List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+        List<Agent> agentList1 = new ArrayList<>();
+        for (Integer agentId : agentIds) {
+            for (Agent agent : agentList) {
+                if (agentId.equals(agent.getAgentId())) {
+                    agentList1.add(agent);
+                }
+            }
+        }
         List<UnderwritingTime> underwritingTimes = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (Underwriting underwriting : underwritingList) {
-            underwritingTimes.add(new UnderwritingTime(underwriting.getUnderwritingId(), underwriting.getName(),
-                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
-                    formatter.format(underwriting.getUpdateTime())));
-        }
+        for (int i = 0; i < select.size(); i++) {
+            underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
+                    agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
+                    select.get(i).getBirthday(), select.get(i).getIntroduce(), select.get(i).getConclusion(),
+                    formatter.format(select.get(i).getSubmitTime())));
+        }*//*
         return new PageInfo<>(underwritingTimes);
-    }
+    }*/
 
     @Override
     public void statistical(String keyword, Integer type, HttpServletResponse response) throws IOException {
@@ -333,7 +374,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
             underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getCompany().compareTo(h2.getCompany()));
             underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getNickname().compareTo(h2.getNickname()));
-            log.info("查询成功："+ System.currentTimeMillis() +underwritingDTOList);
+            log.info("查询成功："+ underwritingDTOList);
 
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();

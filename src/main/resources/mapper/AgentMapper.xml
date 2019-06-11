@@ -54,6 +54,11 @@
       #{id}
     </foreach>
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from tb_agent
+  </select>
 
 
 

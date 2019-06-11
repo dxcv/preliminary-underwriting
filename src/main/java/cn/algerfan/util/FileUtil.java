@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author AlgerFan
+ * @author algerfan
  */
 public class FileUtil {
 
@@ -28,7 +28,6 @@ public class FileUtil {
     public FileUtil() {
         log = Logger.getLogger(this.getClass());
     }
-
 
     private static final int  BUFFER_SIZE = 2 * 1024;
 
@@ -154,7 +153,6 @@ public class FileUtil {
 
     public static void main(String[] args) throws Exception {
         // 测试压缩方法1
-
         FileOutputStream fos1 = new FileOutputStream(new File("D:\\project\\test01.zip"));
         new FileUtil().toZip("D:\\project\\uploadData\\2019\\05", fos1,true);
         // 测试压缩方法2

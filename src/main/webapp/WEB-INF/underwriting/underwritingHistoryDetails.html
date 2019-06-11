@@ -55,6 +55,12 @@
                 <div class="details">
                     <div class="details-item">
                         <div class="details-item-l">
+                            <span>代理人昵称</span>
+                        </div>
+                        <input disabled="disabled" class="details-item-r" th:value="${underwriting.nickname}" />
+                    </div>
+                    <div class="details-item">
+                        <div class="details-item-l">
                             <span>姓名</span>
                         </div>
                         <input disabled="disabled" class="details-item-r" th:value="${underwriting.name}" />
@@ -96,11 +102,22 @@
                         </div>
                         <input disabled="disabled" class="details-item-r" th:value="${underwriting.conclusion}" />
                     </div>
-<!--                    <div class="details-result">-->
-<!--                        <input type="hidden" th:value="${underwriting.underwritingId}"  class="underwritingId" />-->
-<!--                        <div class="result result-yes" data-status="审核通过">通过</div>-->
-<!--                        <div class="result result-no" data-status="审核失败">不通过</div>-->
-<!--                    </div>-->
+                    <div th:if="${images != null}"   class="details-item">
+                        <div class="details-item-l">
+                            <span>附加图片信息</span>
+                        </div>
+                        <div class="details-item-img" >
+                            <img class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
+                        </div>
+                    </div>
+                    <div th:if="${files != null}"  class="details-item">
+                        <div class="details-item-l">
+                            <span>附加文件信息</span>
+                        </div>
+                        <div class="details-item-img" >
+                            <a th:each="files: ${files}" th:href="@{'/file/download?filePath='+ ${files}}">文件下载</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

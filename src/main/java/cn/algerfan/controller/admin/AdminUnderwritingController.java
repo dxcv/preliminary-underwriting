@@ -99,16 +99,18 @@ public class AdminUnderwritingController extends BaseController {
         if("1".equals(type)) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             UnderwritingTime underwritingTime = new UnderwritingTime(underwriting.getUnderwritingId(),
-                    underwriting.getName(),underwriting.getSex(),underwriting.getBirthday(),underwriting.getPhone(),
-                    underwriting.getConclusion(),formatter.format(underwriting.getSubmitTime()));
+                    agent.getNickname(), agent.getEmployeeId(), underwriting.getName(),
+                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
+                    underwriting.getIntroduce(), formatter.format(underwriting.getSubmitTime()));
             model.addAttribute("underwriting", underwritingTime);
             return new ModelAndView("/underwriting/underwritingDetails");
         }
         if("2".equals(type)) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             UnderwritingTime underwritingTime = new UnderwritingTime(underwriting.getUnderwritingId(),
-                    underwriting.getName(),underwriting.getSex(),underwriting.getBirthday(),underwriting.getPhone(),
-                    underwriting.getIntroduce(),underwriting.getConclusion(),formatter.format(underwriting.getSubmitTime()));
+                    agent.getNickname(), agent.getEmployeeId(), underwriting.getName(),
+                    underwriting.getSex(), underwriting.getBirthday(), underwriting.getPhone(),
+                    underwriting.getIntroduce(), underwriting.getConclusion(), formatter.format(underwriting.getSubmitTime()));
             model.addAttribute("underwriting", underwritingTime);
             return new ModelAndView("/underwriting/underwritingHistoryDetails");
         }
@@ -136,27 +138,6 @@ public class AdminUnderwritingController extends BaseController {
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());
         return new ModelAndView("/underwriting/underwritingHistory");
-    }
-
-    /**
-     * 按时间查询核保人历史
-     * @param keyword
-     * @param model
-     * @param pageNum
-     * @param pageSize
-     */
-    @RequestMapping(value = "/selectByDate", method = RequestMethod.GET)
-    @ApiOperation(value = "按时间查询预核保历史", notes = "按时间查询预核保历史 参数keyword-时间间隔",
-            httpMethod = "GET")
-    public ModelAndView selectByDate(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                                      @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
-        PageInfo<UnderwritingTime> select = underwritingService.selectByDate(keyword, pageNum, pageSize);
-        log.info("查询成功："+select.getList());
-        model.addAttribute("keyword",keyword);
-        model.addAttribute("list", select.getList());
-        model.addAttribute("pages",select.getPages());
-        model.addAttribute("pageNum",select.getPageNum());
-        return new ModelAndView("/underwriting/underwritingSelectByDate");
     }
 
     /**
