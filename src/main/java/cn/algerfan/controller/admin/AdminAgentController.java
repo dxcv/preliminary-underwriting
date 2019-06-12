@@ -114,7 +114,7 @@ public class AdminAgentController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/statistical", method = RequestMethod.GET)
-    @ApiOperation(value = "工作量统计（代理人统计）", notes = "工作量统计（代理人统计） 参数keyword-时间间隔",
+    @ApiOperation(value = "代理人统计", notes = "代理人统计 参数keyword-时间间隔",
             httpMethod = "GET")
     public void statistical(String keyword, HttpServletResponse response) throws IOException {
         agentService.statistical(keyword, response);
