@@ -8,6 +8,7 @@
     <link rel="Shortcut Icon" th:href="@{/static/images/logo.icon}">
     <title>预核保-待审核详情</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/boxImg.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/underwritingDetails.css}" />
 
@@ -72,9 +73,9 @@
             <a class="sub_no">取消</a>
         </div>
     </div>
-    <div class="imgs">
-        <img class="imgs-block" th:src="@{/static/images/logo.jpg}">
-    </div>
+<!--    <div class="imgs">-->
+<!--        <img class="imgs-block" th:src="@{/static/images/logo.jpg}">-->
+<!--    </div>-->
     <div class="shadow"></div>
 
     <div class="tables" style="margin: 0px">
@@ -139,7 +140,7 @@
                             <span>附加图片信息</span>
                         </div>
                         <div class="details-item-img" >
-                            <img class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
+                            <img modal="zoomImg" class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
                         </div>
                     </div>
                     <div th:if="${files != null}"  class="details-item">
@@ -163,5 +164,6 @@
 
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/boxImg.js}"></script>
 <script th:src="@{/static/js/underwriting.js}"></script>
 </html>

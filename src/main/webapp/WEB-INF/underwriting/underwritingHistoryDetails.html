@@ -8,6 +8,7 @@
     <link rel="Shortcut Icon" th:href="@{/static/images/logo.icon}">
     <title>预核保-已审核历史</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/boxImg.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
 
 </head>
@@ -107,7 +108,7 @@
                             <span>附加图片信息</span>
                         </div>
                         <div class="details-item-img" >
-                            <img class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
+                            <img modal="zoomImg" class="item-img" th:each="img: ${images}" th:src="@{'/file/show?filePath='+ ${img}}" />
                         </div>
                     </div>
                     <div th:if="${files != null}"  class="details-item">
@@ -125,4 +126,6 @@
 </div>
 
 </body>
+<script th:src="@{/static/js/jquery-2.1.0.js}"></script>
+<script th:src="@{/static/js/boxImg.js}"></script>
 </html>
