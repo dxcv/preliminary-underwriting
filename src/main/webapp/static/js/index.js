@@ -9,7 +9,8 @@ function showModal(){
     $('.shadow').show();
 }
 
-$('.login').on('click',function () {
+
+function login(){
     var name=$('.name').val();
     var password=$('.password').val();
     if(name == ''){
@@ -40,4 +41,15 @@ $('.login').on('click',function () {
             }
         })
     }
+}
+$('.login').on('click',function () {
+    login();
 })
+$(function(){
+    document.onkeydown = function(e){
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode==13) {
+            login();
+        }
+    }
+});
