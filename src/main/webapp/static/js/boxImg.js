@@ -85,7 +85,7 @@ $("img[modal='zoomImg']").each(function () {
             //缩放
             var zoom_n = 1;
             $(".mask-out").click(function () {
-                zoom_n += 0.1;
+                zoom_n += 0.5;
                 $(".mask-layer-imgbox img").css({
                     "transform": "scale(" + zoom_n + ")",
                     "-moz-transform": "scale(" + zoom_n + ")",
@@ -95,7 +95,7 @@ $("img[modal='zoomImg']").each(function () {
                 });
             });
             $(".mask-in").click(function () {
-                zoom_n -= 0.1;
+                zoom_n -= 0.5;
                 console.log(zoom_n)
                 if (zoom_n <= 0.1) {
                     zoom_n = 0.1;
@@ -119,7 +119,7 @@ $("img[modal='zoomImg']").each(function () {
             //旋转
             var spin_n = 0;
             $(".mask-clockwise").click(function () {
-                spin_n += 15;
+                spin_n += 90;
                 $(".mask-layer-imgbox img").parent("p").css({
                     "transform":"rotate("+ spin_n +"deg)",
                     "-moz-transform":"rotate("+ spin_n +"deg)",
@@ -129,7 +129,7 @@ $("img[modal='zoomImg']").each(function () {
                 });
             });
             $(".mask-counterclockwise").click(function () {
-                spin_n -= 15;
+                spin_n -= 90;
                 $(".mask-layer-imgbox img").parent("p").css({
                     "transform":"rotate("+ spin_n +"deg)",
                     "-moz-transform":"rotate("+ spin_n +"deg)",
