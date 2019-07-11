@@ -118,13 +118,21 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         if(userName==null || "".equals(userName) || password==null || "".equals(password)) {
             return new Result(ResultCodeEnum.FAIL);
         }
+        HttpSession session = request.getSession();
+        if(session.getAttribute("random")==null) {
+            return new Result(ResultCodeEnum.UNKNOWNFAIL);
+        }
+        String random = (String) session.getAttribute("random");
+        String aesDecrypt;
         try {
+            aesDecrypt = AesUtil.aesDecrypt(password, random);
+            assert aesDecrypt != null;
+            password = AesUtil.aesDecrypt(aesDecrypt.substring(0, aesDecrypt.length() - 16), random);
             password = AesUtil.aesEncrypt(password, "lovewlgzs5201314");
         } catch (Exception e) {
             e.printStackTrace();
         }
         List<User> allUser = userMapper.getAllUser();
-        HttpSession session = request.getSession();
         session.setMaxInactiveInterval(60 * 20);
         Result result = new Result(ResultCodeEnum.SUCCESS);
         for (User user : allUser) {

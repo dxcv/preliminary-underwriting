@@ -80,7 +80,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             log.info("添加失败，该代理人不存在");
             return map;
         }
-        Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getPhone());
+        /*Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getPhone());
         if(underwriting1 != null) {
             underwriting.setUpdateTime(new Date());
             underwriting.setAgentId(check.getAgentId());
@@ -90,7 +90,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             map.put("msg","该核保人已存在，已更新资料");
             log.info("该核保人已存在，已更新资料");
             return map;
-        }
+        }*/
         underwriting.setSubmitTime(new Date());
         underwriting.setAgentId(check.getAgentId());
         underwritingMapper.insert(underwriting);
@@ -101,7 +101,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
-    public Map<String, Object> upload(String phone, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
+    public Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
         Map<String,Object> map = new HashMap<>();
         //用户凭证不能为空
         if (code == null || encryptedData == null || iv ==null || code.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
@@ -122,8 +122,8 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             log.info("添加失败，该代理人不存在");
             return map;
         }
-        log.info(check.getAgentId()+"------------"+phone);
-        Underwriting underwriting = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),phone);
+        log.info("------------"+formId);
+        Underwriting underwriting = underwritingMapper.selectByFormId(formId);
         log.info(underwriting);
         if(underwriting == null) {
             map.put("status", 0);

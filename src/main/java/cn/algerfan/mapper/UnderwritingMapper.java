@@ -87,11 +87,10 @@ public interface UnderwritingMapper {
     List<Underwriting> selectByDate(@Param("first") String first, @Param("last") String last);
 
     /**
-     * 根据agentId、手机号查询
-     * @param agentId
-     * @param phone
+     * 根据formId查询
+     * @param formId
      * @return
      */
-    Underwriting selectByAgentIdAndPhone(@Param("agentId") Integer agentId, @Param("phone") String phone);
+    Underwriting selectByFormId(@Param("formId") String formId);
 
 }

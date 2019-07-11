@@ -47,7 +47,7 @@ public class UnderwritingController extends BaseController {
 
     /**
      * 新增核保人第二部分
-     * @param phone   ---> 核保人手机号
+     * @param formId   ---> 核保人提交的表单id
      * @param encryptedData
      * @param iv
      * @param code
@@ -58,10 +58,10 @@ public class UnderwritingController extends BaseController {
     @ApiOperation(value = "新增核保人第二部分——小程序部分",
             notes = "参数：phone-手机号，file-文件，用户信息三个参数",
             httpMethod = "POST", response = Map.class)
-    public Map<String,Object> upload(String phone, @RequestParam("file") MultipartFile[] multipartFiles,
+    public Map<String,Object> upload(String formId, @RequestParam("file") MultipartFile[] multipartFiles,
                                      String encryptedData, String iv, String code) {
         log.info(encryptedData+"--"+iv+"--"+code);
-        return underwritingService.upload(phone,multipartFiles,encryptedData,iv,code);
+        return underwritingService.upload(formId,multipartFiles,encryptedData,iv,code);
     }
 
     /**
