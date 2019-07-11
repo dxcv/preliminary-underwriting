@@ -34,14 +34,14 @@ public interface UnderwritingService {
 
     /**
      * 小程序上传
-     * @param name
+     * @param formId
      * @param multipartFiles
      * @param encryptedData
      * @param iv
      * @param code
      * @return
      */
-    Map<String, Object> upload(String name, MultipartFile[] multipartFiles, String encryptedData, String iv, String code);
+    Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String code);
 
     /**
      * 小程序查询

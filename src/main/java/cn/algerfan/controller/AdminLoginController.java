@@ -4,6 +4,7 @@ import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,22 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class AdminLoginController extends BaseController {
+
+    /**
+     * 获取16位秘钥随机数
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/administrator/random")
+    public Result random() {
+        String filename= RandomStringUtils.randomAlphanumeric(16);
+        session.setAttribute("random",filename);
+        session.setMaxInactiveInterval(60 * 20);
+        Result result = new Result();
+        result.setMsg(filename);
+        result.setCode(1);
+        return result;
+    }
 
     /**
      * 跳转到后台登录
