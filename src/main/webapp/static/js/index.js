@@ -8,7 +8,13 @@ function showModal(){
     $('.add_modal').addClass('tran_scale');
     $('.shadow').show();
 }
-
+//加密函数
+function encrypt(random,word){
+    var key = CryptoJS.enc.Utf8.parse(random);
+    var srcs = CryptoJS.enc.Utf8.parse(word);
+    var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+    return encrypted.toString();
+}
 
 function login(){
     var name=$('.name').val();
@@ -25,21 +31,34 @@ function login(){
         $('.caveat').text("请输入密码！")
     } else if(name != '' && password !=''){
         $.ajax({
-            url: "/administrator/login",
+            url: "/administrator/random",
             type : 'get',
-            data: {
-                'userName':name,
-                'password':password
-            },
             dataType: "JSON",
             success: function (data) {
                 if(data.code==1){
-                    window.location.href='/admin/underwriting/select';
+                    var random = data.msg;
+                    $.ajax({
+                        url: "/administrator/login",
+                        type : 'get',
+                        data: {
+                            'userName':name,
+                            'password':encrypt(random,encrypt(random,password)+random)
+                        },
+                        dataType: "JSON",
+                        success: function (data) {
+                            if(data.code==1){
+                                window.location.href='/admin/underwriting/select';
+                            }else{
+                                $('.caveat').text(data.msg);
+                            }
+                        }
+                    })
                 }else{
                     $('.caveat').text(data.msg);
                 }
             }
         })
+
     }
 }
 $('.login').on('click',function () {
@@ -50,11 +69,3 @@ $(document).keyup(function(event){
         login();
     }
 });
-// $(function(){
-//     document.onkeydown = function(e){
-//         var ev = document.all ? window.event : e;
-//         if(ev.keyCode==13) {
-//             login();
-//         }
-//     }
-// });
