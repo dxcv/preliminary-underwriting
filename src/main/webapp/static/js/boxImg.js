@@ -17,7 +17,7 @@ $("img[modal='zoomImg']").each(function () {
             "           <button class=\"mask-prev btn-default-styles\" style=\"float: left\">上一张</button>" +
             "           <button class=\"mask-out btn-default-styles\">放大</button>" +
             "           <button class=\"mask-in btn-default-styles\">缩小</button>" +
-            "           <button class=\"mask-clockwise btn-default-styles\">顺旋转</button>" +
+            "           <button class=\"mask-clockwise btn-default-styles\">顺旋转</button>" +-
             "           <button class=\"mask-counterclockwise btn-default-styles\">逆旋转</button>" +
             "           <button class=\"mask-close btn-default-styles\">关闭</button>" +
             "           <button class=\"mask-next btn-default-styles\" style=\"float: right\">下一张</button>" +
