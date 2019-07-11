@@ -44,12 +44,17 @@ function login(){
 }
 $('.login').on('click',function () {
     login();
-})
-$(function(){
-    document.onkeydown = function(e){
-        var ev = document.all ? window.event : e;
-        if(ev.keyCode==13) {
-            login();
-        }
+});
+$(document).keyup(function(event){
+    if(event.keyCode ==13){
+        login();
     }
 });
+// $(function(){
+//     document.onkeydown = function(e){
+//         var ev = document.all ? window.event : e;
+//         if(ev.keyCode==13) {
+//             login();
+//         }
+//     }
+// });
