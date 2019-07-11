@@ -100,9 +100,9 @@ public class HttpRequest {
      */
     public static String sendPost(JSONObject json) {
         //小程序唯一标识   (在微信小程序管理后台获取)
-        String APP_ID = "wx1633b8cd0a523508";
+        String APP_ID = "wx4fe7f4518ff07ed8";
         //小程序的 app secret (在微信小程序管理后台获取)
-        String APP_SECRET = "0765456e314c6cb199ce97b7bb949a43";
+        String APP_SECRET = "f4028cbcb8bb75aeffc3091578f157e7";
         //授权（必填）
         String grant_type = "client_credential";
         //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////

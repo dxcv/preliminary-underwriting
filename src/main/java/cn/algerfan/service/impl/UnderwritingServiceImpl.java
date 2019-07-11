@@ -242,25 +242,28 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public PageInfo<UnderwritingTime> select(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.select(keyword);
-        List<Integer> agentIds = new ArrayList<>();
-        for (Underwriting underwriting : select) {
-            agentIds.add(underwriting.getAgentId());
-        }
-        List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
-        List<Agent> agentList1 = new ArrayList<>();
-        for (Integer agentId : agentIds) {
-            for (Agent agent : agentList) {
-                if (agentId.equals(agent.getAgentId())) {
-                    agentList1.add(agent);
+        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
+        if(select.size()!=0) {
+            List<Integer> agentIds = new ArrayList<>();
+            for (Underwriting underwriting : select) {
+                agentIds.add(underwriting.getAgentId());
+            }
+            List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+            List<Agent> agentList1 = new ArrayList<>();
+            for (Integer agentId : agentIds) {
+                for (Agent agent : agentList) {
+                    if (agentId.equals(agent.getAgentId())) {
+                        agentList1.add(agent);
+                    }
                 }
             }
-        }
-        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < select.size(); i++) {
-            underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
-                    agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
-                    select.get(i).getBirthday(), formatter.format(select.get(i).getSubmitTime())));
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            for (int i = 0; i < select.size(); i++) {
+                underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
+                        agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
+                        select.get(i).getBirthday(), formatter.format(select.get(i).getSubmitTime())));
+            }
         }
         return new PageInfo<>(underwritingTimes);
     }
@@ -274,26 +277,28 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     public PageInfo<UnderwritingTime> selectHistory(String keyword, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.selectHistory(keyword);
-        List<Integer> agentIds = new ArrayList<>();
-        for (Underwriting underwriting : select) {
-            agentIds.add(underwriting.getAgentId());
-        }
-        List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
-        List<Agent> agentList1 = new ArrayList<>();
-        for (Integer agentId : agentIds) {
-            for (Agent agent : agentList) {
-                if (agentId.equals(agent.getAgentId())) {
-                    agentList1.add(agent);
+        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
+        if(select.size()!=0) {
+            List<Integer> agentIds = new ArrayList<>();
+            for (Underwriting underwriting : select) {
+                agentIds.add(underwriting.getAgentId());
+            }
+            List<Agent> agentList = agentMapper.selectByAgentIds(agentIds);
+            List<Agent> agentList1 = new ArrayList<>();
+            for (Integer agentId : agentIds) {
+                for (Agent agent : agentList) {
+                    if (agentId.equals(agent.getAgentId())) {
+                        agentList1.add(agent);
+                    }
                 }
             }
-        }
-        List<UnderwritingTime> underwritingTimes = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < select.size(); i++) {
-            underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
-                    agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
-                    select.get(i).getBirthday(), select.get(i).getConclusion(),
-                    formatter.format(select.get(i).getSubmitTime())));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            for (int i = 0; i < select.size(); i++) {
+                underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
+                        agentList1.get(i).getEmployeeId(), select.get(i).getName(), select.get(i).getSex(),
+                        select.get(i).getBirthday(), select.get(i).getConclusion(),
+                        formatter.format(select.get(i).getSubmitTime())));
+            }
         }
         return new PageInfo<>(underwritingTimes);
     }
@@ -504,10 +509,10 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         //代理人openid
         jsonObject.put("touser", openid);
         //消息模版id
-        jsonObject.put("template_id", "1BTR4gR2KAcGX_LSXRS-7InGCIpezSEc3d5Te1qFT5k");
+        jsonObject.put("template_id", "2lR6zALgfpAcvndD94aXnO1mJ-U3lst5gwPW1kNg6x4");
         //表单id
         jsonObject.put("form_id", underwriting.getFormId());
-        String templateContent = "{'keyword1':{'value':'测试'},'keyword2':{'value':'" + auditResult +
+        String templateContent = "{'keyword1':{'value':'" + underwriting.getName() + "'},'keyword2':{'value':'" + auditResult +
                 "'},'keyword3':{'value':'" + note + "'}}";
         jsonObject.put("data", templateContent);
         jsonObject.put("emphasis_keyword","keyword2.DATA");

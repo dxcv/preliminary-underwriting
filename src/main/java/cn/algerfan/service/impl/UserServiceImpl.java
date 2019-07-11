@@ -34,10 +34,12 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
     public List<UserDTO> getAllUser() {
         List<User> userList = userMapper.getAllUser();
         List<UserDTO> userDTOS = new ArrayList<>();
-        for (User user : userList){
-            UserDTO userModel = new UserDTO(user.getUserId(), user.getUserName(),
-                    user.getName(), user.getPhone(), user.getRole());
-            userDTOS.add(userModel);
+        if(userList.size()!=0) {
+            for (User user : userList){
+                UserDTO userModel = new UserDTO(user.getUserId(), user.getUserName(),
+                        user.getName(), user.getPhone(), user.getRole());
+                userDTOS.add(userModel);
+            }
         }
         return userDTOS;
     }
