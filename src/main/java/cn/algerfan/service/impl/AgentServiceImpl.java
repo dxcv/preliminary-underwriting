@@ -3,7 +3,6 @@ package cn.algerfan.service.impl;
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
-import cn.algerfan.domain.Underwriting;
 import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.domain.Agent;
@@ -16,19 +15,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Pipeline;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -44,6 +42,8 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     private AgentMapper agentMapper;
     @Resource
     private CompanyMapper companyMapper;
+    @Autowired
+    JedisPool jedisPool;
 
     @Override
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request) {
@@ -73,6 +73,15 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             return map;
         }
         Map<String, Object> map1 = Openid.session_key(code);
+        String key = UUID.randomUUID().toString();
+        try (Jedis jedis = jedisPool.getResource()) {
+            Pipeline pipeline = jedis.pipelined();
+            pipeline.hset(key, "session_key", String.valueOf(map1.get("session_key")));
+            pipeline.hset(key, "openid", String.valueOf(map1.get("openid")));
+            pipeline.sync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
         try {
@@ -92,8 +101,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 log.info("userInfo: "+userInfo);
                 Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
                 log.info("check: "+check);
-                HttpSession session = request.getSession();
-                String sessionId = session.getId();
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
                         map.put("status", 0);
@@ -102,7 +109,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                     } else {
                         map.put("status", 1);
                         map.put("msg","您已注册，直接登录");
-                        map.put("sessionId",sessionId);
+                        map.put("key",key);
                         return map;
                     }
                 } else {
@@ -118,9 +125,48 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                     agentMapper.insert(agent);
                     map.put("status", 1);
                     map.put("msg", "注册成功");
-                    map.put("sessionId",sessionId);
+                    map.put("key",key);
                     return map;
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        map.put("status", 0);
+        map.put("msg", "解密失败");
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> checkKey(String key, String encryptedData, String iv) {
+        Map<String, Object> map = new HashMap<>(10);
+        Jedis jedis = jedisPool.getResource();
+        if(jedis.hget(key, "session_key") == null || jedis.hget(key, "openid") == null) {
+            map.put("status", 0);
+            map.put("msg", "用户未登录");
+            return map;
+        }
+        String session_key = jedis.hget(key, "session_key");
+        //String openid = jedis.hget(key, "openid");
+        //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
+        try {
+            String result = Aes.decrypt(encryptedData, session_key, iv);
+            if (null != result && result.length() > 0) {
+                log.info("解密成功");
+                JSONObject userInfoJSON = JSONObject.fromObject(result);
+                Map<String, Object> userInfo = new HashMap<>(10);
+                userInfo.put("nickName", userInfoJSON.get("nickName"));
+                userInfo.put("gender", userInfoJSON.get("gender"));
+                userInfo.put("city", userInfoJSON.get("city"));
+                userInfo.put("province", userInfoJSON.get("province"));
+                userInfo.put("country", userInfoJSON.get("country"));
+                userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
+                userInfo.put("unionId", userInfoJSON.get("unionId"));
+                map.put("userInfo", userInfo);
+                log.info("userInfo: "+userInfo);
+                map.put("status", 1);
+                map.put("msg","用户已登录");
+                return map;
             }
         } catch (Exception e) {
             e.printStackTrace();

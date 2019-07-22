@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -40,6 +42,19 @@ public class AgentController extends BaseController {
     public Map<String, Object> register(String employeeId, String company,
                                         String encryptedData, String iv, String code){
         return agentService.register(employeeId, company, encryptedData, iv, code, request);
+    }
+
+    /**
+     * 检查是否登录
+     * @param key
+     * @param encryptedData
+     * @param iv
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "checkKey", method = RequestMethod.POST)
+    public Map<String, Object> checkKey(String key, String encryptedData, String iv){
+        return agentService.checkKey(key, encryptedData, iv);
     }
 
 }

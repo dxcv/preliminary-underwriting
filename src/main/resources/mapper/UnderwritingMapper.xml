@@ -52,6 +52,7 @@
     <if test='keyword != null'>
       and name like #{likeStr}
     </if>
+    order by submit_time desc
   </select>
   <select id="select" resultMap="BaseResultMap" >
     <if test='keyword != null'>
@@ -63,6 +64,7 @@
     <if test='keyword != null'>
       and name like #{likeStr}
     </if>
+    order by submit_time desc
   </select>
   <select id="selectHistoryCount" resultMap="BaseResultMap" >
     <if test='keyword != null'>
@@ -72,6 +74,7 @@
     <if test='keyword != null'>
       and name like #{likeStr}
     </if>
+    order by submit_time desc
   </select>
   <select id="selectHistory" resultMap="BaseResultMap" >
     <if test='keyword != null'>
@@ -83,6 +86,7 @@
     <if test='keyword != null'>
       and name like #{likeStr}
     </if>
+    order by submit_time desc
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select

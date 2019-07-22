@@ -31,6 +31,15 @@ public interface AgentService {
     Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request);
 
     /**
+     * 检查是否登录
+     * @param key
+     * @param encryptedData
+     * @param iv
+     * @return
+     */
+    Map<String, Object> checkKey(String key, String encryptedData, String iv);
+
+    /**
      * 后台通过id查询
      * @param agentId
      * @return
@@ -69,4 +78,5 @@ public interface AgentService {
      * @return
      */
     void statistical(String keyword, HttpServletResponse response) throws IOException;
+
 }

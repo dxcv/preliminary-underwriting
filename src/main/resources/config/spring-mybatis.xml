@@ -14,9 +14,23 @@
                            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--加载配置文件-->
-    <context:property-placeholder location="classpath:config/jdbc.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:config/datasource.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath:resource.properties" ignore-unresolvable="true"/>
     <!--配置数据源-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${jc.maxTotal}" />
+        <property name="maxIdle" value="${jc.maxIdle}" />
+        <property name="maxWaitMillis" value="${jc.maxWaitMillis}" />
+        <property name="testOnBorrow" value="true" />
+    </bean>
+    <!-- 配置单机版的连接 -->
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="host" value="${re.host}"></constructor-arg>
+        <constructor-arg name="port" value="${re.port}"></constructor-arg>
+        <constructor-arg name="timeout" value="50000"></constructor-arg>
+        <!--   <constructor-arg name="password" value="root"></constructor-arg>-->
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
+    </bean>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
