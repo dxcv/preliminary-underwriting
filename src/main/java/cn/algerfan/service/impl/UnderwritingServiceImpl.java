@@ -240,6 +240,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
 
     @Override
     public PageInfo<UnderwritingTime> select(String keyword, int pageNum, int pageSize) {
+        List<Underwriting>  count = underwritingMapper.selectCount(keyword);
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.select(keyword);
         List<UnderwritingTime> underwritingTimes = new ArrayList<>();
@@ -265,7 +266,9 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                         select.get(i).getBirthday(), formatter.format(select.get(i).getSubmitTime())));
             }
         }
-        return new PageInfo<>(underwritingTimes);
+        PageInfo<UnderwritingTime> underwritingTimePageInfo = new PageInfo<>(underwritingTimes);
+        underwritingTimePageInfo.setPages(count.size()/pageSize);
+        return underwritingTimePageInfo;
     }
 
     @Override
@@ -275,6 +278,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
 
     @Override
     public PageInfo<UnderwritingTime> selectHistory(String keyword, int pageNum, int pageSize) {
+        List<Underwriting>  count = underwritingMapper.selectHistoryCount(keyword);
         PageHelper.startPage(pageNum, pageSize);
         List<Underwriting> select = underwritingMapper.selectHistory(keyword);
         List<UnderwritingTime> underwritingTimes = new ArrayList<>();
@@ -300,7 +304,9 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                         formatter.format(select.get(i).getSubmitTime())));
             }
         }
-        return new PageInfo<>(underwritingTimes);
+        PageInfo<UnderwritingTime> underwritingTimePageInfo = new PageInfo<>(underwritingTimes);
+        underwritingTimePageInfo.setPages(count.size()/pageSize);
+        return underwritingTimePageInfo;
     }
 
     /*@Override

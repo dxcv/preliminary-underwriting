@@ -44,6 +44,15 @@
     where form_id = #{formId}
   </select>
   <!-- 后台mapper -->
+  <select id="selectCount" resultMap="BaseResultMap" >
+    <if test='keyword != null'>
+      <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    </if>
+    select agent_id from tb_underwriting where conclusion is null
+    <if test='keyword != null'>
+      and name like #{likeStr}
+    </if>
+  </select>
   <select id="select" resultMap="BaseResultMap" >
     <if test='keyword != null'>
       <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
@@ -51,6 +60,15 @@
     select
     <include refid="Base_Column_List" />
     from tb_underwriting where conclusion is null
+    <if test='keyword != null'>
+      and name like #{likeStr}
+    </if>
+  </select>
+  <select id="selectHistoryCount" resultMap="BaseResultMap" >
+    <if test='keyword != null'>
+      <bind name="likeStr" value="'%'+ keyword +'%'"></bind>
+    </if>
+    select agent_id from tb_underwriting where conclusion is not null
     <if test='keyword != null'>
       and name like #{likeStr}
     </if>

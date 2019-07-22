@@ -59,11 +59,25 @@ public interface UnderwritingMapper {
     List<Underwriting> selectByAgentId(@Param(value="agentId") Integer agentId);
 
     /**
+     * 根据姓名模糊查询代办的个数
+     * @param keyword
+     * @return
+     */
+    List<Underwriting>  selectCount(@Param(value="keyword") String keyword);
+
+    /**
      * 根据姓名模糊查询代办
      * @param keyword
      * @return
      */
     List<Underwriting> select(@Param(value="keyword") String keyword);
+
+    /**
+     * 根据姓名模糊查询历史的个数
+     * @param keyword
+     * @return
+     */
+    List<Underwriting>  selectHistoryCount(@Param(value="keyword") String keyword);
 
     /**
      * 根据姓名模糊查询历史

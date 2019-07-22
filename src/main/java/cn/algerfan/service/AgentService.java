@@ -4,6 +4,7 @@ import cn.algerfan.domain.Agent;
 import cn.algerfan.domain.Result;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
@@ -27,7 +28,7 @@ public interface AgentService {
      * @param code
      * @return
      */
-    Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code);
+    Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request);
 
     /**
      * 后台通过id查询

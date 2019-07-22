@@ -259,4 +259,22 @@ public class UnderwritingTime implements Serializable {
         this.conclusion = conclusion;
     }
 
+    @Override
+    public String toString() {
+        return "UnderwritingTime{" +
+                "underwritingId=" + underwritingId +
+                ", agentId=" + agentId +
+                ", formId='" + formId + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", phone='" + phone + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", data='" + data + '\'' +
+                ", conclusion='" + conclusion + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

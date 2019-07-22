@@ -19,7 +19,9 @@ import org.apache.poi.hssf.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -44,7 +46,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     private CompanyMapper companyMapper;
 
     @Override
-    public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code) {
+    public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request) {
         log.info("employeeId："+employeeId+"    company："+company+"   encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
         Map<String, Object> map = new HashMap<>(10);
         if (employeeId == null || employeeId.length() == 0 || company==null || "".equals(company)) {
@@ -90,6 +92,8 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 log.info("userInfo: "+userInfo);
                 Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
                 log.info("check: "+check);
+                HttpSession session = request.getSession();
+                String sessionId = session.getId();
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
                         map.put("status", 0);
@@ -98,6 +102,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                     } else {
                         map.put("status", 1);
                         map.put("msg","您已注册，直接登录");
+                        map.put("sessionId",sessionId);
                         return map;
                     }
                 } else {
@@ -113,6 +118,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                     agentMapper.insert(agent);
                     map.put("status", 1);
                     map.put("msg", "注册成功");
+                    map.put("sessionId",sessionId);
                     return map;
                 }
             }

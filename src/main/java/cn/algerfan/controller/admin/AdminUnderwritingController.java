@@ -50,10 +50,12 @@ public class AdminUnderwritingController extends BaseController {
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<UnderwritingTime> select = underwritingService.select(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        log.info("总页数："+select.getPages());
+        log.info("当前页数："+pageNum);
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
-        model.addAttribute("pageNum",select.getPageNum());
+        model.addAttribute("pageNum",pageNum);
         return new ModelAndView("/underwriting/underwriting");
     }
 
@@ -133,10 +135,12 @@ public class AdminUnderwritingController extends BaseController {
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<UnderwritingTime> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
         log.info("查询成功："+select.getList());
+        log.info("总页数："+select.getPages());
+        log.info("当前页数："+pageNum);
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
-        model.addAttribute("pages",select.getPages());
-        model.addAttribute("pageNum",select.getPageNum());
+        model.addAttribute("pages", select.getPages());
+        model.addAttribute("pageNum", pageNum);
         return new ModelAndView("/underwriting/underwritingHistory");
     }
 

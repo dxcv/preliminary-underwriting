@@ -37,8 +37,9 @@ public class AgentController extends BaseController {
     @ApiOperation(value = "注册或登录代理人——小程序部分",
             notes = "参数：工号-employeeId，公司名-company，用户信息三个参数",
             httpMethod = "POST", response = Map.class)
-    public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code){
-        return agentService.register(employeeId,company,encryptedData,iv,code);
+    public Map<String, Object> register(String employeeId, String company,
+                                        String encryptedData, String iv, String code){
+        return agentService.register(employeeId, company, encryptedData, iv, code, request);
     }
 
 }
