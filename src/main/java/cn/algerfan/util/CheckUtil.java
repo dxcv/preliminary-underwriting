@@ -7,7 +7,7 @@ package cn.algerfan.util;
 public class CheckUtil {
 
     public boolean verify(String fileName){
-        String reg="(?i).+?\\.(jpg|gif|bmp|png|jpeg|docx|doc|xlsx|xls)";
+        String reg="(?i).+?\\.(jpg|gif|bmp|png|jpeg|docx|doc|xlsx|xls|pdf|rar|zip|7z|tar)";
         return fileName.matches(reg);
     }
 
@@ -17,7 +17,7 @@ public class CheckUtil {
     }
 
     public boolean checkFile(String fileName){
-        String reg="(?i).+?\\.(docx|doc|xlsx|xls)";
+        String reg="(?i).+?\\.(docx|doc|xlsx|xls|pdf|rar|zip|7z|tar)";
         return fileName.matches(reg);
     }
 
