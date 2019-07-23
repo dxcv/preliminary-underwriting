@@ -73,21 +73,21 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
             return map;
         }
         Map<String, Object> map1 = Openid.session_key(code);
-        String key = UUID.randomUUID().toString();
-        try (Jedis jedis = jedisPool.getResource()) {
-            Pipeline pipeline = jedis.pipelined();
-            pipeline.hset(key, "session_key", String.valueOf(map1.get("session_key")));
-            pipeline.hset(key, "openid", String.valueOf(map1.get("openid")));
-            pipeline.sync();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
         try {
             String result = Aes.decrypt(encryptedData, String.valueOf(map1.get("session_key")), iv);
             if (null != result && result.length() > 0) {
                 log.info("解密成功");
+                String key = UUID.randomUUID().toString();
+                Jedis jedis = jedisPool.getResource();
+                try {
+                    jedis.set(key, String.valueOf(map1.get("session_key")), "NX", "EX", 60*60*24*10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    jedis.close();
+                }
                 JSONObject userInfoJSON = JSONObject.fromObject(result);
                 Map<String, Object> userInfo = new HashMap<>(10);
                 userInfo.put("nickName", userInfoJSON.get("nickName"));
@@ -141,16 +141,22 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     public Map<String, Object> checkKey(String key, String encryptedData, String iv) {
         Map<String, Object> map = new HashMap<>(10);
         Jedis jedis = jedisPool.getResource();
-        if(jedis.hget(key, "session_key") == null || jedis.hget(key, "openid") == null) {
-            map.put("status", 0);
-            map.put("msg", "用户未登录");
-            return map;
+        String sessionKey = "";
+        try {
+            if(jedis.get(key) == null) {
+                map.put("status", 0);
+                map.put("msg", "用户未登录");
+                return map;
+            }
+            sessionKey = jedis.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            jedis.close();
         }
-        String session_key = jedis.hget(key, "session_key");
-        //String openid = jedis.hget(key, "openid");
         //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
         try {
-            String result = Aes.decrypt(encryptedData, session_key, iv);
+            String result = Aes.decrypt(encryptedData, sessionKey, iv);
             if (null != result && result.length() > 0) {
                 log.info("解密成功");
                 JSONObject userInfoJSON = JSONObject.fromObject(result);
