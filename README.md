@@ -10,5 +10,7 @@
 
 #### 软件架构
 
-该项目技术选型：ssm+Thymeleaf+Swagger等等
+后台技术选型：ssm+Thymeleaf+Swagger等等
+
+前台技术选型：微信小程序
 
