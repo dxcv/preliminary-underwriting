@@ -32,7 +32,7 @@ public class UnderwritingController extends BaseController {
      * @param underwriting ---> name 姓名、sex 性别、birthday 出生日期、phone 手机号（选填）、introduce 疾病史介绍
      * @param encryptedData
      * @param iv
-     * @param code
+     * @param key
      * @return Result状态码、状态信息
      */
     @ResponseBody
@@ -41,8 +41,8 @@ public class UnderwritingController extends BaseController {
             notes = "参数：表单formId-formId，name-姓名、sex-性别、birthday-出生日期、phone-手机号（选填）、introduce-疾病史介绍，用户信息三个参数",
             httpMethod = "POST", response = Map.class)
     public Map<String,Object> insert(String formId, Underwriting underwriting,
-                                     String encryptedData, String iv, String code) {
-        return underwritingService.insert(formId,underwriting,encryptedData,iv,code);
+                                     String encryptedData, String iv, String key) {
+        return underwritingService.insert(formId,underwriting,encryptedData,iv,key);
     }
 
     /**
@@ -50,7 +50,7 @@ public class UnderwritingController extends BaseController {
      * @param formId   ---> 核保人提交的表单id
      * @param encryptedData
      * @param iv
-     * @param code
+     * @param key
      * @return Result状态码、状态信息
      */
     @ResponseBody
@@ -59,16 +59,15 @@ public class UnderwritingController extends BaseController {
             notes = "参数：phone-手机号，file-文件，用户信息三个参数",
             httpMethod = "POST", response = Map.class)
     public Map<String,Object> upload(String formId, @RequestParam("file") MultipartFile[] multipartFiles,
-                                     String encryptedData, String iv, String code) {
-        log.info(encryptedData+"--"+iv+"--"+code);
-        return underwritingService.upload(formId,multipartFiles,encryptedData,iv,code);
+                                     String encryptedData, String iv, String key) {
+        return underwritingService.upload(formId,multipartFiles,encryptedData,iv,key);
     }
 
     /**
      * 查询代理人所有核保人
      * @param encryptedData
      * @param iv
-     * @param code
+     * @param key
      * @return Result状态码、状态信息
      */
     @ResponseBody
@@ -76,8 +75,8 @@ public class UnderwritingController extends BaseController {
     @ApiOperation(value = "查询代理人所有核保人——小程序部分",
             notes = "参数：用户信息三个参数",
             httpMethod = "GET", response = Map.class)
-    public Map<String,Object> findUnderwriting(String encryptedData, String iv, String code) {
-        return underwritingService.findUnderwriting(encryptedData,iv,code);
+    public Map<String,Object> findUnderwriting(String encryptedData, String iv, String key) {
+        return underwritingService.findUnderwriting(encryptedData, iv, key);
     }
 
 }

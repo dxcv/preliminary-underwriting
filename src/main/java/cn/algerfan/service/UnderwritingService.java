@@ -47,10 +47,10 @@ public interface UnderwritingService {
      * 小程序查询
      * @param encryptedData
      * @param iv
-     * @param code
+     * @param key
      * @return
      */
-    Map<String,Object> findUnderwriting(String encryptedData, String iv, String code);
+    Map<String,Object> findUnderwriting(String encryptedData, String iv, String key);
 
     /**
      * 后台查询代办

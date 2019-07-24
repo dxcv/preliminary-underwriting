@@ -11,15 +11,19 @@ import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.UnderwritingService;
 import cn.algerfan.util.AesUtil;
 import cn.algerfan.util.CheckUtil;
+import cn.algerfan.util.openid.Aes;
 import cn.algerfan.util.openid.HttpRequest;
 import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -45,10 +49,12 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     private UnderwritingMapper underwritingMapper;
     @Resource
     private AgentMapper agentMapper;
+    @Autowired
+    JedisPool jedisPool;
 
     @Override
-    public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String code) {
-        log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
+    public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String key) {
+        log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  key: "+key);
         log.info("underwriting: "+underwriting);
         Map<String,Object> map = new HashMap<>(10);
         //formId ==null || formId.equals("") ||
@@ -61,16 +67,22 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         //用户凭证不能为空
-        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
+        if (key == null || encryptedData == null || iv ==null || key.length() == 0 || encryptedData.equals("") || iv.equals("")) {
             map.put("status", 0);
-            map.put("msg", "code、encryptedData、iv 不能为空");
+            map.put("msg", "key、encryptedData、iv 不能为空");
             return map;
         }
-        Map<String, Object> map1 = Openid.session_key(code);
+        String openId = getSession(encryptedData, iv, key);
+        if("0".equals(openId)) {
+            map.put("status", 0);
+            map.put("msg", "用户未登录");
+            return map;
+        }
+//        Map<String, Object> map1 = Openid.session_key(code);
 
         Agent check = null;
         try {
-            check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
+            check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(openId, "lovewlgzs5201314"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,17 +92,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             log.info("添加失败，该代理人不存在");
             return map;
         }
-        /*Underwriting underwriting1 = underwritingMapper.selectByAgentIdAndPhone(check.getAgentId(),underwriting.getPhone());
-        if(underwriting1 != null) {
-            underwriting.setUpdateTime(new Date());
-            underwriting.setAgentId(check.getAgentId());
-            underwriting.setUnderwritingId(underwriting1.getUnderwritingId());
-            underwritingMapper.updateByPrimaryKeySelective(underwriting);
-            map.put("status", 1);
-            map.put("msg","该核保人已存在，已更新资料");
-            log.info("该核保人已存在，已更新资料");
-            return map;
-        }*/
         underwriting.setSubmitTime(new Date());
         underwriting.setAgentId(check.getAgentId());
         underwritingMapper.insert(underwriting);
@@ -101,18 +102,25 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     }
 
     @Override
-    public Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String code) {
+    public Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String key) {
+        log.info(encryptedData+"--"+iv+"--"+key);
         Map<String,Object> map = new HashMap<>();
         //用户凭证不能为空
-        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
+        if (key == null || encryptedData == null || iv ==null || key.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
             map.put("status", 0);
-            map.put("msg", "code、encryptedData、iv 不能为空");
+            map.put("msg", "key、encryptedData、iv 不能为空");
             return map;
         }
-        Map<String, Object> map1 = Openid.session_key(code);
+        String openId = getSession(encryptedData, iv, key);
+        if("0".equals(openId)) {
+            map.put("status", 0);
+            map.put("msg", "用户未登录");
+            return map;
+        }
+//        Map<String, Object> map1 = Openid.session_key(code);
         Agent check = null;
         try {
-            check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
+            check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(openId, "lovewlgzs5201314"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,20 +215,55 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         }
     }
 
+    private String getSession(String encryptedData, String iv, String key) {
+        Jedis jedis = jedisPool.getResource();
+        String sessionKey = "";
+        try {
+            if(jedis.get(key) == null) {
+                return "0";
+            }
+            sessionKey = jedis.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            jedis.close();
+        }
+        String openId;
+        //////////////// 对encryptedData加密数据进行AES解密 ////////////////
+        try {
+            String result = Aes.decrypt(encryptedData, sessionKey, iv);
+            if (null != result && result.length() > 0) {
+                log.info("解密成功");
+                JSONObject userInfoJSON = JSONObject.fromObject(result);
+                openId = (String) userInfoJSON.get("openId");
+                return openId;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+
     @Override
-    public Map<String,Object> findUnderwriting(String encryptedData, String iv, String code) {
+    public Map<String,Object> findUnderwriting(String encryptedData, String iv, String key) {
         Map<String,Object> map = new HashMap<>();
         //登录凭证不能为空
-        if (code == null || encryptedData == null || iv ==null || code.length() == 0 || encryptedData.equals("") || iv.equals("")) {
+        if (key == null || encryptedData == null || iv ==null || key.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
             map.put("status", 0);
-            map.put("msg", "code、encryptedData、iv 不能为空");
+            map.put("msg", "key、encryptedData、iv 不能为空");
             return map;
         }
-        Map<String, Object> map1 = Openid.session_key(code);
+        String openId = getSession(encryptedData, iv, key);
+        if("0".equals(openId)) {
+            map.put("status", 0);
+            map.put("msg", "用户未登录");
+            return map;
+        }
+//        Map<String, Object> map1 = Openid.session_key(code);
 
         String password = null;
         try {
-            password = AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314");
+            password = AesUtil.aesEncrypt(openId, "lovewlgzs5201314");
         } catch (Exception e) {
             e.printStackTrace();
         }
