@@ -168,11 +168,11 @@
       <artifactId>fastjson</artifactId>
       <version>1.2.42</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.9.13</version>
-    </dependency>
+    </dependency>-->
     <!--文件上传组件包-->
     <dependency>
       <groupId>commons-fileupload</groupId>
@@ -256,11 +256,11 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.9.0</version>
     </dependency>
-      <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-core</artifactId>
-          <version>9.0.17</version>
-      </dependency>
+    <!--<dependency>
+         <groupId>org.apache.tomcat.embed</groupId>
+         <artifactId>tomcat-embed-core</artifactId>
+         <version>9.0.17</version>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>

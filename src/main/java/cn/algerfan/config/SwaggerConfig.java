@@ -19,6 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author algerfan
  * @since 2019/4/22 21
  */
+//已关闭，如需使用请打开以下四个注解
 /*重要！如果你的项目引入junit测试，此处需要使用@WebAppConfiguration，如果没有使用junit使用@Configuration(很多的博客都没有注明这个问题，为此我花了非常多的时间解决问题)*/
 //@Configuration
 //@EnableSwagger2//重要！
