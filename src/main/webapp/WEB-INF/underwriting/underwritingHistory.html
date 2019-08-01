@@ -101,7 +101,7 @@
                 <!--分页-->
                 <div class="fenye" th:if="${keyword == null}">
                     <ul class="pagination pagination-lg" >
-                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1}}">上一页</a></li>
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:class="${pageNum==1}?'praise' : ''" th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1}}">上一页</a></li>
                         <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-3}}" th:text="${pageNum -3}" >1</a></li>
                         <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-2}}" th:text="${pageNum -2}" >1</a></li>
                         <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1}}" th:text="${pageNum -1}" >1</a></li>
@@ -109,13 +109,12 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
-
-                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}}">下一页</a></li>
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==pages}?'praise' : ''" th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}}">下一页</a></li>
                     </ul><br>
                 </div>
                 <div class="fenye" th:if="${keyword != null}">
                     <ul class="pagination pagination-lg" >
-                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:href="@{'/admin/underwriting/selectHistory?pageNum='+${pageNum-1}+'&keyword='+${keyword} }">上一页</a></li>
+                        <li th:class="${pageNum==1}?'disabled' : ''"><a th:class="${pageNum==1}?'praise' : ''" th:href="@{'/admin/underwriting/selectHistory?pageNum='+${pageNum-1}+'&keyword='+${keyword} }">上一页</a></li>
                         <li th:if="${pageNum-3 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-3}+'&keyword='+${keyword} }" th:text="${pageNum -3}" >1</a></li>
                         <li th:if="${pageNum-2 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-2} +'&keyword='+${keyword} }" th:text="${pageNum -2}" >1</a></li>
                         <li th:if="${pageNum-1 >=1}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum-1} +'&keyword='+${keyword} }" th:text="${pageNum -1}" >1</a></li>
@@ -123,7 +122,7 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1} +'&keyword='+${keyword} }" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+2}+'&keyword='+${keyword} }" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+3}+'&keyword='+${keyword} }" th:text="${pageNum +3}" >1</a></li>
-                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}+'&keyword='+${keyword} }">下一页</a></li>
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==pages}?'praise' : ''" th:href="@{'/admin/underwriting/selectHistory?pageNum=' + ${pageNum+1}+'&keyword='+${keyword} }">下一页</a></li>
                     </ul><br>
                 </div>
 
@@ -136,6 +135,5 @@
 <script th:src="@{/static/js/demo.js}"></script>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
 <script th:src="@{/static/js/underwritingHistory.js}"></script>
-
 
 </html>

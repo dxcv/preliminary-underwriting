@@ -6,6 +6,7 @@ import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.AnnouncementMapper;
 import cn.algerfan.service.AnnouncementService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return announcementMapper.select();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result insert(Announcement announcement) {
         if(announcement.getType() == null || "".equals(announcement.getType()) ||
@@ -47,6 +49,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return new Result(ResultCodeEnum.SAVE);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result delete(Integer announcementId) {
         if(announcementId == null || announcementId == 0) {
@@ -63,6 +66,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return announcementMapper.selectByPrimaryKey(announcementId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result update(Integer announcementId, Announcement announcement) {
         if(announcementId == null || announcementId == 0 ||

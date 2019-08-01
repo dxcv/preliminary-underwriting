@@ -104,6 +104,11 @@
     from tb_underwriting
     where underwriting_id = #{underwritingId,jdbcType=INTEGER}
   </select>
+  <select id="deleteByAgentId" parameterType="java.lang.Integer" >
+    delete
+    from tb_underwriting
+    where agent_id = #{agentId,jdbcType=INTEGER}
+  </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

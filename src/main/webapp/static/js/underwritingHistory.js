@@ -34,4 +34,5 @@ $('.date_num').mouseenter(function () {
         let href='/admin/underwriting/statistical?keyword='+$('.jeinput').val()+'&type=2';
         $('.date_num').attr('href',href);
     }
-})
+});
+$(".praise").attr("disabled",true).css("pointer-events","none");

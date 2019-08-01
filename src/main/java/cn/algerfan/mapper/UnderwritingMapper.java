@@ -19,6 +19,13 @@ public interface UnderwritingMapper {
     int deleteByPrimaryKey(Integer underwritingId);
 
     /**
+     * 根据agentId查询
+     * @param agentId
+     * @return
+     */
+    int deleteByAgentId(@Param(value="agentId") Integer agentId);
+
+    /**
      * 添加核保人
      * @param record
      * @return
@@ -59,7 +66,7 @@ public interface UnderwritingMapper {
     List<Underwriting> selectByAgentId(@Param(value="agentId") Integer agentId);
 
     /**
-     * 根据姓名模糊查询代办的个数
+     * 根据姓名模糊查询代办的underwritingId
      * @param keyword
      * @return
      */

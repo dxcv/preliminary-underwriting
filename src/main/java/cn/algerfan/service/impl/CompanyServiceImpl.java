@@ -10,6 +10,7 @@ import cn.algerfan.service.CompanyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
     @Resource
     private CompanyMapper companyMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result insert(Company company) {
         if(company.getCompany() == null || "".equals(company.getCompany()) ||
@@ -52,6 +54,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
         return new Result(ResultCodeEnum.SAVE);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result delete(Integer companyId) {
         if(companyId == null || companyId == 0) {
@@ -68,6 +71,7 @@ public class CompanyServiceImpl  extends BaseDao<Company> implements CompanyServ
         return companyMapper.selectByPrimaryKey(companyId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result update(Integer companyId, Company company) {
         if(companyId == null || companyId == 0 || company.getCompany() == null || "".equals(company.getCompany()) ||

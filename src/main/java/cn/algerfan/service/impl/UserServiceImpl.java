@@ -71,6 +71,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateUser(Integer userId, User user) {
         if(user.getRole()==null || user.getRole()==0 ||
@@ -98,6 +99,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         return new Result(ResultCodeEnum.UPDATE);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result deleteUser(Integer userId) {
         if(userId == null || userId == 0) {
@@ -157,6 +159,7 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         return result1;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateAdministrator(Integer userId) {
         if(userId==null || userId==0) {

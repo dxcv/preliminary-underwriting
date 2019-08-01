@@ -162,16 +162,17 @@ $('.addAnnouncement').click(function () {
 // 删除公告
 $('.deleteAnnouncement').click(function () {
     const thisId = $(this).next().text();
-    if(confirm('此操作危险！你确定要删除吗？')) {
+    if(confirm('你确定要删除吗？')) {
         $.ajax({
             url: "/admin/announcement?announcementId=" + thisId,
             type: 'DELETE',
             dataType: "JSON",
             contentType: "application/json",
             success: function (data) {
-                // alert(data.msg);
+                alert(data.msg);
                 window.location.href = '/admin/announcement/select';
             }
         })
     }
 });
+$(".praise").attr("disabled",true).css("pointer-events","none");

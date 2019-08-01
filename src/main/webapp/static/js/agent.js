@@ -1,16 +1,18 @@
 //删除代理人
 $('.deleteAgent').on('click',function () {
     var thisId = $(this).data('id');
-    $.ajax({
-        url: "/admin/agent?agentId="+thisId,
-        type : 'DELETE',
-        dataType: "JSON",
-        contentType: "application/json",
-        success: function (data) {
-            alert(data.msg);
-            window.location.href='/admin/agent/select';
-        }
-    })
+    if(confirm('此操作危险！你确定要删除吗？')) {
+        $.ajax({
+            url: "/admin/agent?agentId=" + thisId,
+            type: 'DELETE',
+            dataType: "JSON",
+            contentType: "application/json",
+            success: function (data) {
+                alert(data.msg);
+                window.location.href = '/admin/agent/select';
+            }
+        })
+    }
 });
 
 //提交搜索
@@ -41,3 +43,4 @@ function getParamFromUrl(name){
     var r = getParamString(window.location.search,name)
     return r
 }
+$(".praise").attr("disabled",true).css("pointer-events","none");

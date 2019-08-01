@@ -49,21 +49,21 @@
                         <div class="details-item-l">
                             <span>昵称</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r nickname" th:value="${agent.nickname}" />
+                        <input class="details-item-r nickname nicks" th:value="${agent.nickname}" />
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>公司</span>
                         </div>
-                        <input disabled="disabled" class="details-item-r nickname" th:value="${agent.company}" />
+                        <select class="AgentSelect" >
+                            <option class="changAgentCompany" th:each="company:${companyList}" th:value="${company.company}" th:text="${company.company}" th:selected="${agent.company == company.company}">Volvo</option>
+                        </select>
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
                             <span>公司简称</span>
                         </div>
-                        <select class="AgentSelect">
-                            <option class="changAgentCompany" th:each="company:${companyList}" th:value="${company.firm}" th:text="${company.firm}">Volvo</option>
-                        </select>
+                        <input disabled="disabled" class="details-item-r nickname fullName" th:value="${agent.firm}" />
                     </div>
                     <div class="details-item">
                         <div class="details-item-l">
@@ -75,7 +75,7 @@
                         <input style="display: none;" class="changeAgentId" th:value="${agent.agentId}" type="text">
                         <div class="result changeAgent" data-status="修改">修改</div>
                         <div class="result goAgent" data-status="返回">返回</div>
-                        <span style="font-size: 10px;color: red;line-height: 35px;">PS : 修改公司后务必修改工号，否则会产生登录异常</span>
+                        <span style="font-size: 13px;color: red;line-height: 35px;">PS : 昵称，公司和工号均可修改，修改公司后务必修改工号，否则会产生登录异常</span>
                     </div>
                 </div>
             </div>
@@ -85,4 +85,17 @@
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
 <script th:src="@{/static/js/underwriting.js}"></script>
+<script th:inline="javascript">
+    var data = [[${companyList}]];
+    $(document).ready(function(){
+        $('.AgentSelect').change(function(){
+            var select = $(this).children('option:selected').val();
+            for (let i = 0; i < data.length; i++) {
+                if(select == data[i].company) {
+                    $('.fullName').val(data[i].firm);
+                }
+            }
+        })
+    })
+</script>
 </html>

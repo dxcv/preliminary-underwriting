@@ -71,11 +71,13 @@ function showModal(){
 }
 $('.goAgent').click(function () {
     window.location.href='/admin/agent/select';
-})
+});
 $('.changeAgent').click(function () {
-   const COMPANY = $('.changAgentCompany').val();
-   const EMPLOYEEID=$('.changeEmployeeId').val();
    const AGENTID=$('.changeAgentId').val();
+   const NICKNAME=$('.nicks').val();
+   const COMPANY = $('.fullName').val();
+   const EMPLOYEEID=$('.changeEmployeeId').val();
+
    if(COMPANY==''){
        alert('公司不能为空！');
    }else if(EMPLOYEEID==''){
@@ -86,8 +88,9 @@ $('.changeAgent').click(function () {
            type : 'PUT',
            data: {
                'agentId':AGENTID,
-               'employeeId':EMPLOYEEID,
-               'firm':COMPANY
+               'nickname':NICKNAME,
+               'firm':COMPANY,
+               'employeeId':EMPLOYEEID
            },
            dataType: "JSON",
            success: function (data) {
@@ -97,21 +100,4 @@ $('.changeAgent').click(function () {
        })
    }
 });
-//打开图片
-// function showimg(){
-//     $('.shadow').show();
-//     $('.imgs').show();
-// }
-// function noneimg(){
-//     $('.shadow').hide();
-//     $('.imgs').hide();
-// }
-// $('.item-img').on('click',function () {
-//     showimg();
-//     // let src=$(this).attr('src');
-//     // console.log(src);
-//     //  $('.imgs-block').attr('src',src)
-// })
-// $('.shadow').click(function () {
-//     noneimg();
-// })
+$(".praise").attr("disabled",true).css("pointer-events","none");

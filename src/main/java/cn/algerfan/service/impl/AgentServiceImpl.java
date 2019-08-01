@@ -3,12 +3,15 @@ package cn.algerfan.service.impl;
 import cn.algerfan.base.BaseDao;
 import cn.algerfan.domain.Company;
 import cn.algerfan.domain.Result;
+import cn.algerfan.domain.Underwriting;
 import cn.algerfan.enums.ResultCodeEnum;
 import cn.algerfan.mapper.AgentMapper;
 import cn.algerfan.domain.Agent;
 import cn.algerfan.mapper.CompanyMapper;
+import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.service.AgentService;
 import cn.algerfan.util.AesUtil;
+import cn.algerfan.util.FileUtil;
 import cn.algerfan.util.openid.Aes;
 import cn.algerfan.util.openid.Openid;
 import com.github.pagehelper.PageHelper;
@@ -16,7 +19,9 @@ import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
@@ -24,6 +29,7 @@ import redis.clients.jedis.Pipeline;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -38,13 +44,18 @@ import java.util.*;
  */
 @Service
 public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
+    @Value("${filePath}")
+    private String filePath;
     @Resource
     private AgentMapper agentMapper;
     @Resource
     private CompanyMapper companyMapper;
+    @Resource
+    private UnderwritingMapper underwritingMapper;
     @Autowired
-    JedisPool jedisPool;
+    private JedisPool jedisPool;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request) {
         log.info("employeeId："+employeeId+"    company："+company+"   encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
@@ -187,17 +198,27 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
         return agentMapper.selectByPrimaryKey(agentId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result delete(Integer agentId) {
         if(agentId == null || agentId == 0) {
             return new Result(ResultCodeEnum.UNDELETE);
         }
-        if(agentMapper.deleteByPrimaryKey(agentId) == 0) {
+        Agent agent = agentMapper.selectByPrimaryKey(agentId);
+        List<Underwriting> underwritingList = underwritingMapper.selectByAgentId(agent.getAgentId());
+        for (Underwriting underwriting : underwritingList) {
+            if(underwriting.getData() != null) {
+                String newDir = filePath + underwriting.getData().substring(0, 23) + underwriting.getName();
+                new FileUtil().deleteDir(new File(newDir));
+            }
+        }
+        if(agentMapper.deleteByPrimaryKey(agentId) == 0 || underwritingMapper.deleteByAgentId(agentId) == 0) {
             return new Result(ResultCodeEnum.UNDELETE);
         }
         return new Result(ResultCodeEnum.DELETE);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result update(Integer agentId, Agent agent) {
         if(agentId == null || agentId == 0 || agent.getEmployeeId() ==null || "".equals(agent.getEmployeeId()) ||

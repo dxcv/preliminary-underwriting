@@ -21,6 +21,7 @@ import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -52,6 +53,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     @Autowired
     JedisPool jedisPool;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String key) {
         log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  key: "+key);
@@ -101,6 +103,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         return map;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String key) {
         log.info(encryptedData+"--"+iv+"--"+key);
@@ -301,7 +304,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                     }
                 }
             }
-
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < select.size(); i++) {
                 underwritingTimes.add(new UnderwritingTime(select.get(i).getUnderwritingId(), agentList1.get(i).getNickname(),
@@ -310,7 +312,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
         }
         PageInfo<UnderwritingTime> underwritingTimePageInfo = new PageInfo<>(underwritingTimes);
-        underwritingTimePageInfo.setPages(count.size()/pageSize);
+        underwritingTimePageInfo.setPages(count.size()/pageSize+1);
         return underwritingTimePageInfo;
     }
 
@@ -348,7 +350,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             }
         }
         PageInfo<UnderwritingTime> underwritingTimePageInfo = new PageInfo<>(underwritingTimes);
-        underwritingTimePageInfo.setPages(count.size()/pageSize);
+        underwritingTimePageInfo.setPages(count.size()/pageSize+1);
         return underwritingTimePageInfo;
     }
 
