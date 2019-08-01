@@ -91,7 +91,7 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+2}}" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+3}}" th:text="${pageNum +3}" >1</a></li>
-                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==1}?'praise' : ''" th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==pages}?'praise' : ''" th:href="@{'/admin/agent/select?pageNum=' + ${pageNum+1}}">下一页</a></li>
                     </ul><br>
                 </div>
                 <div class="fenye" th:if="${nickname != null}">
@@ -104,7 +104,7 @@
                         <li th:if="${pageNum+1 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+1} +'&nickname='+${nickname} }" th:text="${pageNum +1}" >1</a></li>
                         <li th:if="${pageNum+2 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+2}+'&nickname='+${nickname} }" th:text="${pageNum +2}" >1</a></li>
                         <li th:if="${pageNum+3 <=pages}" ><a th:href="@{'/admin/company/select?pageNum=' + ${pageNum+3}+'&nickname='+${nickname} }" th:text="${pageNum +3}" >1</a></li>
-                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==1}?'praise' : ''" th:href="@{'/admin/company/select?pageNum=' + ${pageNum+1}+'&nickname='+${nickname} }">下一页</a></li>
+                        <li th:class="${pageNum==pages}?'disabled' : ''" ><a th:class="${pageNum==pages}?'praise' : ''" th:href="@{'/admin/company/select?pageNum=' + ${pageNum+1}+'&nickname='+${nickname} }">下一页</a></li>
                     </ul><br>
                 </div>
             </div>
