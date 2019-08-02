@@ -65,7 +65,6 @@ public class AdminAgentController extends BaseController {
         model.addAttribute("companyList",stringObjectMap.get("companyList"));
         model.addAttribute("查询成功");
         model.addAttribute("agent",agent);
-        log.info("查询成功："+agent);
         return new ModelAndView("agent/updateAgent");
     }
 
@@ -97,7 +96,6 @@ public class AdminAgentController extends BaseController {
     public ModelAndView select(String nickname, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<Agent> select = agentService.select(nickname, pageNum, pageSize);
-        log.info("查询成功："+select.getList());
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
         model.addAttribute("pageNum",select.getPageNum());

@@ -136,10 +136,10 @@
       <version>1.4</version>
     </dependency>
     <!--日志文件管理包——logStart-->
-    <dependency>
+    <!--<dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>

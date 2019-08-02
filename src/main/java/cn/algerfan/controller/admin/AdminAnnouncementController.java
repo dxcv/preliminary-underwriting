@@ -38,7 +38,6 @@ public class AdminAnnouncementController extends BaseController {
         List<Announcement> announcements = announcementService.select();
         model.addAttribute("msg", "查询成功");
         model.addAttribute("announcements", announcements);
-        log.info("查询成功："+announcements);
         return new ModelAndView("announcement/announcement");
     }
 
@@ -87,7 +86,6 @@ public class AdminAnnouncementController extends BaseController {
         }
         model.addAttribute("查询成功");
         model.addAttribute("announcement",announcement);
-        log.info("查询成功："+announcement);
         return new ModelAndView("announcement/updateAnnouncement");
     }
 

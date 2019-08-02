@@ -79,21 +79,4 @@ public class PropertiesServiceImpl implements PropertiesService {
         return null;
     }
 
-    @Override
-    public Result getLink(String url, String keyword) {
-        //201905
-        String year = keyword.substring(0,4);
-        String month = keyword.substring(4);
-        String downloadPath = "/"+ keyword +".zip";
-        FileUtil book = new FileUtil();
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(new File(filePath + downloadPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        book.toZip(filePath +"/uploadData/" + year + "/" + month, fileOutputStream,true);
-        return new Result(ResultCodeEnum.SUCCESS, url + "/file/files" + downloadPath);
-    }
-
 }

@@ -56,26 +56,12 @@ public class PropertiesController extends BaseController {
      * @param filename
      * @return
      */
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/files")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(String filename) {
         Resource file = propertiesService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
-    /**
-     * 获取下载地址（压缩）
-     * @param url
-     * @param keyword
-     * @return
-     */
-    @GetMapping("/getLink")
-    @ResponseBody
-    @ApiOperation(value = "获取下载地址（压缩）", notes = "获取下载地址（压缩） 参数：path-项目URL前缀，比如127.0.0.1:10015，keyword-时间间隔",
-            httpMethod = "GET")
-    public Result getLink(String url, String keyword) {
-        return propertiesService.getLink(url, keyword);
     }
 
 }

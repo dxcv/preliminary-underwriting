@@ -58,7 +58,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> register(String employeeId, String company, String encryptedData, String iv, String code, HttpServletRequest request) {
-        log.info("employeeId："+employeeId+"    company："+company+"   encryptedData: "+encryptedData+"  iv: "+iv+"  code: "+code);
         Map<String, Object> map = new HashMap<>(10);
         if (employeeId == null || employeeId.length() == 0 || company==null || "".equals(company)) {
             map.put("status", 0);
@@ -109,7 +108,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
-                log.info("userInfo: "+userInfo);
                 Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
@@ -179,7 +177,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
-                log.info("userInfo: "+userInfo);
                 Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt((String) userInfoJSON.get("openId"), "lovewlgzs5201314"));
                 if(check==null) {
                     map.put("status", 0);
@@ -256,8 +253,7 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
         String last = keyword.substring(13);
         List<Agent> agentList = agentMapper.selectAll();
         List<Agent> agentArrayList = new ArrayList<>(agentList);
-        agentArrayList.sort((Agent a1, Agent a2) -> a1.getCompany().compareTo(a2.getCompany()));
-        log.info("查询成功："+ agentArrayList);
+        agentArrayList.sort(Comparator.comparing(Agent::getCompany));
         if(agentList.size()!=0) {
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();

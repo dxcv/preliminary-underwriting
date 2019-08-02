@@ -26,7 +26,7 @@ public class AopServerAspectj {
 
     @Around("cutPoint()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
-        System.out.println("==========>"+joinPoint.getTarget().getClass()+":around~");
+        log.info("==========>"+joinPoint.getTarget().getClass()+":around~");
 
         return joinPoint.proceed();
     }
@@ -37,7 +37,7 @@ public class AopServerAspectj {
         //所有申明的方法（不包括继承的）
         Method[] declaredMethods = clazz.getDeclaredMethods();
         for (Method m : declaredMethods){
-            System.out.println("the declaredMethod of this class:"+m.getName());
+            log.info("the declaredMethod of this class:"+m.getName());
         }
     }
     @AfterReturning("cutPoint()")
@@ -47,7 +47,7 @@ public class AopServerAspectj {
         //所有申明的方法（不包括继承的）
         Method[] declaredMethods = clazz.getDeclaredMethods();
         for (Method m : declaredMethods){
-            System.out.println("the declaredMethod of this class:"+m.getName());
+            log.info("the declaredMethod of this class:"+m.getName());
         }
     }
 }

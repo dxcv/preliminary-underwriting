@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="Shortcut Icon" th:href="@{/static/images/logo.icon}">
-    <title>预核保-公司管理</title>
+    <title>预核保-文件管理</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/public.css}" />
 </head>
@@ -26,11 +26,11 @@
         <li>
             <a class="flex" th:href="@{/admin/announcement/select}">公告信息</a>
         </li>
-        <li  class="active" th:if="${session.user.role}=='200'">
-            <a class="flex" th:href="@{/admin/company/select}"><img th:src="@{/static/images/dengdai.png}"> <span>公司管理</span></a>
-        </li>
         <li th:if="${session.user.role}=='200'">
-            <a class="flex" th:href="@{/admin/zip/selectMonth}">文件管理</a>
+            <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
+        </li>
+        <li class="active" th:if="${session.user.role}=='200'">
+            <a class="flex" th:href="@{/admin/zip/selectMonth}"><img th:src="@{/static/images/dengdai.png}"> <span>文件管理</span></a>
         </li>
         <li th:if="${session.user.role}=='200'">
             <a class="flex" th:href="@{/admin/user/select}">管理员管理</a>
@@ -39,67 +39,42 @@
 </div>
 <div class="wrap ">
     <div class="header" th:include="pubic/header :: header"></div>
-    <div class="add_modal">
-        <div class="modal_tit">添加公司</div>
-        <div class="modal_oper">
-            <a href="javascript:;" class="oper_close"></a>
-        </div>
-        <div class="modal_con">
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>公司名称</span>
-                </div>
-                <input class="con_input_r con_input_alike company" type="text" placeholder="请输入添加的公司名称" />
-            </div>
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>公司简称</span>
-                </div>
-                <input class="con_input_r con_input_alike firm" type="text" placeholder="请输入添加的公司简称" />
-            </div>
-            <div class="con_input">
-                <div class="con_input_l con_input_alike">
-                    <span>工号规则</span>
-                </div>
-                <input class="con_input_r con_input_alike jobNumber" type="text" placeholder="请输入公司工号的前四位" />
-            </div>
-        </div>
-        <div class="modal_sub">
-            <a class="sub_yes addcompany">提交</a>
-            <a class="sub_no">取消</a>
-        </div>
-    </div>
     <div class="shadow"></div>
     <div class="tables" style="margin: 0px;">
-        <div class="table_seach anim">
-            <input id="companyName" placeholder="请输入公司名称" />
-            <div class="seach">搜索</div>
-        </div>
         <div class="t_box anim">
             <div class="box_tit">
-                <span class="box_tit_sea">公司工号管理</span>
-                <div class="box_add">添加</div>
+                <span class="box_tit_sea">文件管理</span>
             </div>
             <div class="box_table">
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="active">
-                        <th>公司名</th>
-                        <th>公司简称</th>
-                        <th>工号规则</th>
+                        <th>年月</th>
+                        <th>下载链接</th>
+                        <th>复制链接</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="company:${list}">
-                        <td th:text="${company.company}"></td>
-                        <td th:text="${company.firm}"></td>
-                        <td th:text="${company.jobNumber}"+‘******’></td>
+                    <tr th:each="zip:${list}">
+                        <td th:text="${zip.month}"></td>
+                        <td th:if="${zip.compress=='0'}">暂无，请先打包文件</td>
+                        <td id="content" th:if="${zip.compress=='1'}" th:text="${zip.download}"></td>
+                        <td th:if="${zip.compress=='2'}">该月份数据已删除</td>
                         <td>
                             <div class="operation">
-                                <a class="op_agree" th:href="@{/admin/company/toUpdate(companyId=${company.companyId})}">编辑</a>
-                                <a class="op_refuse deletecompany">删除</a>
-                                <div style="display: none;" th:text="${company.companyId}"></div>
+                                <div class="zipId" th:if="${zip.compress=='0'}">暂无，请先打包文件</div>
+                                <a class="op_agree btn" th:if="${zip.compress=='1'}">复制链接</a>
+                                <div class="zipId" th:if="${zip.compress=='2'}">该月份数据已删除</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="operation">
+                                <a class="op_agree packaging" th:if="${zip.compress=='0'}">打包文件</a>
+                                <a class="op_agree packagingTwo" th:if="${zip.compress=='1'}">重新打包文件</a>
+                                <a class="op_refuse deleteMonth" th:if="${zip.compress=='1'}">删除文件</a>
+                                <div class="zipId" th:if="${zip.compress=='2'}">该月份数据已删除</div>
+                                <div style="display: none;" class="zipId" th:text="${zip.zipId}"></div>
                             </div>
                         </td>
                     </tr>
@@ -140,5 +115,20 @@
 </body>
 <script th:src="@{/static/js/jquery-2.1.0.js}"></script>
 <script th:src="@{/static/js/index.js}"></script>
-<script th:src="@{/static/js/company.js}"></script>
+<script th:src="@{/static/js/zip.js}"></script>
+<script th:src="@{/static/js/clipboard.js}"></script>
+<script>
+    var content = $("#content").html();
+    var clipboard = new Clipboard('.btn', {
+        text: function() {
+            return content;
+        }
+    });
+    clipboard.on('success', function(e) {
+        alert("复制成功");
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+</script>
 </html>

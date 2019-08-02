@@ -92,7 +92,6 @@ public class AdminUserController extends BaseController {
         }
         model.addAttribute("查询成功");
         model.addAttribute("user",user);
-        log.info("查询成功："+user);
         return new ModelAndView("user/updateUser");
     }
 
@@ -121,7 +120,6 @@ public class AdminUserController extends BaseController {
         }
         model.addAttribute("查询成功");
         model.addAttribute("user",user);
-        log.info("查询成功："+user);
         return new ModelAndView("user/updatePerson");
     }
 
@@ -151,7 +149,6 @@ public class AdminUserController extends BaseController {
             "userId，用户名userName，姓名name，电话phone，角色role", httpMethod = "GET")
     public ModelAndView select(Model model) {
         List<UserDTO> allUser = userService.getAllUser();
-        log.info("查询成功："+allUser);
         model.addAttribute("userList", allUser);
         return new ModelAndView("user/userList");
     }

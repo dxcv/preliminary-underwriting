@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.algerfan.mapper.ZipMapper" >
+  <resultMap id="BaseResultMap" type="cn.algerfan.domain.Zip" >
+    <id column="zip_id" property="zipId" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="VARCHAR" />
+    <result column="download" property="download" jdbcType="VARCHAR" />
+    <result column="compress" property="compress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    zip_id, month, download, compress
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_zip
+    where zip_id = #{zipId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_zip
+    where zip_id = #{zipId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.algerfan.domain.Zip" >
+    insert into tb_zip (zip_id, month, download, compress
+      )
+    values (#{zipId,jdbcType=INTEGER}, #{month,jdbcType=VARCHAR}, #{download,jdbcType=VARCHAR}, #{compress,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.algerfan.domain.Zip" >
+    insert into tb_zip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="zipId != null" >
+        zip_id,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="download != null" >
+        download,
+      </if>
+      <if test="compress != null" >
+        compress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="zipId != null" >
+        #{zipId,jdbcType=INTEGER},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        #{download,jdbcType=VARCHAR},
+      </if>
+      <if test="compress != null" >
+        #{compress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.algerfan.domain.Zip" >
+    update tb_zip
+    <set >
+      <if test="month != null" >
+        month = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        download = #{download,jdbcType=VARCHAR},
+      </if>
+      <if test="compress != null" >
+        compress = #{compress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where zip_id = #{zipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.algerfan.domain.Zip" >
+    update tb_zip
+    set month = #{month,jdbcType=VARCHAR},
+      download = #{download,jdbcType=VARCHAR},
+      compress = #{compress,jdbcType=VARCHAR}
+    where zip_id = #{zipId,jdbcType=INTEGER}
+  </update>
+  <select id="selectMonth" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_zip
+  </select>
+  <select id="selectByMonth" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_zip
+    where month = #{month,jdbcType=VARCHAR}
+  </select>
+</mapper>

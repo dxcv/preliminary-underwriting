@@ -36,11 +36,4 @@ public interface PropertiesService {
      */
     Resource loadAsResource(String filename);
 
-    /**
-     * 获取下载地址（压缩）
-     * @param url
-     * @param keyword
-     * @return
-     */
-    Result getLink(String url, String keyword);
 }

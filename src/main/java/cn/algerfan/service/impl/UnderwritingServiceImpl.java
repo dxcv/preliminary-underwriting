@@ -56,8 +56,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String,Object> insert(String formId, Underwriting underwriting, String encryptedData, String iv, String key) {
-        log.info("encryptedData: "+encryptedData+"  iv: "+iv+"  key: "+key);
-        log.info("underwriting: "+underwriting);
         Map<String,Object> map = new HashMap<>(10);
         //formId ==null || formId.equals("") ||
         if (underwriting.getName() == null || "".equals(underwriting.getName()) ||
@@ -106,7 +104,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> upload(String formId, MultipartFile[] multipartFiles, String encryptedData, String iv, String key) {
-        log.info(encryptedData+"--"+iv+"--"+key);
         Map<String,Object> map = new HashMap<>();
         //用户凭证不能为空
         if (key == null || encryptedData == null || iv ==null || key.length() == 0 || "".equals(encryptedData) || "".equals(iv)) {
@@ -133,9 +130,7 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             log.info("添加失败，该代理人不存在");
             return map;
         }
-        log.info("------------"+formId);
         Underwriting underwriting = underwritingMapper.selectByFormId(formId);
-        log.info(underwriting);
         if(underwriting == null) {
             map.put("status", 0);
             map.put("msg","添加失败，该核保人不存在");
@@ -277,7 +272,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
             return map;
         }
         List<Underwriting> underwritingList =  underwritingMapper.selectByAgentId(agent.getAgentId());
-        log.info("查询成功: "+underwritingList);
         map.put("status",1);
         map.put("msg","查询成功");
         map.put("list",underwritingList);
@@ -428,9 +422,8 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
                         underwritingArrayList.get(i).getBirthday(),underwritingArrayList.get(i).getIntroduce(),
                         underwritingArrayList.get(i).getConclusion(),underwritingArrayList.get(i).getSubmitTime()));
             }
-            underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getCompany().compareTo(h2.getCompany()));
-            underwritingDTOList.sort((UnderwritingDTO h1, UnderwritingDTO h2) -> h1.getNickname().compareTo(h2.getNickname()));
-            log.info("查询成功："+ underwritingDTOList);
+            underwritingDTOList.sort(Comparator.comparing(UnderwritingDTO::getCompany));
+            underwritingDTOList.sort(Comparator.comparing(UnderwritingDTO::getNickname));
 
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();
@@ -568,7 +561,6 @@ public class UnderwritingServiceImpl extends BaseDao<Underwriting> implements Un
         jsonObject.put("data", templateContent);
         jsonObject.put("emphasis_keyword","keyword2.DATA");
         String string = HttpRequest.sendPost(jsonObject);
-        log.info(string);
         String status = "ok";
         if(string.contains(status)) {
             underwriting.setConclusion("审核结果："+ auditResult+ "，备注：" +note);

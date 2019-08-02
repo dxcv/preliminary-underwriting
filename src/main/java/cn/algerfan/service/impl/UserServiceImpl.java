@@ -169,7 +169,6 @@ public class UserServiceImpl extends BaseDao<User> implements UserService {
         if(user==null) {
             return new Result(ResultCodeEnum.UNUPDATE);
         }
-        log.info(user);
         if(user.getRole()==100) {
             user.setRole(300);
         } else if(user.getRole()==300) {

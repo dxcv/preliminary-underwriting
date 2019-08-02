@@ -35,6 +35,9 @@
         <li th:if="${session.user.role}=='200'">
             <a class="flex" th:href="@{/admin/company/select}">公司管理</a>
         </li>
+        <li th:if="${session.user.role}=='200'">
+            <a class="flex" th:href="@{/admin/zip/selectMonth}">文件管理</a>
+        </li>
         <li th:if="${session.user.role}=='200'"  class="active">
             <a class="flex" th:href="@{/admin/user/select}"><img th:src="@{/static/images/dengdai.png}"> <span>管理员管理</span></a>
         </li>

@@ -49,9 +49,6 @@ public class AdminUnderwritingController extends BaseController {
     public ModelAndView select(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<UnderwritingTime> select = underwritingService.select(keyword, pageNum, pageSize);
-        log.info("查询成功："+select.getList());
-        log.info("总页数："+select.getPages());
-        log.info("当前页数："+pageNum);
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages",select.getPages());
@@ -74,7 +71,6 @@ public class AdminUnderwritingController extends BaseController {
             model.addAttribute("msg", "该预核保不存在！");
             return new ModelAndView("redirect:/admin/underwriting/select");
         }
-        log.info("查询成功："+underwriting);
         if(underwriting.getData()!=null && !"".equals(underwriting.getData())){
             String[] split = underwriting.getData().split(",");
             CheckUtil checkUtil = new CheckUtil();
@@ -134,9 +130,6 @@ public class AdminUnderwritingController extends BaseController {
     public ModelAndView selectHistory(String keyword, Model model, @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
         PageInfo<UnderwritingTime> select = underwritingService.selectHistory(keyword, pageNum, pageSize);
-        log.info("查询成功："+select.getList());
-        log.info("总页数："+select.getPages());
-        log.info("当前页数："+pageNum);
         model.addAttribute("keyword",keyword);
         model.addAttribute("list", select.getList());
         model.addAttribute("pages", select.getPages());
