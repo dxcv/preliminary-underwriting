@@ -71,7 +71,7 @@
                         <td>
                             <div class="operation">
                                 <a class="op_agree packaging" th:if="${zip.compress=='0'}">打包文件</a>
-                                <a class="op_agree packagingTwo" th:if="${zip.compress=='1'}">重新打包文件</a>
+                                <a class="op_agree packagingTwo" th:if="${zip.compress=='1'}">重新打包</a>
                                 <a class="op_refuse deleteMonth" th:if="${zip.compress=='1'}">删除文件</a>
                                 <div class="zipId" th:if="${zip.compress=='2'}">该月份数据已删除</div>
                                 <div style="display: none;" class="zipId" th:text="${zip.zipId}"></div>

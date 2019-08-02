@@ -69,3 +69,30 @@ $(document).keyup(function(event){
         login();
     }
 });
+
+var url = "wss://"+ window.location.host +"/webSocket";
+var websocket = null;
+if('WebSocket' in window) {
+    websocket = new WebSocket(url);
+} else {
+    console.log("该浏览器不支持消息通知，建议更换谷歌浏览器");
+}
+websocket.onopen = function (event) {
+    // console.log('建立连接');
+};
+
+websocket.onclose = function (event) {
+    // console.log('连接关闭');
+};
+
+websocket.onmessage = function (event) {
+    alert('收到消息：' + event.data);
+};
+
+websocket.onerror = function () {
+    console.log('websocket通信发生错误！');
+};
+
+window.onbeforeunload = function () {
+    websocket.close();
+};

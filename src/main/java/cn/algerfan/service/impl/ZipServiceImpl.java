@@ -3,12 +3,13 @@ package cn.algerfan.service.impl;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Zip;
 import cn.algerfan.enums.ResultCodeEnum;
-import cn.algerfan.mapper.UnderwritingMapper;
 import cn.algerfan.mapper.ZipMapper;
+import cn.algerfan.service.WebSocket;
 import cn.algerfan.service.ZipService;
 import cn.algerfan.util.FileUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,8 @@ public class ZipServiceImpl implements ZipService {
 
     @Resource
     private ZipMapper zipMapper;
-    @Resource
-    private UnderwritingMapper underwritingMapper;
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     public PageInfo<Zip> selectMonth(int pageNum, int pageSize) {
@@ -75,6 +76,8 @@ public class ZipServiceImpl implements ZipService {
         zip.setDownload(path);
         zip.setCompress("1");
         zipMapper.updateByPrimaryKey(zip);
+        //发送websocket消息通知
+        webSocket.sendMessage(year + month + "月份数据打包完成，删除之前请务必确保已下载完毕！");
         return new Result(ResultCodeEnum.SUCCESS);
     }
 

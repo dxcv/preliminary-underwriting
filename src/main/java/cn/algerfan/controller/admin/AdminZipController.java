@@ -3,14 +3,11 @@ package cn.algerfan.controller.admin;
 import cn.algerfan.base.BaseController;
 import cn.algerfan.domain.Result;
 import cn.algerfan.domain.Zip;
-import cn.algerfan.service.ZipService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
 
 /**
  * <p>

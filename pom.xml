@@ -231,8 +231,15 @@
       <artifactId>jedis</artifactId>
       <version>2.7.3</version>
     </dependency>
-    <!--springfox的核心jar包-->
+    <!-- websocket -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-websocket</artifactId>
+      <version>4.0.5.RELEASE</version>
+    </dependency>
 
+
+    <!--springfox的核心jar包-->
     <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>

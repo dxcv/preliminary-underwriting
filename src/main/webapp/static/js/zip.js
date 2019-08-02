@@ -11,8 +11,7 @@ $('.packaging').click(function () {
             'url':urlPath
         },
         dataType: "JSON",
-        success: function (data) {
-            alert("打包"+ data.msg);
+        success: function () {
             window.location.href='/admin/zip/selectMonth';
         }
     })
@@ -30,8 +29,7 @@ $('.packagingTwo').click(function () {
             'url':urlPath
         },
         dataType: "JSON",
-        success: function (data) {
-            alert("打包"+ data.msg);
+        success: function () {
             window.location.href='/admin/zip/selectMonth';
         }
     })
