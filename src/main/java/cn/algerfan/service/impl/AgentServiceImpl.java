@@ -111,7 +111,6 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 map.put("userInfo", userInfo);
                 log.info("userInfo: "+userInfo);
                 Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt(String.valueOf(map1.get("openid")), "lovewlgzs5201314"));
-                log.info("check: "+check);
                 if(check!=null) {
                     if(!check.getEmployeeId().equals(employeeId) || !check.getCompany().equals(company)) {
                         map.put("status", 0);
@@ -181,6 +180,12 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 userInfo.put("unionId", userInfoJSON.get("unionId"));
                 map.put("userInfo", userInfo);
                 log.info("userInfo: "+userInfo);
+                Agent check = agentMapper.selectByOpenid(AesUtil.aesEncrypt((String) userInfoJSON.get("openId"), "lovewlgzs5201314"));
+                if(check==null) {
+                    map.put("status", 0);
+                    map.put("msg","登录失败");
+                    return map;
+                }
                 map.put("status", 1);
                 map.put("msg","用户已登录");
                 return map;
@@ -212,9 +217,10 @@ public class AgentServiceImpl extends BaseDao<Agent> implements AgentService {
                 new FileUtil().deleteDir(new File(newDir));
             }
         }
-        if(agentMapper.deleteByPrimaryKey(agentId) == 0 || underwritingMapper.deleteByAgentId(agentId) == 0) {
+        if(agentMapper.deleteByPrimaryKey(agentId) == 0) {
             return new Result(ResultCodeEnum.UNDELETE);
         }
+        underwritingMapper.deleteByAgentId(agentId);
         return new Result(ResultCodeEnum.DELETE);
     }
 

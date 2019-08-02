@@ -23,7 +23,7 @@ public interface UnderwritingMapper {
      * @param agentId
      * @return
      */
-    int deleteByAgentId(@Param(value="agentId") Integer agentId);
+    void deleteByAgentId(@Param(value="agentId") Integer agentId);
 
     /**
      * 添加核保人
