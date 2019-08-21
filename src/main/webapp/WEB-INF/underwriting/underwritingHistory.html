@@ -86,8 +86,8 @@
                         <td><script>document.write(i);i++</script></td>
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.name}"></td>
-                        <td th:if="${user.sex}==male">男</td>
-                        <td th:if="${user.sex}!=male">女</td>
+                        <td th:if="${user.sex}=='male'">男</td>
+                        <td th:if="${user.sex}!='male'">女</td>
                         <td th:text="${user.birthday}"></td>
                         <td th:text="${user.time}"></td>
                         <td th:text="${user.conclusion}"></td>
