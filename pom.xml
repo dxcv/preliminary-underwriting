@@ -44,7 +44,7 @@
     <junit.version>4.11</junit.version>
     <httpclient.version>4.5.5</httpclient.version>
     <swagger2.version>2.7.0</swagger2.version>
-    <jackson.version>2.9.0</jackson.version>
+    <jackson.version>2.10.1</jackson.version>
     <tomcat-embed-core.version>9.0.17</tomcat-embed-core.version>
   </properties>
 
