@@ -14,17 +14,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * <p>
  *  swagger配置文件
+ *  已关闭，如需使用请打开以下四个注解
+ *  重要！如果你的项目引入junit测试，此处需要使用@WebAppConfiguration，如果没有使用junit使用@Configuration
  * </p>
  *
  * @author algerfan
  * @since 2019/4/22 21
  */
-//已关闭，如需使用请打开以下四个注解
-/*重要！如果你的项目引入junit测试，此处需要使用@WebAppConfiguration，如果没有使用junit使用@Configuration(很多的博客都没有注明这个问题，为此我花了非常多的时间解决问题)*/
 //@Configuration
-//@EnableSwagger2//重要！
+//@EnableSwagger2
 //@EnableWebMvc
-//@ComponentScan(basePackages = "cn.algerfan.controller")//扫描control所在的package请修改为你control所在package
+//@ComponentScan(basePackages = "cn.algerfan.controller")
 public class SwaggerConfig {
     @Bean
     public Docket api() {
