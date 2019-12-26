@@ -45,7 +45,7 @@
     <httpclient.version>4.5.5</httpclient.version>
     <swagger2.version>2.7.0</swagger2.version>
     <jackson.version>2.10.1</jackson.version>
-    <tomcat-embed-core.version>9.0.21</tomcat-embed-core.version>
+    <tomcat-embed-core.version>9.0.30</tomcat-embed-core.version>
   </properties>
 
   <dependencies>
